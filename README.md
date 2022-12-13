@@ -1,19 +1,28 @@
 # GrowGreen Project
 
 ## Description
-Coming soon...
+The Singapore Green Plan 2030 is a national sustainability movement which seeks to rally bold and collective action to tackle climate change. Climate change is a global challenge, and Singapore is taking firm actions to do our part to build a sustainable future.
+
+**GrowGreen** is a web application that aims to increase participation in the 3R's (Reduce, Reuse, Recycle) with an emphasis on 'Reduce'.
+
+## Team members
+* Viona Erika **(Leader)**
+* Ashlee Tan
+* Ong Ruey How
+* Mohamed Irfan
 
 ## Set-up guide
-Firstly, import the database script using SSMS.
+This guide assumes you already have SQL Server Management Studio (SSMS) installed, and access to an instance of SQL Server.
 
-This will create a new database called 'GrowGreen'.
+1. Firstly, import the database script using SSMS. This will create a new database called 'GrowGreen'. 
+   
+   (Delete any existing databases if necessary)
 
+2. Open Terminal (MacOS/Linux) or PowerShell (Windows).
 
-Open Terminal (MacOS/Linux) or PowerShell (Windows).
+3. cd to GrowGreen/GrowGreenWeb (project directory).
 
-cd to GrowGreen/GrowGreenWeb (project directory).
-
-Then type these commands (with Visual Studio closed):
+4. Then type these commands (with Visual Studio closed):
 
 ```powershell
 dotnet tool install --global dotnet-ef --version 6.*
