@@ -28,7 +28,7 @@ This guide assumes you already have SQL Server Management Studio (SSMS) installe
 dotnet tool install --global dotnet-ef --version 6.*
 dotnet restore
 dotnet user-secrets init
-dotnet user-secrets ConnectionStrings:GrowGreenDB "Server=<server_ip_or_localhost_here>; Database=GrowGreen; User Id=<server_user_id_here>; Password=<server_user_password_here>"  # if you are using SQL Server Authentication
-dotnet user-secrets ConnectionStrings:GrowGreenDB "Server=<server_ip_or_localhost_here>; Database=GrowGreen; Integrated Security=true"  # if you are using Windows Authentication
+dotnet user-secrets set ConnectionStrings:GrowGreenDB "Server=<server_ip_or_localhost_here>; Database=GrowGreen; User Id=<server_user_id_here>; Password=<server_user_password_here>"  # if you are using SQL Server Authentication
+dotnet user-secrets set ConnectionStrings:GrowGreenDB "Server=<server_ip_or_localhost_here>; Database=GrowGreen; Integrated Security=true"  # if you are using Windows Authentication
 dotnet ef dbcontext scaffold Name=ConnectionStrings:GrowGreenDB Microsoft.EntityFrameworkCore.SqlServer --output-dir Models --force
 ```
