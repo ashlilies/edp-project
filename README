@@ -4,6 +4,10 @@
 Coming soon...
 
 ## Set-up guide
+Firstly, import the database script using SSMS.
+This will create a new database called 'GrowGreen'.
+
+
 Open Terminal (MacOS/Linux) or Command Prompt (Windows).
 cd to GrowGreen/GrowGreenWeb (project directory).
 Then type these commands (with Visual Studio closed):
