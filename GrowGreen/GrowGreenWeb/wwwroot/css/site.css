@@ -8,11 +8,21 @@ html {
   }
 }
 
+/* Fonts */
 @font-face {
   font-family: NunitoSans;
   /*noinspection CssUnknownTarget*/
   src: url("/font/NunitoSans-Regular.ttf");
 }
+
+@font-face {
+  font-family: NunitoSans;
+  font-weight: bold;
+  /*noinspection CssUnknownTarget*/
+  src: url("/font/NunitoSans-Bold.ttf");
+}
+
+/* End Fonts */
 
 html {
   position: relative;
@@ -22,8 +32,38 @@ html {
 body {
   margin-bottom: 60px;
   font-family: NunitoSans, sans-serif;
+  background-color: #ebedee;
 }
 
+footer {
+  background-color: rgb(65, 54, 32);
+  line-height: 2.2rem !important;
+}
+
+.card-footer {
+  background-color: #BB9966;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  transform: translate(0px, -80px);
+}
+
+.footer-icon {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
+.footer-icon-social {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+}
+
+h1, h2, h3, h4, h5 {
+  font-weight: bold;
+}
+
+/* Navbar */
 .navbar-brand > * {
   height: 40px;
 }
@@ -70,4 +110,24 @@ body {
   height: 2.7rem;
   width: 12rem;
   line-height: 1.8rem;
+}
+
+.card {
+  border-radius: 15px;
+}
+
+.footer-input::-webkit-input-placeholder {
+  font-style: italic;
+}
+
+.footer-input:-moz-placeholder {
+  font-style: italic;
+}
+
+.footer-input::-moz-placeholder {
+  font-style: italic;
+}
+
+.footer-input:-ms-input-placeholder {
+  font-style: italic;
 }
