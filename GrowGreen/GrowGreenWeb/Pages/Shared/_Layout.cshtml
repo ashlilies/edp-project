@@ -103,20 +103,50 @@
 </div>
 
 <footer class="border-top footer text-white py-2">
-    <div class="row d-flex align-items-center" style="height: 80px;">
+    <div class="row d-flex align-items-center" style="height: 80px;" id="subscribe-card-row">
         <div class="col-1"></div>
         <div class="card mb-3 col-10 card-footer">
             <form method="post" asp-page="/Subscribe">
                 <div class="row g-0">
                     <div class="col-lg-3">
                         <div class="card-body">
-                            <h4 class="card-title" style="line-height: 3rem; font-size: 1.4rem;">Subscribe to our newletter!</h4>
+                            <div class="row">
+                                <div class="col-sm-1"></div>
+                                <div class="col-sm-10">
+                                    <h4 class="card-title" style="line-height: 3rem; font-size: 1.4rem;">Subscribe to our newletter!</h4>
+                                </div>
+                                <div class="col-sm-1 ms-auto d-md-none d-lg-none"><a class="text-decoration-none text-reset" href="#" onclick="hideSubscribe()">X</a></div>
+                                <script>
+                                function hideSubscribe() {
+                                   /* CLOSES the MOTD fancily, unless "hide" is passed to function */
+                                     motd = document.getElementById('subscribe-card-row');
+                                     motd.style.opacity = 1;
+                                   
+                                     function fade()
+                                     {
+                                       /* ternary operator: condition ? ifTrueExecuteThis : butIfFalseExecuteThis */
+                                       (motd.style.opacity -= .1) < 0 ? motd.style.display = "none" : setTimeout(fade,40)
+                                       // if ((motd.style.opacity -= 0.1) < 0)
+                                       //   motd.style.display = "none";
+                                       // else
+                                       //   setTimeout(fade, 40);
+                                   
+                                       /* after fading out, we then finally write a cookie to remember that it's
+                                        * closed  - until the browser is restarted.
+                                        */
+                                       document.cookie = "motdStatus=closed;SameSite=Strict";
+                                     }
+                                    fade();
+ 
+                                }
+                                </script>
+                            </div>
                         </div>
                     </div>
                     <div class="col-lg-7">
                         <div class="card-body">
                             <input name="Email" type="email" class="form-control footer-input"
-                                   style="border-radius: 8px; padding-top: 0.8rem; padding-bottom: 0.8rem;" 
+                                   style="border-radius: 8px; padding-top: 0.8rem; padding-bottom: 0.8rem;"
                                    placeholder="Enter your email here"/>
                         </div>
                     </div>
