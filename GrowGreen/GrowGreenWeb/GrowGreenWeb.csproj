@@ -16,4 +16,16 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.11" />
   </ItemGroup>
 
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\img\carousel\1.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\img\carousel\2.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\img\carousel\3.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\img\carousel\4.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\img\carousel\5.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\img\carousel\6.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\img\carousel\7.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\img\carousel\8.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\img\carousel\9.jpg" />
+  </ItemGroup>
+
 </Project>

@@ -23,14 +23,25 @@
             </button>
             <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                 @* Left-aligned navbar links *@
-                @* <ul class="navbar-nav flex-grow-1"> *@
-                @*     <li class="nav-item"> *@
-                @*         <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a> *@
-                @*     </li> *@
-                @*     <li class="nav-item"> *@
-                @*         <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a> *@
-                @*     </li> *@
-                @* </ul> *@
+                <ul class="navbar-nav flex-grow-1">
+                    @*     <li class="nav-item"> *@
+                    @*         <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a> *@
+                    @*     </li> *@
+                    @*     <li class="nav-item"> *@
+                    @*         <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a> *@
+                    @*     </li> *@
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            English
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li>
+                                <a class="dropdown-item text-reset" href="#">Coming Soon</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
 
                 @* Right-aligned navbar links *@
                 <div class="ms-auto">
@@ -43,7 +54,7 @@
             </div>
         </div>
     </nav>
-    
+
     @* Second navbar *@
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3"
          id="second-navbar">
@@ -55,7 +66,7 @@
                     aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+            <div class="navbar-collapse collapse d-md-inline-flex justify-content-between">
                 @* Left-aligned navbar links *@
                 <ul class="navbar-nav flex-grow-1">
                     <li class="nav-item">
@@ -86,14 +97,122 @@
     </nav>
 </header>
 <div class="container">
-    <main role="main" class="pb-3">
+    <main role="main" class="pb-3" style="margin-bottom: 32rem;">
         @RenderBody()
     </main>
 </div>
 
-<footer class="border-top footer text-muted">
-    <div class="container">
-        &copy; 2022 - GrowGreenWeb - <a asp-area="" asp-page="/Privacy">Privacy</a>
+<footer class="border-top footer text-white py-2">
+    <div class="row d-flex align-items-center" style="height: 80px;">
+        <div class="col-1"></div>
+        <div class="card mb-3 col-10 card-footer">
+            <form method="post" asp-page="/Subscribe">
+                <div class="row g-0">
+                    <div class="col-lg-3">
+                        <div class="card-body">
+                            <h4 class="card-title" style="line-height: 3rem; font-size: 1.4rem;">Subscribe to our newletter!</h4>
+                        </div>
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="card-body">
+                            <input name="Email" type="email" class="form-control footer-input"
+                                   style="border-radius: 8px; padding-top: 0.8rem; padding-bottom: 0.8rem;" 
+                                   placeholder="Enter your email here"/>
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <div class="card-body">
+                            <button class="btn btn-primary bg-white text-black border-0 w-100" href="#"
+                                    style="border-radius: 8px; padding-top: 0.9rem">
+                                <h5>Subscribe</h5>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-1"></div>
+    </div>
+
+
+    <div class="container my-3 pb-3" style="padding-left: 5rem;">
+        <h1>Grow Green</h1>
+        <div class="row mt-3">
+            <div class="col-lg-3 col-md-12">
+                <h5>Useful Links</h5>
+                <div class="row">
+                    <a class="text-reset text-decoration-none" asp-page="/Index">Home</a>
+                </div>
+                <div class="row">
+                    <a class="text-reset text-decoration-none" asp-page="/AboutUs">About Us</a>
+                </div>
+                <div class="row">
+                    <a class="text-reset text-decoration-none" asp-page="/Index">Our Events</a>
+                </div>
+                <div class="row">
+                    <a class="text-reset text-decoration-none" asp-page="/Index">Ways to Give</a>
+                </div>
+                <div class="row">
+                    <a class="text-reset text-decoration-none" asp-page="/Index">Our Workshops</a>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-12">
+                <h5>Find Us</h5>
+                <div class="row mb-3">
+                    <span><img class="footer-icon me-2" src="/img/footer/Phone.png"/>+65 1234 5678</span>
+                </div>
+                <div class="row mb-3">
+                    <span>
+                        <img class="footer-icon me-2" src="/img/footer/Email.png"/>
+                        <a class="text-reset" href="mailto:growgreen@gmail.com">
+                            growgreen@gmail.com
+                        </a>
+                    </span>
+                </div>
+                <div class="row mb-3">
+                    <span>
+                        <img class="footer-icon me-2" src="/img/footer/Location.png"/>
+                        180 Ang Mo Kio Ave 8, Singapore 569830
+                    </span>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-12">
+                <h5>Our Socials</h5>
+                <div class="row mb-2">
+                    <span>
+                        <img class="footer-icon-social me-2" src="/img/footer/Facebook.png"/>
+                        <a class="text-reset text-decoration-none" href="#">
+                            growgreen
+                        </a>
+                    </span>
+                </div>
+                <div class="row mb-2">
+                    <span>
+                        <img class="footer-icon-social me-2" src="/img/footer/Instagram.png"/>
+                        <a class="text-reset text-decoration-none" href="#">
+                            growgreen
+                        </a>
+                    </span>
+                </div>
+                <div class="row mb-2">
+                    <span>
+                        <img class="footer-icon-social me-2" src="/img/footer/Twitter.png"/>
+                        <a class="text-reset text-decoration-none" href="#">
+                            growgreen
+                        </a>
+                    </span>
+                </div>
+                <div class="row mb-2">
+                    <span>
+                        <img class="footer-icon-social me-2" src="/img/footer/Pinterest.png"/>
+                        <a class="text-reset text-decoration-none" href="#">
+                            growgreen
+                        </a>
+                    </span>
+                </div>
+
+            </div>
+        </div>
     </div>
 </footer>
 

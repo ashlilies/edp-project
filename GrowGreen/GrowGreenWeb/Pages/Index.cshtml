@@ -4,7 +4,151 @@
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<style>
+     .index-card-img {
+        height: 64px;
+        object-fit: contain;
+     }
+</style>
+
+<div class="text-center w-75 ms-auto me-auto">
+    <div id="carouselIndex" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselIndex" data-bs-slide-to="0" class="active"></button>
+            <button type="button" data-bs-target="#carouselIndex" data-bs-slide-to="1"></button>
+            <button type="button" data-bs-target="#carouselIndex" data-bs-slide-to="2"></button>
+            <button type="button" data-bs-target="#carouselIndex" data-bs-slide-to="3"></button>
+            <button type="button" data-bs-target="#carouselIndex" data-bs-slide-to="4"></button>
+            <button type="button" data-bs-target="#carouselIndex" data-bs-slide-to="5"></button>
+            <button type="button" data-bs-target="#carouselIndex" data-bs-slide-to="6"></button>
+            <button type="button" data-bs-target="#carouselIndex" data-bs-slide-to="7"></button>
+            <button type="button" data-bs-target="#carouselIndex" data-bs-slide-to="8"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="img/index/carousel/1.jpg" class="d-block w-100">
+            </div>
+            <div class="carousel-item">
+                <img src="img/index/carousel/2.jpg" class="d-block w-100">
+            </div>
+            <div class="carousel-item">
+                <img src="img/index/carousel/3.jpg" class="d-block w-100">
+            </div>
+            <div class="carousel-item">
+                <img src="img/index/carousel/4.jpg" class="d-block w-100">
+            </div>
+            <div class="carousel-item">
+                <img src="img/index/carousel/5.jpg" class="d-block w-100">
+            </div>
+            <div class="carousel-item">
+                <img src="img/index/carousel/6.jpg" class="d-block w-100">
+            </div>
+            <div class="carousel-item">
+                <img src="img/index/carousel/7.jpg" class="d-block w-100">
+            </div>
+            <div class="carousel-item">
+                <img src="img/index/carousel/8.jpg" class="d-block w-100">
+            </div>
+            <div class="carousel-item">
+                <img src="img/index/carousel/9.jpg" class="d-block w-100">
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselIndex" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselIndex" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+
+    <h3 class="mt-5">What GrowGreen Does</h3>
+    <div class="row">
+        <div class="col-lg-6 col-md-12">
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <div class="row h-100 d-flex align-items-center">
+                            <img src="img/index/card-1.png" class="img-fluid rounded-start index-card-img">
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">Card title</h5>
+                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                            <p class="card-text">
+                                <small class="text-muted">Last updated 3 mins ago</small>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 col-md-12">
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <div class="row h-100 d-flex align-items-center">
+                            <img src="img/index/card-2.png" class="img-fluid rounded-start index-card-img">
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">Card title</h5>
+                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                            <p class="card-text">
+                                <small class="text-muted">Last updated 3 mins ago</small>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 col-md-12">
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <div class="row h-100 d-flex align-items-center">
+                            <img src="img/index/card-3.png" class="img rounded-start index-card-img">
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">Card title</h5>
+                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                            <p class="card-text">
+                                <small class="text-muted">Last updated 3 mins ago</small>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 col-md-12">
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <div class="row h-100 d-flex align-items-center">
+                            <img src="img/index/card-4.png" class="img rounded-start index-card-img">
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">Card title</h5>
+                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                            <p class="card-text">
+                                <small class="text-muted">Last updated 3 mins ago</small>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
 </div>
