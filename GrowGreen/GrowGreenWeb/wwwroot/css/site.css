@@ -8,6 +8,12 @@ html {
   }
 }
 
+@font-face {
+  font-family: NunitoSans;
+  /*noinspection CssUnknownTarget*/
+  src: url("/font/NunitoSans-Regular.ttf");
+}
+
 html {
   position: relative;
   min-height: 100%;
@@ -15,4 +21,53 @@ html {
 
 body {
   margin-bottom: 60px;
+  font-family: NunitoSans, sans-serif;
+}
+
+.navbar-brand > * {
+  height: 40px;
+}
+
+.nav-item {
+  margin-right: 3rem;
+}
+
+#first-navbar {
+  padding: 0;
+}
+
+/*
+ * Colours
+ * https://coolors.co/ebedee-413620-577a47-d64933-8db4c6
+ */
+
+.bg-1 {
+  background-color: #EBEDEE;
+}
+
+.bg-2 {
+  background-color: #413620;
+}
+
+.bg-3 {
+  background-color: #577A47;
+}
+
+.bg-4 {
+  color: #fff;
+  background-color: #D64933 !important;
+  border-color: #d64933 !important;
+}
+
+.bg-5 {
+  background-color: #8DB4C6;
+}
+
+/*
+ * Miscellaneous Stuffs
+ */
+.btn-prominent {
+  height: 2.7rem;
+  width: 12rem;
+  line-height: 1.8rem;
 }
