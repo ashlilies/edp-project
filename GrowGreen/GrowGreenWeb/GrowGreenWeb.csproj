@@ -28,4 +28,9 @@
     <_ContentIncludedByDefault Remove="wwwroot\img\carousel\9.jpg" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Areas\Admin\Pages" />
+    <Folder Include="Areas\Lecturer\Pages\Workshops" />
+  </ItemGroup>
+
 </Project>
