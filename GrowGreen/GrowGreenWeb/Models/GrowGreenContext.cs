@@ -140,6 +140,17 @@ namespace GrowGreenWeb.Models
 
                 entity.Property(e => e.Timestamp).HasColumnType("datetime");
 
+                entity.HasOne(d => d.Course)
+                    .WithMany(p => p.Chats)
+                    .HasForeignKey(d => d.CourseId)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("FK_Chat_Course");
+
+                entity.HasOne(d => d.ReplyToChat)
+                    .WithMany(p => p.InverseReplyToChat)
+                    .HasForeignKey(d => d.ReplyToChatId)
+                    .HasConstraintName("FK_Chat_Chat");
+
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Chats)
                     .HasForeignKey(d => d.UserId)

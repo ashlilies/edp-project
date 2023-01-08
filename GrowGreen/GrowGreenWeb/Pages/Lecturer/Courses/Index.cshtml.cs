@@ -27,6 +27,8 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses
 
             List<Course> courses = await _context.Courses
                 .Include(c => c.Lectures).ThenInclude(l => l.Videos)
+                .Include(c => c.Learners)
+                .Include(c => c.Chats)
                 .Where(c => c.LecturerId == lecturerId)
                 .ToListAsync();
 

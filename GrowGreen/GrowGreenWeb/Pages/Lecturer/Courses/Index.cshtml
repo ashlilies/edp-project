@@ -55,7 +55,7 @@
     @*         </div> *@
     @*     </div> *@
     @* </div> *@
-    
+
     @foreach (var course in Model.OngoingCourses)
     {
         <div class="card mb-3 col-12 px-0">
@@ -66,36 +66,50 @@
                 <div class="col-lg-8 ps-3">
                     <div class="card-body">
                         <h3>@course.Name</h3>
-                        <img src="/img/courses/Alarm.png" class="icon" style="filter: grayscale(100)"/>
-                        <strong>TODO unread discussions</strong>
+                        @{
+                            int unreadDiscussions = course.Chats.Count(c => !c.IsReadByLecturer);
+                            if (unreadDiscussions == 0)
+                            {
+                                <img src="/img/courses/Alarm.png" class="icon" style="filter: grayscale(100)"/>
+                                <text>No unread discussions</text>
+                            }
+                            else
+                            {
+                                <img src="/img/courses/Alarm.png" class="icon"/>
+                                <strong> unread discussions</strong>
+                            }
+                        }
                         <div class="row pt-2">
                             <div class="col-6">
                                 <img src="/img/courses/Clock.png" class="icon"/>
-                                <span>Last updated <strong>
-                                    @if (course.LastUpdatedTimestamp is null)
-                                    {
-                                        <text>Never</text>
-                                    }
-                                    else
-                                    {
-                                        <text>@course.LastUpdatedTimestamp.Value.ToString("g")</text>
-                                    }
-                                </strong></span>
+                                <span>
+                                    Last updated
+                                    <strong>
+                                        @if (course.LastUpdatedTimestamp is null)
+                                        {
+                                            <text>Never</text>
+                                        }
+                                        else
+                                        {
+                                            <text>@course.LastUpdatedTimestamp.Value.ToString("g")</text>
+                                        }
+                                    </strong>
+                                </span>
                             </div>
-    
+
                             <div class="col-6">
                                 <img src="/img/courses/Person.png" class="icon"/>
-                                <span><strong>123</strong> participants</span>
+                                <span><strong>@course.Learners.Count</strong> participants</span>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-2">
-                    <div class="card-body">
-                        <button class="btn btn-primary bg-white text-black border-0 w-100" href="#"
-                                style="border-radius: 8px; padding-top: 0.9rem">
-                            <h5></h5>
-                        </button>
+                    <div class="card-body h-100 text-center d-grid" style="place-content: center;">
+                        <a class="text-reset text-decoration-none"
+                           asp-page="Manage" asp-route-id="@course.Id">
+                                <img src="/img/icons/right.png" class="icon icon-lg"/>
+                            </a>
                     </div>
                 </div>
             </div>

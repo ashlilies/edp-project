@@ -18,10 +18,10 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses
         [BindProperty, Required, MaxLength(1000)]
         public string Description { get; set; } = null!;
 
-        [BindProperty, Required, DisplayName("Starting Availability Date")]
+        [BindProperty, Required, DisplayName("Starting Availability Date"), DataType(DataType.Date)]
         public DateTime StartDate { get; set; } = DateTime.Today;
 
-        [BindProperty, Required, DisplayName("Ending Availability Date")]
+        [BindProperty, Required, DisplayName("Ending Availability Date"), DataType(DataType.Date)]
 
         public DateTime EndDate { get; set; } = DateTime.Today.AddYears(1);
         
@@ -41,9 +41,18 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses
         {
             // todo: add login system support here
             int lecturerId = TemporaryConstants.LecturerId;
+
+            if (StartDate < DateTime.Today)
+            {
+                ModelState.AddModelError(nameof(StartDate), "Start date cannot be before today");
+            }
             
-            if (!ModelState.IsValid || string.IsNullOrWhiteSpace(Name) || string.IsNullOrWhiteSpace(Description)
-                || StartDate < DateTime.Today || EndDate <= StartDate)
+            if (EndDate <= StartDate)
+            {
+                ModelState.AddModelError(nameof(EndDate), "End date cannot be before start date");
+            }
+            
+            if (!ModelState.IsValid || string.IsNullOrWhiteSpace(Name) || string.IsNullOrWhiteSpace(Description))
             {
                 TempData["FlashMessage.Type"] = "danger";
                 TempData["FlashMessage.Text"] = "There are one or more errors. Please correct and try again.";
