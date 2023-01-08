@@ -140,6 +140,17 @@ namespace GrowGreenWeb.Models
 
                 entity.Property(e => e.Timestamp).HasColumnType("datetime");
 
+                entity.HasOne(d => d.Course)
+                    .WithMany(p => p.Chats)
+                    .HasForeignKey(d => d.CourseId)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("FK_Chat_Course");
+
+                entity.HasOne(d => d.ReplyToChat)
+                    .WithMany(p => p.InverseReplyToChat)
+                    .HasForeignKey(d => d.ReplyToChatId)
+                    .HasConstraintName("FK_Chat_Chat");
+
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Chats)
                     .HasForeignKey(d => d.UserId)
@@ -171,9 +182,14 @@ namespace GrowGreenWeb.Models
             {
                 entity.ToTable("Course");
 
+                entity.HasIndex(e => e.Name, "IX_Course")
+                    .IsUnique();
+
                 entity.Property(e => e.Description).HasMaxLength(1000);
 
                 entity.Property(e => e.EndDate).HasColumnType("datetime");
+
+                entity.Property(e => e.LastUpdatedTimestamp).HasColumnType("datetime");
 
                 entity.Property(e => e.Name).HasMaxLength(100);
 
@@ -568,6 +584,19 @@ namespace GrowGreenWeb.Models
                 entity.Property(e => e.Qualification).HasMaxLength(200);
 
                 entity.Property(e => e.SignupTimestamp).HasColumnType("datetime");
+
+                entity.HasMany(d => d.CoursesNavigation)
+                    .WithMany(p => p.Learners)
+                    .UsingEntity<Dictionary<string, object>>(
+                        "CourseSignup",
+                        l => l.HasOne<Course>().WithMany().HasForeignKey("CourseId").HasConstraintName("FK_CourseSignup_Course"),
+                        r => r.HasOne<User>().WithMany().HasForeignKey("LearnerId").HasConstraintName("FK_CourseSignup_User"),
+                        j =>
+                        {
+                            j.HasKey("LearnerId", "CourseId");
+
+                            j.ToTable("CourseSignup");
+                        });
 
                 entity.HasMany(d => d.QuizChoices)
                     .WithMany(p => p.Learners)

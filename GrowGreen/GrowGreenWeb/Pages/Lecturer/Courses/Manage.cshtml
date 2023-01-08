@@ -1,10 +1,10 @@
 @page
-@model GrowGreenWeb.Pages.Lecturer.Courses.CreateModel
+@model GrowGreenWeb.Pages.Lecturer.Courses.ManageModel
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Course Management";
 }
 
-<h1>Create Course</h1>
+<h1>Manage Course</h1>
 <form method="post">
     <div class="mb-3 card p-2">
         <div class="card-body">
@@ -43,18 +43,42 @@
 
 
             <div class="row text-end mt-3">
-                <div class="col-3"></div>
-                <div class="col-3"></div>
                 <div class="col-3">
-                    <a class="btn btn-secondary w-100" asp-page="Index">Cancel</a>
+                    <button type="button" 
+                            data-bs-toggle="modal" data-bs-target="#deleteModal"
+                            class="btn btn-danger w-100">Delete</button>
                 </div>
+                <div class="col-3"></div>
+                <div class="col-3"></div>
                 <div class="col-3">
-                    <button class="btn btn-primary w-100">Save</button>
+                    <button class="btn btn-success w-100">Save</button>
                 </div>
             </div>
         </div>
     </div>
 </form>
+
+<!-- Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Delete Course</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you wish to do this? <strong>This cannot be undone!</strong>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+          
+                <form method="post" asp-page-handler="Delete" asp-route-id="@Model.CourseId">
+                    <button class="btn btn-danger">Yes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 @section Scripts
 {
