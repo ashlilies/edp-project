@@ -1,0 +1,60 @@
+@page
+@model GrowGreenWeb.Areas.Lecturer.Pages.Courses.IndexModel
+@{
+    ViewData["Title"] = "Courses";
+}
+
+<div class="row">
+    <div class="col-6">
+        <h1>My Courses</h1>
+    </div>
+    <div class="col-6 text-end">
+        <a class="btn btn-success bg-3 me-2" asp-page="Create">
+            New course
+            <img src="/img/icons/plus.png" class="icon icon-btn"/>
+        </a>
+        <a href="#" class="btn btn-success bg-5">
+            Search/Filter
+            <img src="/img/icons/filter.png" class="icon icon-btn"/>
+        </a>
+    </div>
+</div>
+
+<h3 class="mt-2">Ongoing</h3>
+<div class="row">
+    <div class="card mb-3 col-12 px-0">
+        <div class="row g-0">
+            <div class="col-lg-2">
+                <img src="/img/courses/default-course.png" class="card-img h-100"/>
+            </div>
+            <div class="col-lg-8 ps-3">
+                <div class="card-body">
+                    <h3>Importance of Trees in our Environment</h3>
+                    <img src="/img/courses/Alarm.png" class="icon" style="filter: grayscale(100)"/>
+                    <strong>14 unread discussions</strong>
+                    <div class="row pt-2">
+                        <div class="col-6">
+                            <img src="/img/courses/Clock.png" class="icon"/>
+                            <span>Last updated <strong>6 days ago</strong></span>
+                        </div>
+
+                        <div class="col-6">
+                            <img src="/img/courses/Person.png" class="icon"/>
+                            <span><strong>123</strong> participants</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <div class="card-body">
+                    <button class="btn btn-primary bg-white text-black border-0 w-100" href="#"
+                            style="border-radius: 8px; padding-top: 0.9rem">
+                        @* <h5>></h5> *@
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h3 class="mt-2">Past courses</h3>

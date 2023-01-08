@@ -29,8 +29,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Areas\Account\Pages" />
     <Folder Include="Areas\Admin\Pages" />
-    <Folder Include="Areas\Lecturer\Pages\Workshops" />
+    <Folder Include="Areas\Lecturer\Pages\Courses" />
   </ItemGroup>
 
 </Project>

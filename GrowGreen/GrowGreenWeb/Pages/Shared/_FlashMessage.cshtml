@@ -1,0 +1,14 @@
+@{
+    string? text = Convert.ToString(TempData["FlashMessage.Text"]);
+    string? cssClass = string.Format("alert alert-{0} alert-dismissible fade show",
+        Convert.ToString(TempData["FlashMessage.Type"]));
+}
+@if (!string.IsNullOrWhiteSpace(text))
+{
+    <div class="@cssClass" role="alert">
+        @text
+        <button type="button" class="btn-close" data-bs-dismiss="alert"
+                aria-label="Close">
+        </button>
+    </div>
+}

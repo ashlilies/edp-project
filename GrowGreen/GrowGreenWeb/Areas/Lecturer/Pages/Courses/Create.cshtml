@@ -1,0 +1,19 @@
+@page
+@model GrowGreenWeb.Areas.Lecturer.Pages.Courses.CreateModel
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create Course</h1>
+<form method="post">
+    <div class="mb-3">
+        <label asp-for="Course.Name" class="form-label"></label>
+        <input asp-for="Course.Name" class="form-control"/>
+    </div>
+</form>
+
+@section Scripts
+{
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}
+

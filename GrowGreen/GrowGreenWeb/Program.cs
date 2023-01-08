@@ -22,7 +22,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-app.UseSession();  // default timeout: 20 mins
+app.UseSession(); // default timeout: 20 mins
 
 app.UseAuthorization();
 
