@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>@ViewData["Title"] - Grow Green</title>
+    <title>@ViewData["Title"] - Grow Green (Lecturer)</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
     <link rel="stylesheet" href="~/GrowGreenWeb.styles.css" asp-append-version="true"/>
@@ -14,8 +14,8 @@
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow"
          id="first-navbar">
         <div class="container">
-            <a class="navbar-brand" asp-area="" asp-page="/Index">
-                <img src="/img/logo.png"/>
+            <a class="navbar-brand" asp-area="" asp-page="/Lecturer/Index">
+                <img src="/img/logo.png"/> <span>Lecturer</span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
@@ -47,7 +47,7 @@
                 <div class="ms-auto">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Login">Login</a>
+                            <a class="nav-link text-dark" asp-page="/Login">Login</a>
                         </li>
                     </ul>
                 </div>
@@ -70,27 +70,24 @@
                 @* Left-aligned navbar links *@
                 <ul class="navbar-nav flex-grow-1">
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
+                        <a class="nav-link text-dark" asp-page="/Lecturer/Index">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-page="/AboutUs">About Us</a>
+                        <a class="nav-link text-dark" asp-page="/AboutUs">Events</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-page="/AboutUs">Our Events</a>
+                        <a class="nav-link text-dark" asp-page="/AboutUs">Ways to Give</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-page="/AboutUs">Ways to Give</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-page="/AboutUs">Our Workshops</a>
+                        <a class="nav-link text-dark" asp-page="/Lecturer/Courses/Index">Courses</a>
                     </li>
                 </ul>
 
                 @* Right-aligned navbar links *@
                 <div class="ms-auto">
-                    <ul class="navbar-nav flex-grow-1">
-                        <a class="btn btn-primary btn-prominent bg-4 rounded-0" href="#">Donate Now</a>
-                    </ul>
+                    @* <ul class="navbar-nav flex-grow-1"> *@
+                    @*     <a class="btn btn-primary btn-prominent bg-4" href="#">Donate Now</a> *@
+                    @* </ul> *@
                 </div>
             </div>
         </div>
@@ -105,68 +102,66 @@
 </div>
 
 <footer class="border-top footer text-white py-2">
-    <div class="row d-flex align-items-center" style="height: 80px; margin: 0" id="subscribe-card-row">
-        <div class="col-1"></div>
-        <div class="card mb-3 col-10 card-footer">
-            <form method="post" asp-page="/Subscribe">
-                <div class="row g-0">
-                    <div class="col-lg-3">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-sm-1"></div>
-                                <div class="col-sm-10">
-                                    <h4 class="card-title" style="line-height: 3rem; font-size: 1.4rem;">Subscribe to our newletter!</h4>
-                                </div>
-                                <div class="col-sm-1 ms-auto d-md-none d-lg-none">
-                                    <a class="text-decoration-none text-reset" href="#" onclick="hideSubscribe()">X</a>
-                                </div>
-                                <script>
-                                function hideSubscribe() {
-                                   /* CLOSES the MOTD fancily, unless "hide" is passed to function */
-                                     motd = document.getElementById('subscribe-card-row');
-                                     motd.style.opacity = 1;
-                                   
-                                     function fade()
-                                     {
-                                       /* ternary operator: condition ? ifTrueExecuteThis : butIfFalseExecuteThis */
-                                       (motd.style.opacity -= .1) < 0 ? motd.style.display = "none" : setTimeout(fade,40)
-                                       // if ((motd.style.opacity -= 0.1) < 0)
-                                       //   motd.style.display = "none";
-                                       // else
-                                       //   setTimeout(fade, 40);
-                                   
-                                       /* after fading out, we then finally write a cookie to remember that it's
-                                        * closed  - until the browser is restarted.
-                                        */
-                                       document.cookie = "motdStatus=closed;SameSite=Strict";
-                                     }
-                                    fade();
- 
-                                }
-                                </script>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-7">
-                        <div class="card-body">
-                            <input name="Email" type="email" class="form-control footer-input"
-                                   style="border-radius: 8px; padding-top: 0.8rem; padding-bottom: 0.8rem;"
-                                   placeholder="Enter your email here"/>
-                        </div>
-                    </div>
-                    <div class="col-lg-2">
-                        <div class="card-body">
-                            <button class="btn btn-primary bg-white text-black border-0 w-100" href="#"
-                                    style="border-radius: 8px; padding-top: 0.9rem">
-                                <h5>Subscribe</h5>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
-        <div class="col-1"></div>
-    </div>
+    @*     <div class="row d-flex align-items-center" style="height: 80px; margin: 0" id="subscribe-card-row"> *@
+    @*         <div class="col-1"></div> *@
+    @*         <div class="card mb-3 col-10 card-footer"> *@
+    @*             <form method="post" asp-page="/Subscribe"> *@
+    @*                 <div class="row g-0"> *@
+    @*                     <div class="col-lg-3"> *@
+    @*                         <div class="card-body"> *@
+    @*                             <div class="row"> *@
+    @*                                 <div class="col-sm-1"></div> *@
+    @*                                 <div class="col-sm-10"> *@
+    @*                                     <h4 class="card-title" style="line-height: 3rem; font-size: 1.4rem;">Subscribe to our newletter!</h4> *@
+    @*                                 </div> *@
+    @*                                 <div class="col-sm-1 ms-auto d-md-none d-lg-none"><a class="text-decoration-none text-reset" href="#" onclick="hideSubscribe()">X</a></div> *@
+    @*                                 <script> *@
+    @*                                 function hideSubscribe() { *@
+    @*                                    /* CLOSES the MOTD fancily, unless "hide" is passed to function */ *@
+    @*                                      motd = document.getElementById('subscribe-card-row'); *@
+    @*                                      motd.style.opacity = 1; *@
+    @*                                     *@
+    @*                                      function fade() *@
+    @*                                      { *@
+    @*                                        /* ternary operator: condition ? ifTrueExecuteThis : butIfFalseExecuteThis */ *@
+    @*                                        (motd.style.opacity -= .1) < 0 ? motd.style.display = "none" : setTimeout(fade,40) *@
+    @*                                        // if ((motd.style.opacity -= 0.1) < 0) *@
+    @*                                        //   motd.style.display = "none"; *@
+    @*                                        // else *@
+    @*                                        //   setTimeout(fade, 40); *@
+    @*                                     *@
+    @*                                        /* after fading out, we then finally write a cookie to remember that it's *@
+    @*                                         * closed  - until the browser is restarted. *@
+    @*                                         */ *@
+    @*                                        document.cookie = "motdStatus=closed;SameSite=Strict"; *@
+    @*                                      } *@
+    @*                                     fade(); *@
+    @*   *@
+    @*                                 } *@
+    @*                                 </script> *@
+    @*                             </div> *@
+    @*                         </div> *@
+    @*                     </div> *@
+    @*                     <div class="col-lg-7"> *@
+    @*                         <div class="card-body"> *@
+    @*                             <input name="Email" type="email" class="form-control footer-input" *@
+    @*                                    style="border-radius: 8px; padding-top: 0.8rem; padding-bottom: 0.8rem;" *@
+    @*                                    placeholder="Enter your email here"/> *@
+    @*                         </div> *@
+    @*                     </div> *@
+    @*                     <div class="col-lg-2"> *@
+    @*                         <div class="card-body"> *@
+    @*                             <button class="btn btn-primary bg-white text-black border-0 w-100" href="#" *@
+    @*                                     style="border-radius: 8px; padding-top: 0.9rem"> *@
+    @*                                 <h5>Subscribe</h5> *@
+    @*                             </button> *@
+    @*                         </div> *@
+    @*                     </div> *@
+    @*                 </div> *@
+    @*             </form> *@
+    @*         </div> *@
+    @*         <div class="col-1"></div> *@
+    @*     </div> *@
 
 
     <div class="container my-3 pb-3" style="padding-left: 5rem;">
@@ -175,20 +170,23 @@
             <div class="col-lg-3 col-md-12">
                 <h5>Useful Links</h5>
                 <div class="row">
-                    <a class="text-reset text-decoration-none" asp-page="/Index">Home</a>
+                    <a class="text-reset text-decoration-none" asp-page="/Lecturer/Index">Home</a>
                 </div>
                 <div class="row">
-                    <a class="text-reset text-decoration-none" asp-page="/AboutUs">About Us</a>
+                    <a class="text-reset text-decoration-none" asp-page="/Index" asp-area="">Learner Site</a>
                 </div>
-                <div class="row">
-                    <a class="text-reset text-decoration-none" asp-page="/Index">Our Events</a>
-                </div>
-                <div class="row">
-                    <a class="text-reset text-decoration-none" asp-page="/Index">Ways to Give</a>
-                </div>
-                <div class="row">
-                    <a class="text-reset text-decoration-none" asp-page="/Index">Our Workshops</a>
-                </div>
+                @* <div class="row"> *@
+                @*     <a class="text-reset text-decoration-none" asp-page="/AboutUs">About Us</a> *@
+                @* </div> *@
+                @* <div class="row"> *@
+                @*     <a class="text-reset text-decoration-none" asp-page="/Index">Our Events</a> *@
+                @* </div> *@
+                @* <div class="row"> *@
+                @*     <a class="text-reset text-decoration-none" asp-page="/Index">Ways to Give</a> *@
+                @* </div> *@
+                @* <div class="row"> *@
+                @*     <a class="text-reset text-decoration-none" asp-page="/Index">Our Workshops</a> *@
+                @* </div> *@
             </div>
             <div class="col-lg-6 col-md-12">
                 <h5>Find Us</h5>

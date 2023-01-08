@@ -10,6 +10,7 @@ namespace GrowGreenWeb.Models
             BadgeLearners = new HashSet<BadgeLearner>();
             CarbonHistories = new HashSet<CarbonHistory>();
             Chats = new HashSet<Chat>();
+            Courses = new HashSet<Course>();
             Donations = new HashSet<Donation>();
             NewsletterEditHistories = new HashSet<NewsletterEditHistory>();
             Posts = new HashSet<Post>();
@@ -41,6 +42,7 @@ namespace GrowGreenWeb.Models
         public virtual ICollection<BadgeLearner> BadgeLearners { get; set; }
         public virtual ICollection<CarbonHistory> CarbonHistories { get; set; }
         public virtual ICollection<Chat> Chats { get; set; }
+        public virtual ICollection<Course> Courses { get; set; }
         public virtual ICollection<Donation> Donations { get; set; }
         public virtual ICollection<NewsletterEditHistory> NewsletterEditHistories { get; set; }
         public virtual ICollection<Post> Posts { get; set; }

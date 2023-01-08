@@ -1,0 +1,45 @@
+footer {
+  background-color: rgb(65, 54, 32);
+  line-height: 2.2rem !important;
+}
+
+.card-footer {
+  background-color: #BB9966;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  transform: translate(0px, -80px);
+}
+
+/*
+ * Colours
+ * https://coolors.co/ebedee-413620-577a47-d64933-8db4c6
+ */
+
+.bg-1 {
+  background-color: #EBEDEE;
+  border-color: #EBEDEE;
+}
+
+.bg-2 {
+  color: #fff;
+  background-color: #413620;
+  border-color: #413620;
+}
+
+.bg-3 {
+  color: #fff;
+  background-color: #577A47;
+  border-color: #577A47;
+}
+
+.bg-4 {
+  color: #fff;
+  background-color: #D64933 !important;
+  border-color: #d64933 !important;
+}
+
+.bg-5 {
+  color: #fff;
+  background-color: #8DB4C6;
+  border-color: #8DB4C6 !important;
+}

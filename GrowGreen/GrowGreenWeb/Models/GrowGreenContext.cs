@@ -178,6 +178,12 @@ namespace GrowGreenWeb.Models
                 entity.Property(e => e.Name).HasMaxLength(100);
 
                 entity.Property(e => e.StartDate).HasColumnType("datetime");
+
+                entity.HasOne(d => d.Lecturer)
+                    .WithMany(p => p.Courses)
+                    .HasForeignKey(d => d.LecturerId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Course_User");
             });
 
             modelBuilder.Entity<CourseReview>(entity =>

@@ -47,6 +47,17 @@ footer {
   transform: translate(0px, -80px);
 }
 
+.icon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.icon-btn {
+  margin-left: 5px;
+  margin-bottom: 5px;
+}
+
 .footer-icon {
   width: 32px;
   height: 32px;
@@ -106,6 +117,14 @@ h1, h2, h3, h4, h5 {
 /*
  * Miscellaneous Stuffs
  */
+.btn {
+  height: 3rem;
+  padding-left: 1.3rem;
+  padding-right: 1.3rem;
+  line-height: 2.05rem;
+  border-radius: 8px;
+}
+
 .btn-prominent {
   height: 2.7rem;
   width: 12rem;
