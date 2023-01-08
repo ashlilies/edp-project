@@ -22,39 +22,85 @@
 
 <h3 class="mt-2">Ongoing</h3>
 <div class="row">
-    <div class="card mb-3 col-12 px-0">
-        <div class="row g-0">
-            <div class="col-lg-2">
-                <img src="/img/courses/default-course.png" class="card-img h-100"/>
-            </div>
-            <div class="col-lg-8 ps-3">
-                <div class="card-body">
-                    <h3>Importance of Trees in our Environment</h3>
-                    <img src="/img/courses/Alarm.png" class="icon" style="filter: grayscale(100)"/>
-                    <strong>14 unread discussions</strong>
-                    <div class="row pt-2">
-                        <div class="col-6">
-                            <img src="/img/courses/Clock.png" class="icon"/>
-                            <span>Last updated <strong>6 days ago</strong></span>
-                        </div>
-
-                        <div class="col-6">
-                            <img src="/img/courses/Person.png" class="icon"/>
-                            <span><strong>123</strong> participants</span>
+    @* <div class="card mb-3 col-12 px-0"> *@
+    @*     <div class="row g-0"> *@
+    @*         <div class="col-lg-2"> *@
+    @*             <img src="/img/courses/default-course.png" class="card-img h-100"/> *@
+    @*         </div> *@
+    @*         <div class="col-lg-8 ps-3"> *@
+    @*             <div class="card-body"> *@
+    @*                 <h3>Importance of Trees in our Environment</h3> *@
+    @*                 <img src="/img/courses/Alarm.png" class="icon" style="filter: grayscale(100)"/> *@
+    @*                 <strong>14 unread discussions</strong> *@
+    @*                 <div class="row pt-2"> *@
+    @*                     <div class="col-6"> *@
+    @*                         <img src="/img/courses/Clock.png" class="icon"/> *@
+    @*                         <span>Last updated <strong>6 days ago</strong></span> *@
+    @*                     </div> *@
+    @* *@
+    @*                     <div class="col-6"> *@
+    @*                         <img src="/img/courses/Person.png" class="icon"/> *@
+    @*                         <span><strong>123</strong> participants</span> *@
+    @*                     </div> *@
+    @*                 </div> *@
+    @*             </div> *@
+    @*         </div> *@
+    @*         <div class="col-lg-2"> *@
+    @*             <div class="card-body"> *@
+    @*                 <button class="btn btn-primary bg-white text-black border-0 w-100" href="#" *@
+    @*                         style="border-radius: 8px; padding-top: 0.9rem"> *@
+    @*                     $1$ <h5>></h5> #1# *@
+    @*                 </button> *@
+    @*             </div> *@
+    @*         </div> *@
+    @*     </div> *@
+    @* </div> *@
+    
+    @foreach (var course in Model.OngoingCourses)
+    {
+        <div class="card mb-3 col-12 px-0">
+            <div class="row g-0">
+                <div class="col-lg-2">
+                    <img src="/img/courses/default-course.png" class="card-img h-100"/>
+                </div>
+                <div class="col-lg-8 ps-3">
+                    <div class="card-body">
+                        <h3>@course.Name</h3>
+                        <img src="/img/courses/Alarm.png" class="icon" style="filter: grayscale(100)"/>
+                        <strong>TODO unread discussions</strong>
+                        <div class="row pt-2">
+                            <div class="col-6">
+                                <img src="/img/courses/Clock.png" class="icon"/>
+                                <span>Last updated <strong>
+                                    @if (course.LastUpdatedTimestamp is null)
+                                    {
+                                        <text>Never</text>
+                                    }
+                                    else
+                                    {
+                                        <text>@course.LastUpdatedTimestamp.Value.ToString("g")</text>
+                                    }
+                                </strong></span>
+                            </div>
+    
+                            <div class="col-6">
+                                <img src="/img/courses/Person.png" class="icon"/>
+                                <span><strong>123</strong> participants</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-2">
-                <div class="card-body">
-                    <button class="btn btn-primary bg-white text-black border-0 w-100" href="#"
-                            style="border-radius: 8px; padding-top: 0.9rem">
-                        @* <h5>></h5> *@
-                    </button>
+                <div class="col-lg-2">
+                    <div class="card-body">
+                        <button class="btn btn-primary bg-white text-black border-0 w-100" href="#"
+                                style="border-radius: 8px; padding-top: 0.9rem">
+                            <h5></h5>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    }
 </div>
 
 <h3 class="mt-2">Past courses</h3>

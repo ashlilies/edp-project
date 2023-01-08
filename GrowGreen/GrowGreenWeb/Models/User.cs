@@ -21,6 +21,7 @@ namespace GrowGreenWeb.Models
             SearchRequests = new HashSet<SearchRequest>();
             Tickets = new HashSet<Ticket>();
             VideoCompletions = new HashSet<VideoCompletion>();
+            CoursesNavigation = new HashSet<Course>();
             QuizChoices = new HashSet<QuizChoice>();
         }
 
@@ -54,6 +55,7 @@ namespace GrowGreenWeb.Models
         public virtual ICollection<Ticket> Tickets { get; set; }
         public virtual ICollection<VideoCompletion> VideoCompletions { get; set; }
 
+        public virtual ICollection<Course> CoursesNavigation { get; set; }
         public virtual ICollection<QuizChoice> QuizChoices { get; set; }
     }
 }
