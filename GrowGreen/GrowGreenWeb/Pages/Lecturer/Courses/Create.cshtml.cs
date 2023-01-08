@@ -7,7 +7,7 @@ using GrowGreenWeb.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace GrowGreenWeb.Areas.Lecturer.Pages.Courses
+namespace GrowGreenWeb.Pages.Lecturer.Courses
 {
     public class CreateModel : PageModel
     {

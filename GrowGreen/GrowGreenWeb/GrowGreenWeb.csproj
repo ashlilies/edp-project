@@ -26,12 +26,20 @@
     <_ContentIncludedByDefault Remove="wwwroot\img\carousel\7.jpg" />
     <_ContentIncludedByDefault Remove="wwwroot\img\carousel\8.jpg" />
     <_ContentIncludedByDefault Remove="wwwroot\img\carousel\9.jpg" />
+    <_ContentIncludedByDefault Remove="Areas\Lecturer\Pages\Courses\Create.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Lecturer\Pages\Courses\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Lecturer\Pages\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Lecturer\Pages\_ViewImports.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Lecturer\_ViewStart.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Account\Pages" />
-    <Folder Include="Areas\Admin\Pages" />
-    <Folder Include="Areas\Lecturer\Pages\Courses" />
+    <AdditionalFiles Include="Pages\Lecturer\Courses\Index.cshtml" />
+    <AdditionalFiles Include="Pages\Lecturer\Index.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Pages\Account" />
   </ItemGroup>
 
 </Project>

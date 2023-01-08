@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace GrowGreenWeb.Areas.Admin.Pages
+namespace GrowGreenWeb.Pages.Account
 {
     public class IndexModel : PageModel
     {
