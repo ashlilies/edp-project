@@ -134,6 +134,8 @@ namespace GrowGreenWeb.Models
             {
                 entity.ToTable("Chat");
 
+                entity.Property(e => e.AttachmentUrl).HasMaxLength(1000);
+
                 entity.Property(e => e.Content).HasMaxLength(280);
 
                 entity.Property(e => e.EditedTimestamp).HasColumnType("datetime");
