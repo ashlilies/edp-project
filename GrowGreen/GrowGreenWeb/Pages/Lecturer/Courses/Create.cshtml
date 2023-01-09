@@ -1,11 +1,12 @@
 @page
+@using Microsoft.EntityFrameworkCore
 @model GrowGreenWeb.Pages.Lecturer.Courses.CreateModel
 @{
     ViewData["Title"] = "Create";
 }
 
 <h1>Create Course</h1>
-<form method="post">
+<form method="post" asp-page-handler="">
     <div class="mb-3 card p-2">
         <div class="card-body">
             <div class="row">
@@ -36,9 +37,23 @@
 
                 </div>
                 <div class="col-4">
-                    <img src="/img/courses/default-course.png" class="w-100" style="object-fit: contain"/>
-                    <a class="btn btn-primary bg-6 w-100 mt-2">Upload Image</a>
+                    @{
+                        string img;
+                        if (Model.ImageUrl is null)
+                        {
+                            img = "/img/courses/default-course.png";
+                        }
+                        else
+                        {
+                            img = @Model.ImageUrl;
+                        }
+                        <img src="@img" class="w-100" style="object-fit: contain"/>
+                    }
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#imageModal"
+                            class="btn btn-primary bg-6 w-100 mt-2">Upload Image</button>
                 </div>
+                
+                <input asp-for="ImageUrl" hidden />
             </div>
 
 
@@ -55,6 +70,29 @@
         </div>
     </div>
 </form>
+
+<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+    <form method="post" asp-page-handler="Upload" enctype="multipart/form-data">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="imageModalLabel">Upload new image</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label asp-for="Upload" class="form-label"></label>
+                        <input class="form-control" asp-for="Upload"/>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button class="btn btn-success">Upload</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
 
 @section Scripts
 {

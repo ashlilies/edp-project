@@ -141,6 +141,12 @@ h1, h2, h3, h4, h5 {
   line-height: 1.8rem;
 }
 
+#donate-button {
+  background-color: #FB7F51;
+  border-color: #FB7F51;
+  color: #fff;
+}
+
 .card {
   border-radius: 15px;
 }
