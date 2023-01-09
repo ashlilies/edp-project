@@ -4,73 +4,90 @@
     ViewData["Title"] = "Course Management";
 }
 
-<h1>Manage Course</h1>
-<form method="post" asp-page-handler="" asp-route-id="@Model.CourseId">
-    <div class="mb-3 card p-2">
-        <div class="card-body">
-            <div class="row">
-                <div class="col-8">
-                    <label asp-for="Name" class="form-label"></label>
-                    <input asp-for="Name" class="form-control"/>
-                    <span asp-validation-for="Name" class="text-danger"></span>
-
-                    <div class="row mt-3">
-                        <div class="col-6">
-                            <label asp-for="StartDate" class="form-label"></label>
-                            <input asp-for="StartDate" class="form-control"/>
-                            <span asp-validation-for="StartDate" class="text-danger"></span>
-                        </div>
-                        <div class="col-6">
-                            <label asp-for="EndDate" class="form-label"></label>
-                            <input asp-for="EndDate" class="form-control"/>
-                            <span asp-validation-for="EndDate" class="text-danger"></span>
-                        </div>
-
-                        <div class="col-12 mt-3">
-                            <label asp-for="Description" class="form-label"></label>
-                            <textarea asp-for="Description" class="form-control"></textarea>
-                            <span asp-validation-for="Description" class="text-danger"></span>
-                        </div>
-                    </div>
-
-
-                </div>
-                <div class="col-4">
-                    @{
-                        string img;
-                        if (Model.ImageUrl is null)
-                        {
-                            img = "/img/courses/default-course.png";
-                        }
-                        else
-                        {
-                            img = @Model.ImageUrl;
-                        }
-                        <img src="@img" class="w-100" style="object-fit: contain"/>
-                    }
-                    <button type="button" data-bs-toggle="modal" data-bs-target="#imageModal"
-                            class="btn btn-primary bg-6 w-100 mt-2">Upload Image</button>
-                </div>
-                
-                <input asp-for="ImageUrl" hidden />
-            </div>
-
-
-            <div class="row text-end mt-3">
-                <div class="col-3">
-                    <button type="button" 
-                            data-bs-toggle="modal" data-bs-target="#deleteModal"
-                            class="btn btn-danger w-100">Delete</button>
-                </div>
-                <div class="col-3"></div>
-                <div class="col-3"></div>
-                <div class="col-3">
-                    <button class="btn btn-success w-100">Save</button>
-                </div>
+<h1>Course Management</h1>
+<div class="row">
+    <div class="col-3">
+        <div class="mb-3 card p-2">
+            <div class="card-body">
+                Test
             </div>
         </div>
     </div>
-</form>
+    <div class="col-9">
+        <form method="post" asp-page-handler="" asp-route-id="@Model.CourseId">
+            <div class="mb-3 card p-2">
+                <div class="card-body">
+                    <h3>Edit Course Details</h3>
+                    <div class="row">
+                        <div class="col-8">
+                            <label asp-for="Name" class="form-label"></label>
+                            <input asp-for="Name" class="form-control"/>
+                            <span asp-validation-for="Name" class="text-danger"></span>
+
+                            <div class="row mt-3">
+                                <div class="col-6">
+                                    <label asp-for="StartDate" class="form-label"></label>
+                                    <input asp-for="StartDate" class="form-control"/>
+                                    <span asp-validation-for="StartDate" class="text-danger"></span>
+                                </div>
+                                <div class="col-6">
+                                    <label asp-for="EndDate" class="form-label"></label>
+                                    <input asp-for="EndDate" class="form-control"/>
+                                    <span asp-validation-for="EndDate" class="text-danger"></span>
+                                </div>
+
+                                <div class="col-12 mt-3">
+                                    <label asp-for="Description" class="form-label"></label>
+                                    <textarea asp-for="Description" class="form-control"></textarea>
+                                    <span asp-validation-for="Description" class="text-danger"></span>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-4">
+                            @{
+                                string img;
+                                if (Model.ImageUrl is null)
+                                {
+                                    img = "/img/courses/default-course.png";
+                                }
+                                else
+                                {
+                                    img = @Model.ImageUrl;
+                                }
+                                <img src="@img" class="w-100" style="object-fit: contain"/>
+                            }
+                            <button type="button" data-bs-toggle="modal" data-bs-target="#imageModal"
+                                    class="btn btn-primary bg-6 w-100 mt-2">
+                                Upload Image
+                            </button>
+                        </div>
+
+                        <input asp-for="ImageUrl" hidden/>
+                    </div>
+
+
+                    <div class="row text-end mt-3">
+                        <div class="col-3">
+                            <button type="button"
+                                    data-bs-toggle="modal" data-bs-target="#deleteModal"
+                                    class="btn btn-danger w-100">
+                                Delete
+                            </button>
+                        </div>
+                        <div class="col-3"></div>
+                        <div class="col-3"></div>
+                        <div class="col-3">
+                            <button class="btn btn-success w-100">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
 
 <!-- Modal -->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
@@ -85,7 +102,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-          
+
                 <form method="post" asp-page-handler="Delete" asp-route-id="@Model.CourseId">
                     <button class="btn btn-danger">Yes</button>
                 </form>
