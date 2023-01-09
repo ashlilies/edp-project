@@ -7,19 +7,19 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 
-namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
+namespace GrowGreenWeb.Pages.Courses.Viewer
 {
     public class QnAModel : PageModel
     {
         [BindProperty]
-        public string NewMessageText { get; set; } = null!;
+        public string NewMessageText { get; set; } = string.Empty;
         
         [BindProperty]
         public string? EditMessageText { get; set; }
 
         public List<Chat> Chats { get; set; } = null!;
         public Course Course { get; set; } = null!;
-        public User CurrentUser { get; set; } = null!;
+        public User Learner { get; set; } = null!;
 
         private readonly GrowGreenContext _context;
 
@@ -31,58 +31,55 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
         public async Task<IActionResult> OnGetAsync(int id)
         {
             // todo: add account system support
-            int lecturerId = TemporaryConstants.LecturerId;
+            int learnerId = TemporaryConstants.LearnerId;
 
-            User? user = await _context.Users.FindAsync(lecturerId);
+            User? user = await _context.Users.FindAsync(learnerId);
             if (user == null)
                 return Forbid();
 
-            CurrentUser = user;
+            Learner = user;
 
-            Course? course = await _context.Courses.FindAsync(id);
+            Course? course = await _context.Courses.Include(c => c.Learners).SingleOrDefaultAsync(c => c.Id == id);
             if (course is null)
                 return NotFound();
 
-            if (course.LecturerId != lecturerId)
+            // add learner record if not found (todo: update to registration page)
+            if (!course.Learners.Contains(Learner))
+            {
                 return Forbid();
+            }
 
             Course = course;
 
-            List<Chat> chats = _context.Chats
+            Chats = _context.Chats
                 .Include(c => c.User)
                 .Where(c => c.CourseId == Course.Id)
                 .OrderBy(c => c.Timestamp)
                 .ToList();
-            
-            Chats = chats.Select(c => c.Clone()).ToList();
-            
-            chats.Where(c => c.UserId != lecturerId).ToList().ForEach(c =>
-            {
-                c.IsReadByLecturer = true;
-                _context.Update(c);
-            });
-            await _context.SaveChangesAsync();
-            
+
             return Page();
         }
 
         public async Task<IActionResult> OnPostSendAsync(int id)
         {
             // todo: add account system support
-            int lecturerId = TemporaryConstants.LecturerId;
+            int learnerId = TemporaryConstants.LearnerId;
 
-            User? user = await _context.Users.FindAsync(lecturerId);
+            User? user = await _context.Users.FindAsync(learnerId);
             if (user == null)
                 return Forbid();
 
-            CurrentUser = user;
+            Learner = user;
 
-            Course? course = await _context.Courses.FindAsync(id);
+            Course? course = await _context.Courses.Include(c => c.Learners).SingleOrDefaultAsync(c => c.Id == id);
             if (course is null)
                 return NotFound();
 
-            if (course.LecturerId != lecturerId)
+            // add learner record if not found (todo: update to registration page)
+            if (!course.Learners.Contains(Learner))
+            {
                 return Forbid();
+            }
 
             Course = course;
 
@@ -97,10 +94,10 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
             Chat chat = new Chat
             {
                 CourseId = Course.Id,
-                UserId = CurrentUser.Id,
+                UserId = Learner.Id,
                 Content = NewMessageText,
                 Timestamp = DateTime.Now,
-                IsReadByLecturer = true
+                IsReadByLecturer = false
             };
 
             _context.Add(chat);
@@ -114,20 +111,23 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
         public async Task<IActionResult> OnPostEditAsync(int id, int chatId)
         {
             // todo: add account system support
-            int lecturerId = TemporaryConstants.LecturerId;
+            int learnerId = TemporaryConstants.LearnerId;
 
-            User? user = await _context.Users.FindAsync(lecturerId);
+            User? user = await _context.Users.FindAsync(learnerId);
             if (user == null)
                 return Forbid();
 
-            CurrentUser = user;
+            Learner = user;
 
-            Course? course = await _context.Courses.FindAsync(id);
+            Course? course = await _context.Courses.Include(c => c.Learners).SingleOrDefaultAsync(c => c.Id == id);
             if (course is null)
                 return NotFound();
 
-            if (course.LecturerId != lecturerId)
+            // add learner record if not found (todo: update to registration page)
+            if (!course.Learners.Contains(Learner))
+            {
                 return Forbid();
+            }
 
             Course = course;
 
@@ -152,20 +152,23 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
         public async Task<IActionResult> OnPostDeleteAsync(int id, int chatId)
         {
             // todo: add account system support
-            int lecturerId = TemporaryConstants.LecturerId;
+            int learnerId = TemporaryConstants.LearnerId;
 
-            User? user = await _context.Users.FindAsync(lecturerId);
+            User? user = await _context.Users.FindAsync(learnerId);
             if (user == null)
                 return Forbid();
 
-            CurrentUser = user;
+            Learner = user;
 
-            Course? course = await _context.Courses.FindAsync(id);
+            Course? course = await _context.Courses.Include(c => c.Learners).SingleOrDefaultAsync(c => c.Id == id);
             if (course is null)
                 return NotFound();
 
-            if (course.LecturerId != lecturerId)
+            // add learner record if not found (todo: update to registration page)
+            if (!course.Learners.Contains(Learner))
+            {
                 return Forbid();
+            }
 
             Course = course;
 

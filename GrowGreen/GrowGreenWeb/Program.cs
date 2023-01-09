@@ -1,6 +1,7 @@
 using System.Configuration;
 using System.Reflection;
 using GrowGreenWeb.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +14,15 @@ builder.Services.AddDbContext<GrowGreenContext>(options =>
 });
 
 builder.Services.AddSession();
+
+// redirect to 403 on Forbid()
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options => {
+        options.Events.OnRedirectToAccessDenied = context => {
+            context.Response.StatusCode = 403;
+            return Task.CompletedTask;
+        };
+    });
 
 var app = builder.Build();
 

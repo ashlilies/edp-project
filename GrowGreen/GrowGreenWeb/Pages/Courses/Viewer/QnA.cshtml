@@ -1,6 +1,5 @@
 @page
-@using NuGet.Protocol.Plugins
-@model GrowGreenWeb.Pages.Lecturer.Courses.Manage.QnAModel
+@model GrowGreenWeb.Pages.Courses.Viewer.QnAModel
 @{
     ViewData["Title"] = "Q&A";
 }
@@ -38,23 +37,27 @@
             @foreach (var chat in Model.Chats)
             {
                 var cls = "";
-                @if (chat.UserId == Model.CurrentUser.Id)
+                @if (chat.UserId == Model.Learner.Id)
                 {
                     cls = "card card-body text-success";
                 }
+                else if (chat.UserId == Model.Course.LecturerId)
+                {
+                    cls = "card card-body color-5";
+                }
                 else
                 {
-                    cls = "card card-body text-info";
-
-                    @if (chat.IsReadByLecturer)
-                    {
-                        cls = "card card-body text-secondary";
-                    }
+                    cls = "card card-body text-secondary";
                 }
+                @* *@
+                @* @if (chat.IsReadByLecturer) *@
+                @* { *@
+                // cls = "card card-body text-info";
+                @* } *@
 
                 <div class="@cls">
 
-                    @if (chat.UserId == Model.CurrentUser.Id)
+                    @if (chat.UserId == Model.Learner.Id)
                     {
                         <p>
                             <b>You</b>
@@ -74,6 +77,10 @@
                     else
                     {
                         <p>
+                            @if (chat.UserId == Model.Course.LecturerId)
+                            {
+                                <b>Lecturer </b>
+                            }
                             <b>@chat.User.FullName</b>
                             <em>
                                 on @chat.Timestamp.ToLongDateString() at @chat.Timestamp.ToShortTimeString()
@@ -88,7 +95,7 @@
                 </div>
 
             @* modals *@
-                @if (chat.UserId == Model.CurrentUser.Id)
+                @if (chat.UserId == Model.Learner.Id)
                 {
                  @* edit modal *@
                     <div class="modal fade" id="edit-modal-@chat.Id" tabindex="-1" aria-labelledby="exampleModalLabel"
@@ -163,8 +170,8 @@
 
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
-
-    <script>
+    
+<script>
   let cma = $("#chat-messages-area");
   cma.scrollTop(cma[0].scrollHeight);
   console.log(cma);

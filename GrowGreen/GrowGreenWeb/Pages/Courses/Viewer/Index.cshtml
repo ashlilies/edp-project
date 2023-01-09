@@ -1,0 +1,32 @@
+@page
+@using GrowGreenWeb.Models
+@model GrowGreenWeb.Pages.Courses.Viewer.IndexModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="row">
+    @* Sidebar *@
+    <div class="col-3">
+        <div class="mb-3 card p-2">
+            <div class="card-body">
+                <h5>@Model.Course.Name</h5>
+                <hr/>
+                <h5>
+                    <a asp-page="QnA" asp-route-id="@Model.Course.Id" class="text-reset text-decoration-none">Q&amp;A</a>
+                </h5>
+                <hr/>
+                <h5>Contents</h5>
+            </div>
+        </div>
+    </div>
+    <div class="col-9">
+        <div class="mb-3 card p-2">
+            <div class="card-body">
+                <h3>@Model.Course.Name</h3>
+                <p>@Model.Course.Description</p>
+
+            </div>
+        </div>
+    </div>
+</div>
