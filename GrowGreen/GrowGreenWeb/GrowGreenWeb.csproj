@@ -40,6 +40,7 @@
 
   <ItemGroup>
     <Folder Include="Pages\Account" />
+    <Folder Include="Pages\Learner" />
     <Folder Include="wwwroot\uploads" />
   </ItemGroup>
 

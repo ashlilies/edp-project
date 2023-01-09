@@ -1,15 +1,23 @@
 @page
-@model GrowGreenWeb.Pages.Lecturer.Courses.ManageModel
+@model GrowGreenWeb.Pages.Lecturer.Courses.Manage.IndexModel
 @{
     ViewData["Title"] = "Course Management";
 }
 
 <h1>Course Management</h1>
 <div class="row">
+    @* Sidebar *@
     <div class="col-3">
         <div class="mb-3 card p-2">
             <div class="card-body">
-                Test
+                <h5>@Model.Course.Name</h5>
+                <a asp-page="Index" asp-route-id="@Model.Course.Id" class="text-reset text-decoration-none">Edit Course Details</a>
+                <hr/>
+                <h5>
+                    <a asp-page="QnA" asp-route-id="@Model.Course.Id" class="text-reset text-decoration-none">Q&amp;A</a>
+                </h5>
+                <hr/>
+                <h5>Contents</h5>
             </div>
         </div>
     </div>
@@ -60,7 +68,7 @@
                             }
                             <button type="button" data-bs-toggle="modal" data-bs-target="#imageModal"
                                     class="btn btn-primary bg-6 w-100 mt-2">
-                                Upload Image
+                                Upload Thumbnail
                             </button>
                         </div>
 
@@ -137,4 +145,5 @@
 @section Scripts
 {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+
 }

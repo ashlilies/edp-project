@@ -8,10 +8,11 @@ using GrowGreenWeb.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace GrowGreenWeb.Pages.Lecturer.Courses
+namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
 {
-    public class ManageModel : PageModel
+    public class IndexModel : PageModel
     {
+        public Course Course { get; set; } = null!; // for sidebar
         public int CourseId { get; set; }
 
         [BindProperty, Required, MaxLength(100), DisplayName("Title")]
@@ -37,7 +38,7 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses
 
         private readonly IWebHostEnvironment _environment;
 
-        public ManageModel(GrowGreenContext context, IWebHostEnvironment environment)
+        public IndexModel(GrowGreenContext context, IWebHostEnvironment environment)
         {
             _context = context;
             _environment = environment;
@@ -54,6 +55,8 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses
 
             if (course.LecturerId != lecturerId)
                 return Forbid();
+
+            Course = course;
 
             CourseId = course.Id;
             Name = course.Name;
@@ -120,6 +123,9 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses
 
         public async Task<IActionResult> OnPostUploadAsync(int id)
         {
+            // todo: add account system support
+            int lecturerId = TemporaryConstants.LecturerId;
+
             ModelState.Clear();
 
             if (Upload is null)
@@ -146,6 +152,20 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses
 
             ImageUrl = webRootPath;
 
+            // update image in db
+            Course? course = await _context.Courses.FindAsync(id);
+            if (course is null)
+                return NotFound();
+
+            if (course.LecturerId != lecturerId)
+                return Forbid();
+
+            course.ImageUrl = ImageUrl;
+            await _context.SaveChangesAsync();
+
+            TempData["FlashMessage.Type"] = "success";
+            TempData["FlashMessage.Text"] = "Successfully updated image";
+
             return await OnGetAsync(id);
         }
 
@@ -168,7 +188,7 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses
             TempData["FlashMessage.Type"] = "success";
             TempData["FlashMessage.Text"] = "Successfully deleted course.";
 
-            return RedirectToPage("Index");
+            return RedirectToPage("../Index");
         }
     }
 }
