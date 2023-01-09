@@ -189,6 +189,8 @@ namespace GrowGreenWeb.Models
 
                 entity.Property(e => e.EndDate).HasColumnType("datetime");
 
+                entity.Property(e => e.ImageUrl).HasMaxLength(200);
+
                 entity.Property(e => e.LastUpdatedTimestamp).HasColumnType("datetime");
 
                 entity.Property(e => e.Name).HasMaxLength(100);

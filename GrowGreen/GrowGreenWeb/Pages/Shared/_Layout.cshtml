@@ -89,7 +89,7 @@
                 @* Right-aligned navbar links *@
                 <div class="ms-auto">
                     <ul class="navbar-nav flex-grow-1">
-                        <a class="btn btn-primary btn-prominent bg-4 rounded-0" href="#">Donate Now</a>
+                        <a class="btn btn-primary btn-prominent rounded-0" id="donate-button" href="#">Donate Now</a>
                     </ul>
                 </div>
             </div>
@@ -113,13 +113,13 @@
                     <div class="col-lg-3">
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-sm-1"></div>
+                                @* <div class="col-sm-1"></div> *@
                                 <div class="col-sm-10">
                                     <h4 class="card-title" style="line-height: 3rem; font-size: 1.4rem;">Subscribe to our newletter!</h4>
                                 </div>
-                                <div class="col-sm-1 ms-auto d-md-none d-lg-none">
-                                    <a class="text-decoration-none text-reset" href="#" onclick="hideSubscribe()">X</a>
-                                </div>
+                                @* <div class="col-sm-1 ms-auto d-md-none d-lg-none"> *@
+                                @*     <a class="text-decoration-none text-reset" href="#" onclick="hideSubscribe()">X</a> *@
+                                @* </div> *@
                                 <script>
                                 function hideSubscribe() {
                                    /* CLOSES the MOTD fancily, unless "hide" is passed to function */
