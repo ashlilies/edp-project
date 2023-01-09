@@ -4,5 +4,43 @@
     ViewData["Title"] = "Subscribe";
 }
 
-<h1>Subscribe</h1>
+<div class="text-center">
+    @{
+        string title;
+        string description;
 
+        switch (Model.Status)
+        {
+            case NewsletterSignupStatus.Success:
+                title = "Success";
+                description = "Successfully signed up for the Grow Green Newsletter.<br>" +
+                              "Look forward to receiving our emails!";
+                break;
+            case NewsletterSignupStatus.AlreadySignedUp:
+                title = "Already Signed Up";
+                description = "Having trouble receiving our emails? Check your spam folder.<br>" +
+                              "<em>Want to unsubscribe? Click the button below.</em>";
+                break;
+            case NewsletterSignupStatus.SuccessUnsubscribe:
+                title = "Success";
+                description = "Successfully removed your email from our mailing list.<br>" +
+                              "We are sad to see you go :(";
+                break;
+            default:
+                title = "Error";
+                description = "Invalid email entered.";
+                break;
+        }
+
+        <h1>@title</h1>
+        <h3>@Html.Raw(description)</h3>
+
+        @if (Model.Status == NewsletterSignupStatus.AlreadySignedUp)
+        {
+            <form method="post" asp-page="/Subscribe" asp-page-handler="Unsubscribe">
+                <input type="hidden" name="email" value="@Model.Email" />
+                <button type="submit" class="btn btn-danger btn-prominent mt-3">Unsubscribe</button>
+            </form>
+        }
+    }
+</div>
