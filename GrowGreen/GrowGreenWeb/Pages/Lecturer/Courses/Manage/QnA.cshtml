@@ -124,7 +124,7 @@
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="exampleModalLabel">Delete Message</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
@@ -132,7 +132,7 @@
                                     Are you sure you wish to delete this message?
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                                     <form method="post" asp-route-id="@Model.Course.Id" asp-route-chatId="@chat.Id" asp-page-handler="Delete">
                                         <button class="btn btn-danger">Delete Message</button>
                                     </form>

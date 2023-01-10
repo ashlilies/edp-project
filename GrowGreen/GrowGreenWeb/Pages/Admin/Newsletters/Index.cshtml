@@ -1,0 +1,64 @@
+@page
+@model GrowGreenWeb.Pages.Admin.Newsletters.IndexModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="row">
+    @* $1$ Sidebar #1# *@
+    @* <div class="col-3"> *@
+    @*     <div class="mb-3 card p-2"> *@
+    @*         <div class="card-body"> *@
+    @*             <h5>@Model.Course.Name</h5> *@
+    @*             <hr/> *@
+    @*             <h5> *@
+    @*                 <a asp-page="QnA" asp-route-id="@Model.Course.Id" class="text-reset text-decoration-none">Q&amp;A</a> *@
+    @*             </h5> *@
+    @*             <hr/> *@
+    @*             <h5>Contents</h5> *@
+    @*         </div> *@
+    @*     </div> *@
+    @* </div> *@
+    @* <div class="col-9"> *@
+    <div class="mb-3 card p-2">
+        <div class="card-body">
+            <form method="post" asp-page-handler="">
+                <h3>Compose Newsletter</h3>
+                <p>Compose a newsletter to send to all subscribers.</p>
+
+                <textarea asp-for="Message" class="form-control"></textarea>
+                <span asp-validation-for="Message" class="text-danger"></span>
+                <button type="button" data-bs-toggle="modal" data-bs-target="#imageModal"
+                        class="btn btn-primary bg-6 w-100 mt-2">
+                    Upload Image
+                </button>
+
+                <button class="btn btn-success w-100 mt-4">Send to @Model.RecipientCount recipients</button>
+            </form>
+        </div>
+    </div>
+    @* </div> *@
+</div>
+
+<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+    <form method="post" asp-page-handler="Upload" enctype="multipart/form-data">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="imageModalLabel">Upload new image</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label asp-for="Upload" class="form-label"></label>
+                        <input class="form-control" asp-for="Upload"/>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button class="btn btn-success">Upload</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
