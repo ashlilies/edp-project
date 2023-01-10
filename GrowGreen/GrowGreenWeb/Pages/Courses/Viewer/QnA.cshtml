@@ -1,0 +1,178 @@
+@page
+@model GrowGreenWeb.Pages.Courses.Viewer.QnAModel
+@{
+    ViewData["Title"] = "Q&A";
+}
+<h1>Course Management</h1>
+<div class="row">
+    @* Sidebar *@
+    <div class="col-3">
+        <div class="mb-3 card p-2">
+            <div class="card-body">
+                <h5>@Model.Course.Name</h5>
+                <hr/>
+                <h5>
+                    <a asp-page="QnA" asp-route-id="@Model.Course.Id" class="text-reset text-decoration-none">Q&amp;A</a>
+                </h5>
+                <hr/>
+                <h5>Contents</h5>
+            </div>
+        </div>
+    </div>
+    <div class="col-9">
+        <style>
+            .list-scrollable {
+              overflow: auto;
+            }
+        </style>
+        <div id="chat-messages-area" class="col-12 list-scrollable" style="height: 65vh;">
+            @if (!Model.Chats.Any())
+            {
+                <div class="card card-body text-center">
+                    <h5>Welcome to the @Model.Course.Name Q&amp;A chatroom</h5>
+                </div>
+            }
+
+            @foreach (var chat in Model.Chats)
+            {
+                var cls = "";
+                @if (chat.UserId == Model.Learner.Id)
+                {
+                    cls = "card card-body text-success";
+                }
+                else if (chat.UserId == Model.Course.LecturerId)
+                {
+                    cls = "card card-body color-5";
+                }
+                else
+                {
+                    cls = "card card-body text-secondary";
+                }
+                @* *@
+                @* @if (chat.IsReadByLecturer) *@
+                @* { *@
+                // cls = "card card-body text-info";
+                @* } *@
+
+                <div class="@cls">
+
+                    @if (chat.UserId == Model.Learner.Id)
+                    {
+                        <p>
+                            <b>You</b>
+                            <em>
+                                on @chat.Timestamp.ToLongDateString() at @chat.Timestamp.ToShortTimeString()
+                                @if (chat.EditedTimestamp != null)
+                                {
+                                    <text>(edited)</text>
+                                }
+                                :
+                            </em>
+                            @* edit and delete buttons and modal *@
+                            <a href="#" class="text-muted" data-bs-toggle="modal" data-bs-target="#edit-modal-@chat.Id">(edit) </a>
+                            <a href="#" class="text-muted" data-bs-toggle="modal" data-bs-target="#delete-modal-@chat.Id">(delete)</a>
+                        </p>
+                    }
+                    else
+                    {
+                        <p>
+                            @if (chat.UserId == Model.Course.LecturerId)
+                            {
+                                <b>Lecturer </b>
+                            }
+                            <b>@chat.User.FullName</b>
+                            <em>
+                                on @chat.Timestamp.ToLongDateString() at @chat.Timestamp.ToShortTimeString()
+                                @if (chat.EditedTimestamp != null)
+                                {
+                                    <text>(edited)</text>
+                                }
+                            </em>&nbsp;:
+                        </p>
+                    }
+                    @chat.Content
+                </div>
+
+            @* modals *@
+                @if (chat.UserId == Model.Learner.Id)
+                {
+                 @* edit modal *@
+                    <div class="modal fade" id="edit-modal-@chat.Id" tabindex="-1" aria-labelledby="exampleModalLabel"
+                         aria-hidden="true">
+                        <form method="post" asp-route-id="@Model.Course.Id" asp-route-chatId="@chat.Id" asp-page-handler="Edit">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Edit Message</h5>
+                                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label for="edit-textarea-@chat.Id">Message Text</label>
+                                            <textarea class="form-control" id="edit-textarea-@chat.Id" name="EditMessageText" required>@chat.Content</textarea>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                        <button type="submit" class="btn btn-success">Save changes</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                 @* delete modal *@
+                    <div class="modal fade" id="delete-modal-@chat.Id" tabindex="-1" aria-labelledby="exampleModalLabel"
+                         aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Delete Message</h5>
+                                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    Are you sure you wish to delete this message?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                    <form method="post" asp-route-id="@Model.Course.Id" asp-route-chatId="@chat.Id" asp-page-handler="Delete">
+                                        <button class="btn btn-danger">Delete Message</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+
+
+        </div>
+        <!-- Send box -->
+        <div class="card card-body">
+            <form asp-route-id="@Model.Course.Id" asp-page-handler="Send" method="post">
+                <div class="row">
+                    <div class="col-md-10">
+                        <input asp-for="NewMessageText" class="form-control" placeholder="Send a message..." required>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-success">Send <i class="fa fa-paper-plane"></i></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    
+<script>
+  let cma = $("#chat-messages-area");
+  cma.scrollTop(cma[0].scrollHeight);
+  console.log(cma);
+</script>
+}

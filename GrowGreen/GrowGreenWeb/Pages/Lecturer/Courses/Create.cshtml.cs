@@ -25,11 +25,20 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses
 
         public DateTime EndDate { get; set; } = DateTime.Today.AddYears(1);
         
-        private readonly GrowGreenContext _context;
+        [BindProperty, DisplayName("New course thumbnail (jpg/jpeg/png)")]
+        public IFormFile? Upload { get; set; }
+
+        [BindProperty]
+        public string? ImageUrl { get; set; }
         
-        public CreateModel(GrowGreenContext context)
+        private readonly GrowGreenContext _context;
+
+        private readonly IWebHostEnvironment _environment;
+        
+        public CreateModel(GrowGreenContext context, IWebHostEnvironment environment)
         {
             _context = context;
+            _environment = environment;
         }
 
         public IActionResult OnGet()
@@ -66,7 +75,8 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses
                 Description = Description,
                 StartDate = StartDate,
                 EndDate = EndDate,
-                LecturerId = lecturerId
+                LecturerId = lecturerId,
+                ImageUrl = ImageUrl
             };
             
             // check if another course with a similar name already exists
@@ -86,6 +96,37 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses
             TempData["FlashMessage.Text"] = "Successfully created course. Now add some content!";
             
             return RedirectToPage("Index");
+        }
+
+        public async Task<IActionResult> OnPostUploadAsync()
+        {
+            ModelState.Clear();
+
+            if (Upload is null)
+            {
+                TempData["FlashMessage.Type"] = "danger";
+                TempData["FlashMessage.Text"] = "Error uploading image";
+                return OnGet();
+            }
+
+            if (!Constants.AllowedImageExtensions.Contains(Path.GetExtension(Upload.FileName)))
+            {
+                TempData["FlashMessage.Type"] = "danger";
+                TempData["FlashMessage.Text"] = "Image file type not allowed!";
+                return OnGet();
+            }
+
+            string random = Guid.NewGuid().ToString();
+            string webRootPath = "/uploads/courseThumbnail/" + random + "-" + Upload.FileName;
+            var file = Path.Combine(_environment.WebRootPath, "uploads", "courseThumbnail", random + "-" + Upload.FileName);
+            await using (var fileStream = new FileStream(file, FileMode.Create))
+            {
+                await Upload.CopyToAsync(fileStream);
+            }
+
+            ImageUrl = webRootPath;
+            
+            return OnGet();
         }
     }
 }

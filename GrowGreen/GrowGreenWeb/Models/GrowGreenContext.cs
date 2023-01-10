@@ -27,6 +27,7 @@ namespace GrowGreenWeb.Models
         public virtual DbSet<Course> Courses { get; set; } = null!;
         public virtual DbSet<CourseReview> CourseReviews { get; set; } = null!;
         public virtual DbSet<Donation> Donations { get; set; } = null!;
+        public virtual DbSet<Email> Emails { get; set; } = null!;
         public virtual DbSet<Event> Events { get; set; } = null!;
         public virtual DbSet<GivingReview> GivingReviews { get; set; } = null!;
         public virtual DbSet<ItemType> ItemTypes { get; set; } = null!;
@@ -134,6 +135,8 @@ namespace GrowGreenWeb.Models
             {
                 entity.ToTable("Chat");
 
+                entity.Property(e => e.AttachmentUrl).HasMaxLength(1000);
+
                 entity.Property(e => e.Content).HasMaxLength(280);
 
                 entity.Property(e => e.EditedTimestamp).HasColumnType("datetime");
@@ -189,6 +192,8 @@ namespace GrowGreenWeb.Models
 
                 entity.Property(e => e.EndDate).HasColumnType("datetime");
 
+                entity.Property(e => e.ImageUrl).HasMaxLength(200);
+
                 entity.Property(e => e.LastUpdatedTimestamp).HasColumnType("datetime");
 
                 entity.Property(e => e.Name).HasMaxLength(100);
@@ -241,6 +246,15 @@ namespace GrowGreenWeb.Models
                     .HasForeignKey(d => d.TransactionId)
                     .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_Donation_Payment");
+            });
+
+            modelBuilder.Entity<Email>(entity =>
+            {
+                entity.ToTable("Email");
+
+                entity.Property(e => e.Email1)
+                    .HasMaxLength(200)
+                    .HasColumnName("Email");
             });
 
             modelBuilder.Entity<Event>(entity =>
@@ -296,6 +310,19 @@ namespace GrowGreenWeb.Models
                 entity.ToTable("Newsletter");
 
                 entity.Property(e => e.Timestamp).HasColumnType("datetime");
+
+                entity.HasMany(d => d.Emails)
+                    .WithMany(p => p.Newsletters)
+                    .UsingEntity<Dictionary<string, object>>(
+                        "NewsletterEmail",
+                        l => l.HasOne<Email>().WithMany().HasForeignKey("EmailId").HasConstraintName("FK_NewsletterEmail_Email"),
+                        r => r.HasOne<Newsletter>().WithMany().HasForeignKey("NewsletterId").HasConstraintName("FK_NewsletterEmail_Newsletter"),
+                        j =>
+                        {
+                            j.HasKey("NewsletterId", "EmailId").HasName("PK_Table1");
+
+                            j.ToTable("NewsletterEmail");
+                        });
             });
 
             modelBuilder.Entity<NewsletterEditHistory>(entity =>

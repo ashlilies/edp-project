@@ -61,7 +61,20 @@
         <div class="card mb-3 col-12 px-0">
             <div class="row g-0">
                 <div class="col-lg-2">
-                    <img src="/img/courses/default-course.png" class="card-img h-100"/>
+                    @{
+                        string img;
+                        if (course.ImageUrl is null)
+                        {
+                            img = "/img/courses/default-course.png";
+                        }
+                        else
+                        {
+                            img = course.ImageUrl;
+                        }
+
+                        <img src="@img" class="card-img"
+                             style="object-fit: cover; border-radius: 15px; height: 132.5px;"/>
+                    }
                 </div>
                 <div class="col-lg-8 ps-3">
                     <div class="card-body">
@@ -107,9 +120,9 @@
                 <div class="col-lg-2">
                     <div class="card-body h-100 text-center d-grid" style="place-content: center;">
                         <a class="text-reset text-decoration-none"
-                           asp-page="Manage" asp-route-id="@course.Id">
-                                <img src="/img/icons/right.png" class="icon icon-lg"/>
-                            </a>
+                           asp-page="Manage/Index" asp-route-id="@course.Id">
+                            <img src="/img/icons/right.png" class="icon icon-lg"/>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -118,3 +131,75 @@
 </div>
 
 <h3 class="mt-2">Past courses</h3>
+@foreach (var course in Model.PastCourses)
+{
+    <div class="card mb-3 col-12 px-0">
+        <div class="row g-0">
+            <div class="col-lg-2">
+                @{
+                    string img;
+                    if (course.ImageUrl is null)
+                    {
+                        img = "/img/courses/default-course.png";
+                    }
+                    else
+                    {
+                        img = course.ImageUrl;
+                    }
+
+                    <img src="@img" class="card-img"
+                         style="object-fit: cover; border-radius: 15px; height: 132.5px;"/>
+                }
+            </div>
+            <div class="col-lg-8 ps-3">
+                <div class="card-body">
+                    <h3>@course.Name</h3>
+                    @{
+                        int unreadDiscussions = course.Chats.Count(c => !c.IsReadByLecturer);
+                        if (unreadDiscussions == 0)
+                        {
+                            <img src="/img/courses/Alarm.png" class="icon" style="filter: grayscale(100)"/>
+                            <text>No unread discussions</text>
+                        }
+                        else
+                        {
+                            <img src="/img/courses/Alarm.png" class="icon"/>
+                            <strong> unread discussions</strong>
+                        }
+                    }
+                    <div class="row pt-2">
+                        <div class="col-6">
+                            <img src="/img/courses/Clock.png" class="icon"/>
+                            <span>
+                                Last updated
+                                <strong>
+                                    @if (course.LastUpdatedTimestamp is null)
+                                    {
+                                        <text>Never</text>
+                                    }
+                                    else
+                                    {
+                                        <text>@course.LastUpdatedTimestamp.Value.ToString("g")</text>
+                                    }
+                                </strong>
+                            </span>
+                        </div>
+
+                        <div class="col-6">
+                            <img src="/img/courses/Person.png" class="icon"/>
+                            <span><strong>@course.Learners.Count</strong> participants</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <div class="card-body h-100 text-center d-grid" style="place-content: center;">
+                    <a class="text-reset text-decoration-none"
+                       asp-page="Manage/Index" asp-route-id="@course.Id">
+                        <img src="/img/icons/right.png" class="icon icon-lg"/>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+}

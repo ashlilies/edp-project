@@ -1,0 +1,249 @@
+@page
+@model GrowGreenWeb.Pages.Courses.IndexModel
+@{
+    ViewData["Title"] = "Our Courses";
+}
+<div class="row">
+    <div class="col-6">
+        <h1>Our Courses</h1>
+    </div>
+    <div class="col-6 text-end">
+        <a class="btn btn-success bg-3 me-2" asp-page="Create">
+            New course
+            <img src="/img/icons/plus.png" class="icon icon-btn"/>
+        </a>
+        <a href="#" class="btn btn-success bg-5">
+            Search/Filter
+            <img src="/img/icons/filter.png" class="icon icon-btn"/>
+        </a>
+    </div>
+</div>
+
+@if (Model.SignedUpCourses.Any())
+{
+    <h3 class="mt-2">Courses I've Signed Up For</h3>
+    <div class="row">
+
+        @foreach (var course in Model.SignedUpCourses)
+        {
+            <div class="card mb-3 col-12 px-0">
+                <div class="row g-0">
+                    <div class="col-lg-2">
+                        @{
+                            string img;
+                            if (course.ImageUrl is null)
+                            {
+                                img = "/img/courses/default-course.png";
+                            }
+                            else
+                            {
+                                img = course.ImageUrl;
+                            }
+
+                            <img src="@img" class="card-img"
+                                 style="object-fit: cover; border-radius: 15px; height: 132.5px;"/>
+                        }
+                    </div>
+                    <div class="col-lg-8 ps-3">
+                        <div class="card-body">
+                            <h3>@course.Name</h3>
+                            By: <strong>@course.Lecturer.FullName</strong>
+                            <div class="row pt-2">
+                                <div class="col-6">
+                                    <img src="/img/courses/Clock.png" class="icon"/>
+                                    <span>
+                                        Last updated
+                                        <strong>
+                                            @if (course.LastUpdatedTimestamp is null)
+                                            {
+                                                <text>Never</text>
+                                            }
+                                            else
+                                            {
+                                                <text>@course.LastUpdatedTimestamp.Value.ToString("g")</text>
+                                            }
+                                        </strong>
+                                    </span>
+                                </div>
+
+                                <div class="col-6">
+                                    <img src="/img/courses/Person.png" class="icon"/>
+                                    <span><strong>@course.Learners.Count</strong> participants</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <div class="card-body h-100 text-center d-grid" style="place-content: center;">
+                            <a class="text-reset text-decoration-none"
+                               asp-page="Viewer/Index" asp-route-id="@course.Id">
+                                <img src="/img/icons/right.png" class="icon icon-lg"/>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+
+
+<h3 class="mt-2">Ongoing</h3>
+<div class="row">
+    @* <div class="card mb-3 col-12 px-0"> *@
+    @*     <div class="row g-0"> *@
+    @*         <div class="col-lg-2"> *@
+    @*             <img src="/img/courses/default-course.png" class="card-img h-100"/> *@
+    @*         </div> *@
+    @*         <div class="col-lg-8 ps-3"> *@
+    @*             <div class="card-body"> *@
+    @*                 <h3>Importance of Trees in our Environment</h3> *@
+    @*                 <img src="/img/courses/Alarm.png" class="icon" style="filter: grayscale(100)"/> *@
+    @*                 <strong>14 unread discussions</strong> *@
+    @*                 <div class="row pt-2"> *@
+    @*                     <div class="col-6"> *@
+    @*                         <img src="/img/courses/Clock.png" class="icon"/> *@
+    @*                         <span>Last updated <strong>6 days ago</strong></span> *@
+    @*                     </div> *@
+    @* *@
+    @*                     <div class="col-6"> *@
+    @*                         <img src="/img/courses/Person.png" class="icon"/> *@
+    @*                         <span><strong>123</strong> participants</span> *@
+    @*                     </div> *@
+    @*                 </div> *@
+    @*             </div> *@
+    @*         </div> *@
+    @*         <div class="col-lg-2"> *@
+    @*             <div class="card-body"> *@
+    @*                 <button class="btn btn-primary bg-white text-black border-0 w-100" href="#" *@
+    @*                         style="border-radius: 8px; padding-top: 0.9rem"> *@
+    @*                     $1$ <h5>></h5> #1# *@
+    @*                 </button> *@
+    @*             </div> *@
+    @*         </div> *@
+    @*     </div> *@
+    @* </div> *@
+
+    @foreach (var course in Model.OngoingCourses)
+    {
+        <div class="card mb-3 col-12 px-0">
+            <div class="row g-0">
+                <div class="col-lg-2">
+                    @{
+                        string img;
+                        if (course.ImageUrl is null)
+                        {
+                            img = "/img/courses/default-course.png";
+                        }
+                        else
+                        {
+                            img = course.ImageUrl;
+                        }
+
+                        <img src="@img" class="card-img"
+                             style="object-fit: cover; border-radius: 15px; height: 132.5px;"/>
+                    }
+                </div>
+                <div class="col-lg-8 ps-3">
+                    <div class="card-body">
+                        <h3>@course.Name</h3>
+                        By: <strong>@course.Lecturer.FullName</strong>
+                        <div class="row pt-2">
+                            <div class="col-6">
+                                <img src="/img/courses/Clock.png" class="icon"/>
+                                <span>
+                                    Last updated
+                                    <strong>
+                                        @if (course.LastUpdatedTimestamp is null)
+                                        {
+                                            <text>Never</text>
+                                        }
+                                        else
+                                        {
+                                            <text>@course.LastUpdatedTimestamp.Value.ToString("g")</text>
+                                        }
+                                    </strong>
+                                </span>
+                            </div>
+
+                            <div class="col-6">
+                                <img src="/img/courses/Person.png" class="icon"/>
+                                <span><strong>@course.Learners.Count</strong> participants</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <div class="card-body h-100 text-center d-grid" style="place-content: center;">
+                        <a class="text-reset text-decoration-none"
+                           asp-page="Viewer/Index" asp-route-id="@course.Id">
+                            <img src="/img/icons/right.png" class="icon icon-lg"/>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<h3 class="mt-2">Past courses</h3>
+@foreach (var course in Model.PastCourses)
+{
+    <div class="card mb-3 col-12 px-0">
+        <div class="row g-0">
+            <div class="col-lg-2">
+                @{
+                    string img;
+                    if (course.ImageUrl is null)
+                    {
+                        img = "/img/courses/default-course.png";
+                    }
+                    else
+                    {
+                        img = course.ImageUrl;
+                    }
+
+                    <img src="@img" class="card-img"
+                         style="object-fit: cover; border-radius: 15px; height: 132.5px;"/>
+                }
+            </div>
+            <div class="col-lg-8 ps-3">
+                <div class="card-body">
+                    <h3>@course.Name</h3>
+                    By: <strong>@course.Lecturer.FullName</strong>
+                    <div class="row pt-2">
+                        <div class="col-6">
+                            <img src="/img/courses/Clock.png" class="icon"/>
+                            <span>
+                                Last updated
+                                <strong>
+                                    @if (course.LastUpdatedTimestamp is null)
+                                    {
+                                        <text>Never</text>
+                                    }
+                                    else
+                                    {
+                                        <text>@course.LastUpdatedTimestamp.Value.ToString("g")</text>
+                                    }
+                                </strong>
+                            </span>
+                        </div>
+
+                        <div class="col-6">
+                            <img src="/img/courses/Person.png" class="icon"/>
+                            <span><strong>@course.Learners.Count</strong> participants</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <div class="card-body h-100 text-center d-grid" style="place-content: center;">
+                    <a class="text-reset text-decoration-none"
+                       asp-page="Viewer/Index" asp-route-id="@course.Id">
+                        <img src="/img/icons/right.png" class="icon icon-lg"/>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+}
