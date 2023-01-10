@@ -117,8 +117,8 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses
             }
 
             string random = Guid.NewGuid().ToString();
-            string webRootPath = "/uploads/" + random + "-" + Upload.FileName;
-            var file = Path.Combine(_environment.WebRootPath, "uploads",  random + "-" + Upload.FileName);
+            string webRootPath = "/uploads/courseThumbnail/" + random + "-" + Upload.FileName;
+            var file = Path.Combine(_environment.WebRootPath, "uploads", "courseThumbnail", random + "-" + Upload.FileName);
             await using (var fileStream = new FileStream(file, FileMode.Create))
             {
                 await Upload.CopyToAsync(fileStream);

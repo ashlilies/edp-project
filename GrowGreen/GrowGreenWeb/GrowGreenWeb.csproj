@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.1">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.12">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -45,9 +45,11 @@
 
   <ItemGroup>
     <Folder Include="Pages\Account" />
+    <Folder Include="Pages\Admin\Newsletters\History" />
     <Folder Include="Pages\Admin\Newsletters\MailingList" />
     <Folder Include="Pages\Courses\Viewer" />
-    <Folder Include="wwwroot\uploads" />
+    <Folder Include="wwwroot\uploads\courseThumbnail" />
+    <Folder Include="wwwroot\uploads\newsletter" />
   </ItemGroup>
 
 </Project>

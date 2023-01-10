@@ -6,4 +6,6 @@ public static class TemporaryConstants
     public static readonly int LecturerId = 1;
     // possible IDs for learner: 2, 5
     public static readonly int LearnerId = 2;
+    // possible IDs for admin: 7
+    public static readonly int AdminId = 7;
 }

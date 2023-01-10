@@ -3,14 +3,14 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>@ViewData["Title"] - Grow Green (Lecturer)</title>
-        
+    <title>@ViewData["Title"] - Grow Green (Admin)</title>
+
     @* Font Awesome Icons *@
-   	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
-   		integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-   	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css"
-             integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous"> 
-    
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css"
+          integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
     <link rel="stylesheet" href="~/css/siteAdmin.css" asp-append-version="true"/>
@@ -29,27 +29,27 @@
                     aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    @* Left-aligned navbar links *@
-                    <ul class="navbar-nav flex-grow-1 pt-2">
-                        @*     <li class="nav-item"> *@
-                        @*         <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a> *@
-                        @*     </li> *@
-                        @*     <li class="nav-item"> *@
-                        @*         <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a> *@
-                        @*     </li> *@
+            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                @* Left-aligned navbar links *@
+                <ul class="navbar-nav flex-grow-1 pt-2">
+                    @*     <li class="nav-item"> *@
+                    @*         <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a> *@
+                    @*     </li> *@
+                    @*     <li class="nav-item"> *@
+                    @*         <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a> *@
+                    @*     </li> *@
 
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                English
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li>
-                                    <a class="dropdown-item text-reset" href="#">Coming Soon</a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            English
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li>
+                                <a class="dropdown-item text-reset" href="#">Coming Soon</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
 
 
                 @* Right-aligned navbar links *@
@@ -81,8 +81,21 @@
                     <li class="nav-item">
                         <a class="nav-link text-white" asp-page="/Admin/Index">Home</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white" asp-page="/Admin/Newsletters/Index">Newsletters</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Newsletters
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li>
+                                <a class="dropdown-item text-reset" asp-page="/Admin/Newsletters/MailingList/Index">Mailing List</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item text-reset" asp-page="/Admin/Newsletters/History/Index">Newsletter History</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item text-reset" asp-page="/Admin/Newsletters/Index">Compose Newsletter</a>
+                            </li>
+                        </ul>
                     </li>
                 </ul>
 
