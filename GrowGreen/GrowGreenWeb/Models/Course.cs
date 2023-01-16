@@ -19,6 +19,7 @@ namespace GrowGreenWeb.Models
         public string Description { get; set; } = null!;
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
+        public int MaxCapacity { get; set; }
         public int LecturerId { get; set; }
         public DateTime? LastUpdatedTimestamp { get; set; }
         public string? ImageUrl { get; set; }

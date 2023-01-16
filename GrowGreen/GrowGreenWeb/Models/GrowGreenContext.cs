@@ -196,6 +196,8 @@ namespace GrowGreenWeb.Models
 
                 entity.Property(e => e.LastUpdatedTimestamp).HasColumnType("datetime");
 
+                entity.Property(e => e.MaxCapacity).HasDefaultValueSql("((100))");
+
                 entity.Property(e => e.Name).HasMaxLength(100);
 
                 entity.Property(e => e.StartDate).HasColumnType("datetime");
