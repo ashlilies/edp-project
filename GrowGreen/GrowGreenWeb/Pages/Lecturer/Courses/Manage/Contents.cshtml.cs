@@ -32,7 +32,9 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
                 return Forbid();
 
             Course = course;
-            Lecture? lecture = _context.Lectures.Find(lectureId);
+            Lecture? lecture = _context.Lectures
+                .Include(l => l.Videos)
+                .SingleOrDefault(l => l.Id == lectureId);
 
             if (lecture is null)
                 return NotFound();

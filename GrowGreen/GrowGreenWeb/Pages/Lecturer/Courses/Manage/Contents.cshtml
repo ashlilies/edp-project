@@ -28,7 +28,7 @@
                     <a asp-page="Contents" asp-route-id="@lecture.Course.Id" asp-route-lectureId="@lecture.Id"
                    class="text-reset text-decoration-none">
                         @lecture.Name
-                        </a>
+                    </a>
                 }
                 <hr />
                 <h5>
@@ -38,73 +38,96 @@
         </div>
     </div>
 
-    <div class="col-9">
-        <div class="mb-3 card p-4">
-            <h3>Lecture X</h3>
+    <div class="col-9 mb-3 card p-4">
+        <div>
+            <div class="row">
+                <div class="col-6">
+                    <h3 class="pt-2">@Model.Lecture.Name</h3>
+                </div>
+                <div class="col-3">
+                    <a asp-page="UpdateLecture" asp-route-id="@Model.Course.Id" asp-route-lectureId="@Model.Lecture.Id"
+                       class="btn btn-secondary w-100">Edit Details</a>
+                </div>
+                <div class="col-3">
+                    @*<a asp-page="DeleteLecture" asp-route-id="@Model.Course.Id" asp-route-lectureId="@Model.Lecture.Id" *@
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#deleteModal"
+                            class="btn btn-danger w-100">
+                        Delete
+                    </button>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-9">
+
+                    <h4 class="pt-2">Video Summary</h4>
+                </div>
+                <div class="col-3">
+                    <a asp-page="CreateVideo" asp-route-id="@Model.Course.Id" asp-route-lectureId="@Model.Lecture.Id"
+                       class="btn btn-success w-100">
+                        Upload Video
+                    </a>
+                </div>
+            </div>
         </div>
-        @* @foreach (var lecture in Model.Course.Lectures)
+        @if (!Model.Lecture.Videos.Any())
         {
-        <div class="card mb-3 col-12 px-0">
-        <div class="row g-0">
-        <div class="col-lg-2">
-        @{
-        string img;
-
-        //TODO: Add image preview
-        img = "/img/courses/no-preview.jpg";
-
-        //if (lecture.ImageUrl is null)
-        //{
-        //    img = "/img/courses/default-course.png";
-        //}
-        //else
-        //{
-        //    img = lecture.ImageUrl;
-        //}
-
-        <img src="@img" class="card-img"
-        style="object-fit: cover; border-radius: 15px; height: 132.5px;" />
+            <h5 class="mt-2">There are no videos yet. Perhaps add some?</h5>
         }
-        </div>
-        <div class="col-lg-8 ps-3">
-        <div class="card-body">
-        <h3>@lecture.Name</h3>
-        By: <strong>@lecture.Lecturer.FullName</strong>
-        <div class="row pt-2">
-        <div class="col-6">
-        <img src="/img/courses/Clock.png" class="icon" />
-        <span>
-        Last updated
-        <strong>
-        @if (lecture.LastUpdatedTimestamp is null)
+        @foreach (var video in Model.Lecture.Videos)
         {
-        <text>Never</text>
-        }
-        else
-        {
-        <text>@lecture.LastUpdatedTimestamp.Value.ToString("g")</text>
-        }
-        </strong>
-        </span>
-        </div>
+            <div class="card mb-3 col-12 px-0">
+                <div class="row g-0">
+                    <div class="col-lg-2">
+                        @{
+                            string img;
 
-        <div class="col-6">
-        <img src="/img/courses/Person.png" class="icon" />
-        <span><strong>@lecture.Learners.Count</strong> participants</span>
-        </div>
-        </div>
-        </div>
-        </div>
-        <div class="col-lg-2">
-        <div class="card-body h-100 text-center d-grid" style="place-content: center;">
-        <a class="text-reset text-decoration-none"
-        asp-page="Viewer/Index" asp-route-id="@lecture.Id">
-        <img src="/img/icons/right.png" class="icon icon-lg" />
-        </a>
-        </div>
-        </div>
-        </div>
-        </div>
-        }*@
+                            //TODO: Add image preview
+                            img = "/img/courses/no-preview.jpg";
+
+                            //if (lecture.ImageUrl is null)
+                            //{
+                            //    img = "/img/courses/default-course.png";
+                            //}
+                            //else
+                            //{
+                            //    img = lecture.ImageUrl;
+                            //}
+
+                            <img src="@img" class="card-img"
+                             style="object-fit: cover; border-radius: 15px; height: 132.5px;" />
+                        }
+                    </div>
+                    <div class="col-lg-8 ps-3">
+                        <div class="card-body">
+                            <h3>@video.Name</h3>
+                            By: <strong>@video.Transcript</strong>
+                            <div class="row pt-2">
+                                <div class="col-12">
+                                    <img src="/img/courses/Clock.png" class="icon" />
+                                    <span>
+                                        Last updated @video.Timestamp.ToString("g")
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <div class="card-body h-100 text-center d-grid" style="place-content: center;">
+                            <a class="text-reset text-decoration-none"
+                           asp-page="Viewer/EditVideo" asp-route-id="@video.Id">
+                                <img src="/img/icons/right.png" class="icon icon-lg" />
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        <h4 class="mt-5">Select a video above to begin</h4>
+
+    </div>
+</div>
+<div class="modal fade" id="deleteModal">
+    <div class="modal-body">
+        <div class="modal"
     </div>
 </div>
