@@ -1,0 +1,29 @@
+@page
+@model GrowGreenWeb.Pages.Courses.DetailsModel
+@{
+    ViewData["Title"] = "Course Details";
+}
+
+<style>
+    #hero-image {
+        height: 600px;
+        object-fit: cover;
+    }    
+</style>
+
+<div class="container">
+    <div class="col-12">
+        <img src="@Model.Course.ImageUrl" class="img-fluid w-100"
+             id="hero-image"/>
+    </div>
+    
+    <div class="row">
+        <div class="col-8">
+            
+        </div>
+        <div class="col-4">
+            
+        </div>
+    </div>
+</div>
+
