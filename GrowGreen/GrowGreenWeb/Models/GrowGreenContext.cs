@@ -299,6 +299,8 @@ namespace GrowGreenWeb.Models
 
                 entity.Property(e => e.Name).HasMaxLength(100);
 
+                entity.Property(e => e.StartDate).HasColumnType("date");
+
                 entity.Property(e => e.Timestamp).HasColumnType("datetime");
 
                 entity.HasOne(d => d.Course)

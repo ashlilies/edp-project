@@ -12,19 +12,25 @@
             <div class="row">
                 <div class="col-8">
                     <label asp-for="Name" class="form-label"></label>
-                    <input asp-for="Name" class="form-control"/>
+                    <input asp-for="Name" class="form-control" />
                     <span asp-validation-for="Name" class="text-danger"></span>
 
                     <div class="row mt-3">
-                        <div class="col-6">
+                        <div class="col-4">
                             <label asp-for="StartDate" class="form-label"></label>
-                            <input asp-for="StartDate" class="form-control"/>
+                            <input asp-for="StartDate" class="form-control" />
                             <span asp-validation-for="StartDate" class="text-danger"></span>
                         </div>
-                        <div class="col-6">
+                        <div class="col-4">
                             <label asp-for="EndDate" class="form-label"></label>
-                            <input asp-for="EndDate" class="form-control"/>
+                            <input asp-for="EndDate" class="form-control" />
                             <span asp-validation-for="EndDate" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-4">
+                            <label asp-for="MaxCapacity" class="form-label"></label>
+                            <input asp-for="MaxCapacity" class="form-control" />
+                            <span asp-validation-for="MaxCapacity" class="text-danger"></span>
                         </div>
 
                         <div class="col-12 mt-3">
@@ -47,12 +53,14 @@
                         {
                             img = @Model.ImageUrl;
                         }
-                        <img src="@img" class="w-100" style="object-fit: contain"/>
+                        <img src="@img" class="w-100" style="object-fit: contain" />
                     }
                     <button type="button" data-bs-toggle="modal" data-bs-target="#imageModal"
-                            class="btn btn-primary bg-6 w-100 mt-2">Upload Thumbnail</button>
+                            class="btn btn-primary bg-6 w-100 mt-2">
+                        Upload Thumbnail
+                    </button>
                 </div>
-                
+
                 <input asp-for="ImageUrl" hidden />
             </div>
 
@@ -82,7 +90,7 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label asp-for="Upload" class="form-label"></label>
-                        <input class="form-control" asp-for="Upload"/>
+                        <input class="form-control" asp-for="Upload" />
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -95,6 +103,8 @@
 </div>
 
 @section Scripts
-{
-    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
