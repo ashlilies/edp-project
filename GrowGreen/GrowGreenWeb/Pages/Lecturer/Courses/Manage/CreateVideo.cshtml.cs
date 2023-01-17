@@ -15,7 +15,7 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
         [BindProperty, Required, DisplayName("Name")]
         public string Title { get; set; } = string.Empty;
 
-        [BindProperty, Required, DisplayName("Description")]
+        [BindProperty, Required, DisplayName("Transcript")]
         public string Description { get; set; } = string.Empty;
 
         public Course Course { get; set; } = null!;
@@ -116,7 +116,13 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
             Video video = new Video
             {
                 Name = Title,
-            }
+                Timestamp = DateTime.Now,
+                Transcript = Description,
+                Url = webRootPath,
+                LectureId = Lecture.Id
+            };
+
+            _context.Add(video);
 
             await _context.SaveChangesAsync();
 
