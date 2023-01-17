@@ -9,7 +9,7 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
 {
     public class CreateVideoModel : PageModel
     {
-        [BindProperty, Required, DisplayName("Video File")]
+        [BindProperty, Required, DisplayName("Video File (mp4, ogg)")]
         public IFormFile VideoFile { get; set; } = null!;
 
         [BindProperty, Required, DisplayName("Name")]
@@ -88,22 +88,25 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
             if (VideoFile is null)
             {
                 TempData["FlashMessage.Type"] = "danger";
-                TempData["FlashMessage.Text"] = "Error uploading image";
+                TempData["FlashMessage.Text"] = "Error uploading video";
                 return OnGet(id, lectureId);
             }
 
-            if (!Constants.AllowedImageExtensions.Contains(Path.GetExtension(VideoFile.FileName)))
+            if (!Constants.AllowedVideoExtensions.Contains(Path.GetExtension(VideoFile.FileName)))
             {
                 TempData["FlashMessage.Type"] = "danger";
-                TempData["FlashMessage.Text"] = "Image file type not allowed!";
+                TempData["FlashMessage.Text"] = "Video file type not allowed!";
                 return OnGet(id, lectureId);
             }
 
             string random = Guid.NewGuid().ToString();
             string webRootPath = "/uploads/course/" + Course.Id + "/lecture/" + Lecture.Id + "/" + random + "-" + VideoFile.FileName;
-            var file = Path.Combine(
-                _environment.WebRootPath, "uploads", "course", Course.Id.ToString(), "lecture", Lecture.Id.ToString(), 
-                random + "-" + VideoFile.FileName);
+            var directory = Path.Combine(
+                _environment.WebRootPath, "uploads", "course", Course.Id.ToString(), "lecture", Lecture.Id.ToString());
+
+            var file = Path.Combine(directory, random + "-" + VideoFile.FileName);
+
+            Directory.CreateDirectory(directory);
 
             await using (var fileStream = new FileStream(file, FileMode.Create))
             {
@@ -127,7 +130,7 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
             await _context.SaveChangesAsync();
 
             TempData["FlashMessage.Type"] = "success";
-            TempData["FlashMessage.Text"] = "Successfully updated image";
+            TempData["FlashMessage.Text"] = "Successfully uploaded video";
 
             return RedirectToPage("Contents", new { id, lectureId });
         }
