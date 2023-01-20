@@ -1,8 +1,86 @@
 ﻿@page
-@model GrowGreenWeb.Pages.Donation.mainModel
+@using Microsoft.Extensions.Options;
+@inject IOptions<GrowGreenWeb.Data.StripeSettings> Stripe;
+@model GrowGreenWeb.Pages.Donation.mainModel;
 @{
-    <form action = "/Home/CreateCheckoutSession" method="post">
-    <input type="text" id="TextBox1" placeholder="amount"/><br>
-    <button type="submit">Checkout</button>
-    </form>
+    ViewData["Title"] = "Donation Page";
 }
+@section scripts{
+    <script type="text/javascript">
+        setTimeout(function () {
+            range.defaultValue = 0;
+        }, 0.1);
+        function addClass(el, className) {
+            el.className += ' ' + className;
+        }
+
+        function removeClass(el, className) {
+            var elClass = ' ' + el.className + ' ';
+            while (elClass.indexOf(' ' + className + ' ') != -1) {
+                elClass = elClass.replace(' ' + className + ' ', '');
+            }
+            el.className = elClass;
+        }
+
+        var range = document.getElementById('amount');
+        var button = document.getElementById('donateBtn');
+
+        var prev = 0;
+
+        var getValue = function () {
+            var current = 0;
+            var newVal = range.value;
+            if (newVal > 0) {
+                addClass(button, "appear");
+                prev = newVal;
+                var c = "$";
+                c = c.concat(newVal);
+                var targetValue = document.querySelector(".value");
+                targetValue.innerHTML = c;
+            };
+      };
+        range.addEventListener("input", getValue);
+    </script>
+}
+    <form asp-action="Create" method="POST">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-sm-6 col-lg-6 col-xs-12">
+                <h1>WE NEED YOUR HELP</h1>
+                <p>Of course, using GrowGreen's application is totally free of charge. However, if you were to choose to donate to our causes, 100% of the proceeds will go to enviromental charities in order to help them fund their environmental efforts <br />
+                    Any amount is apprieciated!
+
+                </p>
+                <div class="range-container">
+                    <h4>I wanna help with: <span class="value">$1</span></h4>
+                    <input type="range" name="DonationAmount" id="amount" min="1" max="100" value="1" />
+                </div>
+                    <button type="submit" class="btn btn-primary" id="donateBtn">Donate</button>
+            </div>
+        </div>
+    </div>
+    </form>
+
+    <div class="container">
+        <h1>Cant Deicide the Amount? Choose from one of these!</h1>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm">
+                    <form asp-action = "ManualDonation" method="post">
+                        <input class = "btn btn-primary" type="submit" id="btnSend" value="10" name="selected"/>
+                    </form>
+                </div>
+                <div class="col-sm">
+                    <a class="btn btn-primary" asp-action="ManualDonation"><span name="selected">$20</span></a>
+                </div>
+                <div class="col-sm">
+                    <a class="btn btn-primary" asp-action="ManualDonation"><span name="selected">$50</span></a>
+                </div>
+                <div class="col-sm">
+                    <a class="btn btn-primary" asp-action="ManualDonation"><span name="selected">$100</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
