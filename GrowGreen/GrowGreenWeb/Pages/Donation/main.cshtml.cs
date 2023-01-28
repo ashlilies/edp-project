@@ -13,59 +13,19 @@ namespace GrowGreenWeb.Pages.Donation
         {
 
         }
-        public async Task<IActionResult> ManualDonation(string id)
+        public async Task<IActionResult> OnPostAsync(string DonationAmount , string DonationText)
         {
-            string PriceID = "none";
-            var domain = "http://localhost:7198";
+            
+            if (DonationText == null)
+            {
+                DonationText = "none";
+            }
+            var domain = "https://localhost:7198";
             List<string> optionList = new List<string>
             {
                 "https://drive.google.com/file/d/1cM-KXhuTgzccp5cggmff93bSvZ3wObYu/view?usp=sharing",
             };
-            if (id == "10")
-            {
-                PriceID = "price_1MRzOZGtntpklPoVA2mdyUJE";
-            }
-            if (id == "20")
-            {
-                PriceID = "price_1MRzO6GtntpklPoVRtGZIbss";
-            }
-            if (id == "50")
-            {
-                PriceID = "price_1MRzNbGtntpklPoVnjm3sdoB";
-            }
-            if (id == "100")
-            {
-                PriceID = "price_1MRyZBGtntpklPoVG13ZdGTZ";
-            }
 
-            var options = new SessionCreateOptions
-            {
-                LineItems = new List<SessionLineItemOptions>
-                {
-                  new SessionLineItemOptions
-                  {
-
-                    Price = PriceID,
-                    Quantity = 1,
-                  },
-                },
-                Mode = "payment",
-                SuccessUrl = domain + "/Donation/success",
-                CancelUrl = domain + "/Donation/cancel",
-            };
-            var service = new SessionService();
-            Session session = service.Create(options);
-
-            Response.Headers.Add("Location", session.Url);
-            return new StatusCodeResult(303);
-    }
-        public IActionResult OnPost(string DonationAmount)
-        {
-            var domain = "http://localhost:7198";
-            List<string> optionList = new List<string>
-            {
-                "https://drive.google.com/file/d/1cM-KXhuTgzccp5cggmff93bSvZ3wObYu/view?usp=sharing",
-            };
             var options = new SessionCreateOptions
             {
                 LineItems = new List<SessionLineItemOptions>
@@ -89,13 +49,14 @@ namespace GrowGreenWeb.Pages.Donation
                   },
                 },
                 Mode = "payment",
-                SuccessUrl = domain + "/Donation/success",
+               
+                SuccessUrl = domain + "/Donation/success/{CHECKOUT_SESSION_ID}/"+ DonationText.Replace(" ", "_"),
                 CancelUrl = domain + "/Donation/cancel",
             };
             var service = new SessionService();
             Session session = service.Create(options);
-
             Response.Headers.Add("Location", session.Url);
+           
             return new StatusCodeResult(303);
         }
     }

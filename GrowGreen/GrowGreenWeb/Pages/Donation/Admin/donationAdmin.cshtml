@@ -1,0 +1,31 @@
+﻿@page
+@model GrowGreenWeb.Pages.Donation.Admin.donationAdminModel
+@{
+    TempData["Title"] = "Donation Admin Page";
+}
+@section Styles{
+    <link href="@Url.Content("~/css/Donation/admin.css")" rel="stylesheet" type="text/css" />
+}
+<table class="styled-table" width="100%">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Remarks</th>
+            <th>Donated Amount</th>
+            <th>Date</th>
+            <th>Email</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var d in Model.acceptedDonations){
+         <tr>
+            <td>@d.Id</td>
+            <td>@d.Remarks</td>
+            <td>@d.Amount</td>
+            <td>@d.DateTime</td>
+            <td>@d.Email</td>
+        </tr>
+        }
+
+    </tbody>
+</table
