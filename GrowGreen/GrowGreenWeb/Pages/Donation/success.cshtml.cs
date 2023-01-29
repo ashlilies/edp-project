@@ -49,8 +49,8 @@ namespace GrowGreenWeb.Pages.Donation
 
         _context.Add(newDonation);
         await _context.SaveChangesAsync();
-        TempData["FlashMessage.Type"] = "success";
-            TempData["FlashMessage.Text"] = "Successfully donation" + features;
+            TempData["FlashMessage.Type"] = "success";
+            TempData["FlashMessage.Text"] = "Successfully donation";
             return Page();
         }
     }

@@ -1,0 +1,64 @@
+﻿@page
+@model GrowGreenWeb.Pages.Giving.User.addPostModel
+@{
+    TempData["Title"] = "Add Post";
+}
+@section Styles{
+    .require {
+    color: #666;
+        }
+    label small {
+    color: #999;
+    font-weight: normal;
+}
+}
+<div class="container">
+    <div class="row">
+
+        <div class="col-md-8 col-md-offset-2">
+
+            <h1>Create post</h1>
+
+                <form action="" method="POST" enctype="multipart/form-data">
+
+                <div class="form-group has-error">
+                    <label for="Title">Title <span class="required">*</span><small>(This field used to enter the title)</small></label>
+                    <input type="text" class="form-control" name="postTitle" />
+                </div>
+
+                <div class="form-group">
+                    <label for="title">Location<span class="require">*</span></label>
+                    <input type="text" class="form-control" name="postLocation" />
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea rows="5" class="form-control" name="postDescription"></textarea>
+                </div>
+
+                    <div class="form-group">
+                        <label for="exampleFormControlFile1">Upload Image for Post</label>
+                        <input type="file" class="form-control-file" id="exampleFormControlFile1" name="Upload"
+                           onchange="document.getElementById('ImagePrv').src = window.URL.createObjectURL(this.files[0])">
+                        <img src="" class="" style="width : 100px; height 100px;" id="ImagePrv"/>
+                    </div>
+                <div class="form-group">
+                    <p><span class="require">*</span> - required fields</p>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">
+                        Create
+                    </button>
+                    <button class="btn btn-default">
+                        Cancel
+                    </button>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+</div>
+
+

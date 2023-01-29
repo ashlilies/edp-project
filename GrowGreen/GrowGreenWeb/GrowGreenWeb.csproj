@@ -58,6 +58,7 @@
     <Folder Include="Pages\Admin\Newsletters\MailingList" />
     <Folder Include="Pages\Courses\Viewer" />
     <Folder Include="wwwroot\uploads\courseThumbnail" />
+    <Folder Include="wwwroot\uploads\GivingC\" />
     <Folder Include="wwwroot\uploads\newsletter" />
   </ItemGroup>
 
