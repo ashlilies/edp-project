@@ -18,7 +18,7 @@ namespace GrowGreenWeb.Pages.Giving.User
         public string postDescription { get; set; }
 
         [BindProperty, DisplayName("New Post Image (jpg/jpeg/png)")]
-        public IFormFile? Upload { get; set; }
+        public IFormFile[]? Upload { get; set; }
 
         [BindProperty, Required]
         public string postImage { get; set; }
@@ -34,6 +34,10 @@ namespace GrowGreenWeb.Pages.Giving.User
         }
         public void OnGet()
         {
+        }
+        public async Task<IActionResult> OnPostUploadAsync()
+        {
+            return Page();
         }
         public async Task<IActionResult> OnPostAsync()
         {
@@ -60,19 +64,31 @@ namespace GrowGreenWeb.Pages.Giving.User
                     return Page();
                 }
 
-                if (!Constants.AllowedImageExtensions.Contains(Path.GetExtension(Upload.FileName)))
+                if (!Constants.AllowedImageExtensions.Contains(Path.GetExtension(Upload[0].FileName)))
                 {
                     TempData["FlashMessage.Type"] = "danger";
                     TempData["FlashMessage.Text"] = "Image file type not allowed!";
                     return Page();
                 }
-
-                string guuidStr = Guid.NewGuid().ToString();
-                postImage = "/uploads/GivingC/" + guuidStr + "-" + Upload.FileName;
-                var file = Path.Combine(_environment.WebRootPath, "uploads", "GivingC", guuidStr + "-" + Upload.FileName);
-                await using (var fileStream = new FileStream(file, FileMode.Create))
+                else
                 {
-                    await Upload.CopyToAsync(fileStream);
+                    if (Upload.Length > 0)
+                    {
+                        List<string> FileNames = new List<string>();
+                        foreach (IFormFile photo in Upload)
+                        {
+                            string guuidStr = Guid.NewGuid().ToString();
+                            var file = Path.Combine(_environment.WebRootPath, "uploads", "GivingC", guuidStr + "-" + photo.FileName);
+                            await using (var fileStream = new FileStream(file, FileMode.Create))
+                            {
+                                await photo.CopyToAsync(fileStream);
+                                FileNames.Add("/uploads/GivingC/" + guuidStr + "-" + photo.FileName);
+                            }
+                        }
+                        TempData["FlashMessage.Type"] = "success";
+                        TempData["FlashMessage.Text"] = "Image Successfully uploaded";
+                        postImage = string.Join(",", FileNames);
+                    }
                 }
 
                 Post newPost = new Post()

@@ -31,6 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <_ContentIncludedByDefault Remove="Pages\Shared\_LayoutGiving.cshtml" />
     <_ContentIncludedByDefault Remove="wwwroot\img\carousel\1.jpg" />
     <_ContentIncludedByDefault Remove="wwwroot\img\carousel\2.jpg" />
     <_ContentIncludedByDefault Remove="wwwroot\img\carousel\3.jpg" />
@@ -60,6 +61,16 @@
     <Folder Include="wwwroot\uploads\courseThumbnail" />
     <Folder Include="wwwroot\uploads\GivingC\" />
     <Folder Include="wwwroot\uploads\newsletter" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Pages\Shared\_LayoutGiving.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Pages\Shared\_LayoutGiving.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

@@ -3,14 +3,29 @@
 @{
     TempData["Title"] = "Add Post";
 }
-@section Styles{
-    .require {
-    color: #666;
+
+@section scripts{
+    <script type="text/javascript">
+        var ul = document.getElementById("PictureList");
+        function PictureChange(files) {
+            ul.replaceChildren();
+            ul.style = "list-style-type: none;"
+            if (files.length > 5){
+                alert("pls do not upload more than 5 images");
+                location.reload();
+            }
+            else{
+                for (let i = 0; i < files.length; i++) {
+                    var img = document.createElement("img");
+                    img.style.width = '100px';
+                    img.style.height = '100px';
+                    img.src = window.URL.createObjectURL(files[i]);
+                    ul.appendChild(img);
+                }
+            }
+
         }
-    label small {
-    color: #999;
-    font-weight: normal;
-}
+    </script>
 }
 <div class="container">
     <div class="row">
@@ -37,10 +52,10 @@
                 </div>
 
                     <div class="form-group">
-                        <label for="exampleFormControlFile1">Upload Image for Post</label>
-                        <input type="file" class="form-control-file" id="exampleFormControlFile1" name="Upload"
-                           onchange="document.getElementById('ImagePrv').src = window.URL.createObjectURL(this.files[0])">
-                        <img src="" class="" style="width : 100px; height 100px;" id="ImagePrv"/>
+                        <input type="file" class="form-control-file" id="exampleFormControlFile1" name="Upload" multiple="multiple"
+                           onchange="PictureChange(this.files);">
+                        <div class="row" id="PictureList">
+                        </div>
                     </div>
                 <div class="form-group">
                     <p><span class="require">*</span> - required fields</p>
@@ -57,8 +72,4 @@
 
             </form>
         </div>
-
-    </div>
-</div>
-
 
