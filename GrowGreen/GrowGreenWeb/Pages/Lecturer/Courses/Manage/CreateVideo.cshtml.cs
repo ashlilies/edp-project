@@ -62,7 +62,7 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
             {
                 // retrieve the video and set the properties accordingly
                 VideoEdit = _context.Videos.Find(videoId);
-                
+
                 if (VideoEdit is null)
                     return NotFound();
 
@@ -116,9 +116,11 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
                 }
 
                 string random = Guid.NewGuid().ToString();
-                webRootPath = "/uploads/course/" + Course.Id + "/lecture/" + Lecture.Id + "/" + random + "-" + VideoFile.FileName;
+                webRootPath = "/uploads/course/" + Course.Id + "/lecture/" + Lecture.Id + "/" + random + "-" +
+                              VideoFile.FileName;
                 var directory = Path.Combine(
-                    _environment.WebRootPath, "uploads", "course", Course.Id.ToString(), "lecture", Lecture.Id.ToString());
+                    _environment.WebRootPath, "uploads", "course", Course.Id.ToString(), "lecture",
+                    Lecture.Id.ToString());
 
                 var file = Path.Combine(directory, random + "-" + VideoFile.FileName);
 
@@ -127,9 +129,9 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
                 await using (var fileStream = new FileStream(file, FileMode.Create))
                 {
                     await VideoFile.CopyToAsync(fileStream);
-                } 
+                }
             }
-            
+
 
             //ImageUrl = webRootPath;
 
@@ -145,7 +147,7 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
                     LectureId = Lecture.Id
                 };
 
-            _context.Add(video);
+                _context.Add(video);
             }
             else
             {
@@ -168,6 +170,43 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
             TempData["FlashMessage.Type"] = "success";
             TempData["FlashMessage.Text"] = "Successfully uploaded video";
 
+            return RedirectToPage("Contents", new { id, lectureId });
+        }
+
+        public IActionResult OnPostDelete(int id, int lectureId, int videoId)
+        {
+            // todo: add account system support
+            int lecturerId = TemporaryConstants.LecturerId;
+
+            Course? course = _context.Courses
+                .Include(c => c.Lectures)
+                .SingleOrDefault(c => c.Id == id);
+            if (course is null)
+                return NotFound();
+
+            if (course.LecturerId != lecturerId)
+                return Forbid();
+
+            Course = course;
+            Lecture? lecture = _context.Lectures
+                .Include(l => l.Videos)
+                .SingleOrDefault(l => l.Id == lectureId);
+
+            if (lecture is null)
+                return NotFound();
+            if (lecture.CourseId != course.Id)
+                return Forbid(); 
+            
+            // delete the video
+            Video? video = _context.Videos.Find(videoId);
+            if (video is null)
+            {
+                return NotFound();
+            }
+
+            _context.Remove(video);
+            _context.SaveChanges();
+            
             return RedirectToPage("Contents", new { id, lectureId });
         }
     }

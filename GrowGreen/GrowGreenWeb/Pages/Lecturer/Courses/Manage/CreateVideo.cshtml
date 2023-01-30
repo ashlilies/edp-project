@@ -74,7 +74,15 @@
 
 
                     <div class="row text-end mt-3">
-                        <div class="col-3"></div>
+                        <div class="col-3">
+                            @if (Model.VideoEdit is not null)
+                            {
+                                <button type="button" class="btn btn-danger w-100" data-bs-toggle="modal"
+                                        data-bs-target="#deleteModal">
+                                    Delete
+                                </button>
+                            }
+                        </div>
                         <div class="col-3"></div>
                         <div class="col-3">
                             <button type="button" class="btn btn-secondary w-100" onclick="history.back()">Cancel</button>
@@ -87,6 +95,28 @@
             </div>
         </form>
 
+    </div>
+</div>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Delete Course</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you wish to do this? <strong>This cannot be undone!</strong>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+
+                <form method="post" asp-page-handler="Delete" asp-route-id="@Model.Course.Id" asp-route-lectureId="@Model.Lecture.Id"
+                      asp-route-videoId="@Model.VideoEdit?.Id">
+                    <button class="btn btn-danger">Yes</button>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 
