@@ -21,3 +21,11 @@ public partial class Chat
         };
     }
 }
+
+public partial class Course
+{
+    public int AvailableCapacity
+    {
+        get => MaxCapacity - Learners.Count;
+    }
+}

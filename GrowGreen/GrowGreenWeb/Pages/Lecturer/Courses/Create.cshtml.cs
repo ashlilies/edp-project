@@ -24,7 +24,10 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses
         [BindProperty, Required, DisplayName("Ending Availability Date"), DataType(DataType.Date)]
 
         public DateTime EndDate { get; set; } = DateTime.Today.AddYears(1);
-        
+
+        [BindProperty, Required, DisplayName("Max Capacity"), Range(1, 10000)]
+        public int MaxCapacity { get; set; } = 100;
+
         [BindProperty, DisplayName("New course thumbnail (jpg/jpeg/png)")]
         public IFormFile? Upload { get; set; }
 
@@ -76,7 +79,8 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses
                 StartDate = StartDate,
                 EndDate = EndDate,
                 LecturerId = lecturerId,
-                ImageUrl = ImageUrl
+                ImageUrl = ImageUrl,
+                MaxCapacity = MaxCapacity
             };
             
             // check if another course with a similar name already exists
