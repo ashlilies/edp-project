@@ -59,7 +59,7 @@
                     </button>
                 </div>
             </div>
-            <div class="row mt-2">
+            <div class="row mt-2 mb-2">
                 <div class="col-9">
 
                     <h4 class="pt-2">Video Summary</h4>
@@ -117,7 +117,7 @@
                     <div class="col-lg-2">
                         <div class="card-body h-100 text-center d-grid" style="place-content: center;">
                             <a class="text-reset text-decoration-none"
-                               asp-page="Viewer/EditVideo" asp-route-id="@video.Id">
+                               asp-page="CreateVideo" asp-route-id="@Model.Course.Id" asp-route-lectureId="@Model.Lecture.Id" asp-route-videoId="@video.Id">
                                 <img src="/img/icons/right.png" class="icon icon-lg"/>
                             </a>
                         </div>

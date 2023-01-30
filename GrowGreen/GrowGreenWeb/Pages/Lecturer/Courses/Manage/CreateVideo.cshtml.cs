@@ -9,8 +9,8 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
 {
     public class CreateVideoModel : PageModel
     {
-        [BindProperty, Required, DisplayName("Video File (mp4, ogg)")]
-        public IFormFile VideoFile { get; set; } = null!;
+        [BindProperty, DisplayName("Video File (mp4, ogg)")]
+        public IFormFile? VideoFile { get; set; } = null!;
 
         [BindProperty, Required, DisplayName("Name")]
         public string Title { get; set; } = string.Empty;
@@ -21,6 +21,8 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
         public Course Course { get; set; } = null!;
         public Lecture Lecture { get; set; } = null!;
 
+        public Video? VideoEdit { get; set; }
+
         private readonly GrowGreenContext _context;
         private readonly IWebHostEnvironment _environment;
 
@@ -30,7 +32,7 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
             _environment = environment;
         }
 
-        public IActionResult OnGet(int id, int lectureId)
+        public IActionResult OnGet(int id, int lectureId, int? videoId = null)
         {
             // todo: add account system support
             int lecturerId = TemporaryConstants.LecturerId;
@@ -55,11 +57,23 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
                 return Forbid();
 
             Lecture = lecture;
+
+            if (videoId is not null)
+            {
+                // retrieve the video and set the properties accordingly
+                VideoEdit = _context.Videos.Find(videoId);
+                
+                if (VideoEdit is null)
+                    return NotFound();
+
+                Title = VideoEdit.Name;
+                Description = VideoEdit.Transcript;
+            }
 
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(int id, int lectureId)
+        public async Task<IActionResult> OnPostAsync(int id, int lectureId, int? videoId = null)
         {
             // todo: add account system support
             int lecturerId = TemporaryConstants.LecturerId;
@@ -85,47 +99,69 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
 
             Lecture = lecture;
 
-            if (VideoFile is null)
+            string? webRootPath = null;
+            if (VideoFile is null && videoId is null)
             {
                 TempData["FlashMessage.Type"] = "danger";
                 TempData["FlashMessage.Text"] = "Error uploading video";
                 return OnGet(id, lectureId);
             }
-
-            if (!Constants.AllowedVideoExtensions.Contains(Path.GetExtension(VideoFile.FileName)))
+            else if (VideoFile is not null)
             {
-                TempData["FlashMessage.Type"] = "danger";
-                TempData["FlashMessage.Text"] = "Video file type not allowed!";
-                return OnGet(id, lectureId);
+                if (!Constants.AllowedVideoExtensions.Contains(Path.GetExtension(VideoFile.FileName)))
+                {
+                    TempData["FlashMessage.Type"] = "danger";
+                    TempData["FlashMessage.Text"] = "Video file type not allowed!";
+                    return OnGet(id, lectureId);
+                }
+
+                string random = Guid.NewGuid().ToString();
+                webRootPath = "/uploads/course/" + Course.Id + "/lecture/" + Lecture.Id + "/" + random + "-" + VideoFile.FileName;
+                var directory = Path.Combine(
+                    _environment.WebRootPath, "uploads", "course", Course.Id.ToString(), "lecture", Lecture.Id.ToString());
+
+                var file = Path.Combine(directory, random + "-" + VideoFile.FileName);
+
+                Directory.CreateDirectory(directory);
+
+                await using (var fileStream = new FileStream(file, FileMode.Create))
+                {
+                    await VideoFile.CopyToAsync(fileStream);
+                } 
             }
-
-            string random = Guid.NewGuid().ToString();
-            string webRootPath = "/uploads/course/" + Course.Id + "/lecture/" + Lecture.Id + "/" + random + "-" + VideoFile.FileName;
-            var directory = Path.Combine(
-                _environment.WebRootPath, "uploads", "course", Course.Id.ToString(), "lecture", Lecture.Id.ToString());
-
-            var file = Path.Combine(directory, random + "-" + VideoFile.FileName);
-
-            Directory.CreateDirectory(directory);
-
-            await using (var fileStream = new FileStream(file, FileMode.Create))
-            {
-                await VideoFile.CopyToAsync(fileStream);
-            }
+            
 
             //ImageUrl = webRootPath;
 
             // upload new video into db
-            Video video = new Video
+            if (videoId is null)
             {
-                Name = Title,
-                Timestamp = DateTime.Now,
-                Transcript = Description,
-                Url = webRootPath,
-                LectureId = Lecture.Id
-            };
+                Video video = new Video
+                {
+                    Name = Title,
+                    Timestamp = DateTime.Now,
+                    Transcript = Description,
+                    Url = webRootPath!,
+                    LectureId = Lecture.Id
+                };
 
             _context.Add(video);
+            }
+            else
+            {
+                Video? video = await _context.Videos.FindAsync(videoId);
+                if (video is null)
+                    return NotFound();
+
+                video.Name = Title;
+                video.Transcript = Description;
+
+                if (webRootPath is not null)
+                {
+                    video.Url = webRootPath;
+                    video.Timestamp = DateTime.Now;
+                }
+            }
 
             await _context.SaveChangesAsync();
 
