@@ -1,0 +1,43 @@
+﻿@page
+@model GrowGreenWeb.Pages.Giving.User.viewUserPostModel
+@{
+	TempData["Title"] = "View User Posts";
+}
+@section Styles{
+	<link href="@Url.Content("~/css/GivingC/viewUserPost.css")" rel="stylesheet" type="text/css" />
+}
+<h1>View your own Giving Community Posts!</h1>
+
+
+<section class="section-products">
+		<div class="container">
+				<div class="row justify-content-center text-center">
+						<div class="col-md-8 col-lg-6">
+								<div class="header">
+										<h3>Featured Product</h3>
+										<h2>Your products : User 1</h2>
+								</div>
+						</div>
+				</div>
+				<div class="row">
+				
+					@foreach(var post in Model.PostList){
+						<div class="col-md-6 col-lg-4 col-xl-3">
+						<div id="product-1" class="single-product">
+						<div class="part-1" style="background : url(@post.Image);no-repeat center;background-size: cover;">
+												<ul>
+								<li><a class="text-reset text-decoration-none" href="/Giving/browsePost/@post.PostId"><i class="fas fa-shopping-cart"></i></a></li>
+									</ul>
+										</div>
+										<div class="part-2">
+												<h3 class="product-title">@post.Title</h3>
+												<h4 class="product-price">Location : @post.Location</h4>
+												<h4 class="product-price">Date Posted : @post.Timestamp</h4>
+
+										</div>
+								</div>
+						</div>
+					}
+					</div>
+		</div>
+</section>

@@ -14,6 +14,7 @@
             <th>Donated Amount</th>
             <th>Date</th>
             <th>Email</th>
+            <th>Delete Record</th>
         </tr>
     </thead>
     <tbody>
@@ -24,8 +25,43 @@
             <td>@d.Amount</td>
             <td>@d.DateTime</td>
             <td>@d.Email</td>
+            <td>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                    Delete Record
+                </button>
+                </td>
         </tr>
+
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        
+        <div class="row">
+            <h4>Are you sure you want to delete this record?</h4>
+        </div>
+      </div>
+      <div class="modal-footer">
+            <form method="POST" asp-page-handler = "delete">
+             <input type="hidden" name="id" value="@d.Id" />
+            <button type = "submit" class="btn btn-success">Yes</button>
+            <button type = "button" class="btn btn-danger">No</button>
+            </form>
+      </div>
+    </div>
+  </div>
+</div>
         }
 
     </tbody>
 </table
+
+
+
+
