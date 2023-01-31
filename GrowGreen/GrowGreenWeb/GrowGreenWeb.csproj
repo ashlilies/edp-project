@@ -8,14 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Pages\Shared\_LayoutLecturer.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="Pages\Shared\_LayoutLecturer.cshtml.css" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.12">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -57,7 +49,6 @@
     <Folder Include="Pages\Account" />
     <Folder Include="Pages\Admin\Newsletters\History" />
     <Folder Include="Pages\Admin\Newsletters\MailingList" />
-    <Folder Include="Pages\Courses\Viewer" />
     <Folder Include="wwwroot\uploads\courseThumbnail" />
     <Folder Include="wwwroot\uploads\newsletter" />
   </ItemGroup>

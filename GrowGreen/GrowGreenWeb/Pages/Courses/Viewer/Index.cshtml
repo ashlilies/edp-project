@@ -11,11 +11,11 @@
         <div class="mb-3 card p-2">
             <div class="card-body">
                 <h5>@Model.Course.Name</h5>
-                <hr/>
+                <hr />
                 <h5>
                     <a asp-page="QnA" asp-route-id="@Model.Course.Id" class="text-reset text-decoration-none">Q&amp;A</a>
                 </h5>
-                <hr/>
+                <hr />
                 <h5>Contents</h5>
             </div>
         </div>
@@ -25,7 +25,35 @@
             <div class="card-body">
                 <h3>@Model.Course.Name</h3>
                 <p>@Model.Course.Description</p>
+                <div class="row">
+                    <div class="col-4">
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#unregisterModal">
+                            Unregister
+                        </button>
+                    </div>
+                    <div class="col-8"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
+<!-- Modal -->
+<div class="modal fade" id="unregisterModal" tabindex="-1" aria-labelledby="unregisterModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="unregisterModalLabel">Are you sure you wish to unregister from this course?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <strong>This action cannot be undone.</strong><br />You will not be issued a refund!
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                <form asp-page="Unregister" asp-route-id="@Model.Course.Id" method="post">
+                    <button class="btn btn-danger">Yes</button>
+                </form>
             </div>
         </div>
     </div>

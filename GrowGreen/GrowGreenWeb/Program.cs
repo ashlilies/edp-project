@@ -1,6 +1,7 @@
 using System.Configuration;
 using System.Reflection;
 using GrowGreenWeb;
+using GrowGreenWeb.Data;
 using GrowGreenWeb.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
@@ -26,12 +27,12 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
             return Task.CompletedTask;
         };
     });
-var startup = new Startup(builder.Configuration);
-startup.ConfigureServices(builder.Services);
+
+// configure Stripe - for rh
+StripeConfiguration.SetApiKey(builder.Configuration.GetSection("Stripe")["SecretKey"]);
+builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
 
 var app = builder.Build();
-
-startup.Configure(app, builder.Environment);
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

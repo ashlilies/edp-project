@@ -1,0 +1,135 @@
+﻿@page
+@model GrowGreenWeb.Pages.Lecturer.Courses.Manage.ContentsModel
+@{
+    ViewData["Title"] = "Contents";
+}
+
+<h1>Course Management</h1>
+<div class="row">
+    @* Sidebar *@
+    <div class="col-3">
+        <div class="mb-3 card p-2">
+            <div class="card-body">
+                <h5>@Model.Course.Name</h5>
+                <a asp-page="Index" asp-route-id="@Model.Course.Id" class="text-reset text-decoration-none">Edit Course Details</a>
+                <hr/>
+                <h5>
+                    <a asp-page="QnA" asp-route-id="@Model.Course.Id" class="text-reset text-decoration-none">Q&amp;A</a>
+                </h5>
+                <hr/>
+                <h5>
+                    <span href="#" class="text-reset text-decoration-none">
+                        Contents&nbsp;
+                        <a asp-page="CreateLecture" asp-route-id="@Model.Course.Id" class="text-reset text-decoration-none">(Add)</a>
+                    </span>
+                </h5>
+                @foreach (var lecture in Model.Course.Lectures)
+                {
+                    <a asp-page="Contents" asp-route-id="@lecture.Course.Id" asp-route-lectureId="@lecture.Id"
+                       class="text-reset text-decoration-none">
+                        @lecture.Name
+                    </a>
+                    <br/>
+                }
+                <hr/>
+                <h5>
+                    <a asp-page="Quizzes" asp-route-id="@Model.Course.Id" class="text-reset text-decoration-none">Quizzes</a>
+                </h5>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-9 mb-3 card p-4">
+        <div>
+            <div class="row">
+                <div class="col-6">
+                    <h3 class="pt-2">@Model.Lecture.Name</h3>
+                </div>
+                <div class="col-3">
+                    <a asp-page="UpdateLecture" asp-route-id="@Model.Course.Id" asp-route-lectureId="@Model.Lecture.Id"
+                       class="btn btn-secondary w-100">
+                        Edit Details
+                    </a>
+                </div>
+                <div class="col-3">
+                    @*<a asp-page="DeleteLecture" asp-route-id="@Model.Course.Id" asp-route-lectureId="@Model.Lecture.Id" *@
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#deleteModal"
+                            class="btn btn-danger w-100">
+                        Delete
+                    </button>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-9">
+
+                    <h4 class="pt-2">Video Summary</h4>
+                </div>
+                <div class="col-3">
+                    <a asp-page="CreateVideo" asp-route-id="@Model.Course.Id" asp-route-lectureId="@Model.Lecture.Id"
+                       class="btn btn-success w-100">
+                        Upload Video
+                    </a>
+                </div>
+            </div>
+        </div>
+        @if (!Model.Lecture.Videos.Any())
+        {
+            <h5 class="mt-2">There are no videos yet. Perhaps add some?</h5>
+        }
+        @foreach (var video in Model.Lecture.Videos)
+        {
+            <div class="card mb-3 col-12 px-0">
+                <div class="row g-0">
+                    <div class="col-lg-2">
+                        @{
+                            string img;
+
+                            //TODO: Add image preview
+                            img = "/img/courses/no-preview.jpg";
+
+                            //if (lecture.ImageUrl is null)
+                            //{
+                            //    img = "/img/courses/default-course.png";
+                            //}
+                            //else
+                            //{
+                            //    img = lecture.ImageUrl;
+                            //}
+
+                            <img src="@img" class="card-img"
+                                 style="object-fit: cover; border-radius: 15px; height: 132.5px;"/>
+                        }
+                    </div>
+                    <div class="col-lg-8 ps-3">
+                        <div class="card-body">
+                            <h3>@video.Name</h3>
+                            By: <strong>@video.Transcript</strong>
+                            <div class="row pt-2">
+                                <div class="col-12">
+                                    <img src="/img/courses/Clock.png" class="icon"/>
+                                    <span>
+                                        Uploaded on @video.Timestamp.ToString("g")
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <div class="card-body h-100 text-center d-grid" style="place-content: center;">
+                            <a class="text-reset text-decoration-none"
+                               asp-page="Viewer/EditVideo" asp-route-id="@video.Id">
+                                <img src="/img/icons/right.png" class="icon icon-lg"/>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        <h4 class="mt-5">Select a video above to begin</h4>
+
+    </div>
+</div>
+<div class="modal fade" id="deleteModal">
+    <div class="modal-body">
+    </div>
+</div>
