@@ -6,10 +6,10 @@
 <div class="row">
     @* Sidebar *@
     <div class="col-3">
-        @{ await Html.RenderPartialAsync("_Sidebar");}
+        @{ await Html.RenderPartialAsync("_Sidebar"); }
     </div>
     <div class="col-9">
-@foreach (var video in Model.Lecture.Videos)
+        @foreach (var video in Model.Lecture.Videos)
         {
             <div class="card mb-3 col-12 px-0">
                 <div class="row g-0">
@@ -17,8 +17,8 @@
                         @{
                             string img;
 
-                            //TODO: Add image preview
-                            img = "/img/courses/no-preview.jpg";
+                            // img = "/img/courses/no-preview.jpg";
+                            img = video.PreviewUrl;
 
                             //if (lecture.ImageUrl is null)
                             //{
@@ -50,7 +50,7 @@
                     <div class="col-lg-2">
                         <div class="card-body h-100 text-center d-grid" style="place-content: center;">
                             <a class="text-reset text-decoration-none"
-                               asp-page="CreateVideo" asp-route-id="@Model.Course.Id" asp-route-lectureId="@Model.Lecture.Id" asp-route-videoId="@video.Id">
+                               asp-page="VideoViewer" asp-route-id="@Model.Course.Id" asp-route-lectureId="@Model.Lecture.Id" asp-route-videoId="@video.Id">
                                 <img src="/img/icons/right.png" class="icon icon-lg"/>
                             </a>
                         </div>

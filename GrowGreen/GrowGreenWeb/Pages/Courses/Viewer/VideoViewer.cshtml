@@ -4,5 +4,24 @@
     ViewData["Title"] = "VideoViewer";
 }
 
-<h1>VideoViewer</h1>
-
+<div class="row">
+    @* Sidebar *@
+    <div class="col-3">
+        @{ await Html.RenderPartialAsync("_Sidebar"); }
+    </div>
+    <div class="col-9">
+        <div class="mb-3 card p-2">
+            <div class="card-body">
+                <h3>@Model.Video.Name</h3>
+                <p class="text-muted">Published @Model.Video.Timestamp</p>
+                <hr/>
+                <video controls class="w-100">
+                    <source src="@Model.Video.Url" type="video/mp4">
+                </video>
+                <hr/>
+                <h5>By: @Model.Course.Lecturer.FullName</h5>
+                <p>@Model.Video.Transcript</p>
+            </div>
+        </div>
+    </div>
+</div>

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using GrowGreenWeb.Helpers;
 
 namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
 {
@@ -132,6 +133,12 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
                 {
                     await VideoFile.CopyToAsync(fileStream);
                 }
+                
+                // create a preview image
+                string outputImgPath = "wwwroot" + webRootPath + ".jpg";
+                string ffmpegVideoPath = "wwwroot" + webRootPath;
+                
+                FfmpegHelper.GetThumbnail(ffmpegVideoPath, outputImgPath, null);
             }
 
 
@@ -146,7 +153,8 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
                     Timestamp = DateTime.Now,
                     Transcript = Description,
                     Url = webRootPath!,
-                    LectureId = Lecture.Id
+                    LectureId = Lecture.Id,
+                    PreviewUrl = webRootPath! + ".jpg"
                 };
 
                 _context.Add(video);
@@ -164,6 +172,7 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
                 {
                     video.Url = webRootPath;
                     video.Timestamp = DateTime.Now;
+                    video.PreviewUrl = webRootPath + ".jpg";
                 }
             }
 
