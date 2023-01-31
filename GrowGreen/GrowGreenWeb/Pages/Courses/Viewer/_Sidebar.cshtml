@@ -11,6 +11,8 @@
     if (course is null)
         return;
 
+    List<Lecture> lectures = course.Lectures.OrderBy(l => l.Timestamp).ToList();
+    
     <div class="mb-3 card p-2">
         <div class="card-body">
 
@@ -22,7 +24,7 @@
             <hr/>
             <h5>Contents</h5>
 
-            @foreach (Lecture lecture in course.Lectures)
+            @foreach (Lecture lecture in lectures)
             {
                 <a asp-page="Contents" asp-route-courseId="@lecture.Course.Id"
                    asp-route-lectureId="@lecture.Id" class="text-reset text-decoration-none">

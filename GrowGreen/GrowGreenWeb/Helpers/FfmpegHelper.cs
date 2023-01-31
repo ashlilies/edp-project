@@ -24,7 +24,7 @@ public static class FfmpegHelper
     public static void GetThumbnail(string video, string outputJpgPath, string? velicina)
     {
         if (velicina == null)
-            velicina = "640x480";
+            velicina = "640x360";
 
         Exec(video, outputJpgPath, "-s " + velicina);
     }

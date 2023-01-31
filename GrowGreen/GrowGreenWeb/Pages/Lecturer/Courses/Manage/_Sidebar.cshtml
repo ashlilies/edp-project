@@ -1,5 +1,6 @@
 @using GrowGreenWeb.Models
 @using Microsoft.EntityFrameworkCore
+@using System.Linq
 @inject GrowGreenContext _context
 @{
     int courseId = ViewBag.CourseId;
@@ -9,6 +10,8 @@
 
     if (course is null)
         return;
+    
+    List<Lecture> lectures = course.Lectures.OrderBy(l => l.Timestamp).ToList();
     
     <div class="mb-3 card p-2">
         <div class="card-body">
@@ -25,7 +28,7 @@
                     <a asp-page="CreateLecture" asp-route-id="@Model.Course.Id" class="text-reset text-decoration-none">(Add)</a>
                 </span>
             </h5>
-            @foreach (var lecture in Model.Course.Lectures)
+            @foreach (var lecture in lectures)
             {
                 <a asp-page="Contents" asp-route-id="@lecture.Course.Id" asp-route-lectureId="@lecture.Id"
                    class="text-reset text-decoration-none">
