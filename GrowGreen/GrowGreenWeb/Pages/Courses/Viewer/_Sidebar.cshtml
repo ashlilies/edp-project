@@ -11,7 +11,10 @@
     if (course is null)
         return;
 
-    List<Lecture> lectures = course.Lectures.OrderBy(l => l.Timestamp).ToList();
+    List<Lecture> lectures = course.Lectures
+        .Where(l => l.StartDate <= DateTime.Today)
+        .OrderBy(l => l.Timestamp)
+        .ToList();
     
     <div class="mb-3 card p-2">
         <div class="card-body">
