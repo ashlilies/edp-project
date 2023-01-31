@@ -46,7 +46,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 app.UseSession(); // default timeout: 20 mins
-app.UseStatusCodePagesWithRedirects("/Error?id={0}");
+//app.UseStatusCodePagesWithRedirects("/Error?id={0}");
 app.UseAuthorization();
 
 app.MapRazorPages();

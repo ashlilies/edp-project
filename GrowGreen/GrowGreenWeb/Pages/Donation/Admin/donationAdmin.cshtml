@@ -6,6 +6,13 @@
 @section Styles{
     <link href="@Url.Content("~/css/Donation/admin.css")" rel="stylesheet" type="text/css" />
 }
+    @{
+    var totalAmt = 0;
+    @foreach(var d in Model.acceptedDonations){
+        totalAmt +=  Convert.ToInt32(@d.Amount) / 100;
+    }
+    <h1>Total Amount Donated : @totalAmt</h1>
+}
 <table class="styled-table" width="100%">
     <thead>
         <tr>
@@ -22,7 +29,10 @@
          <tr>
             <td>@d.Id</td>
             <td>@d.Remarks</td>
-            <td>@d.Amount</td>
+                @{
+                    int exactAmount = Convert.ToInt32(@d.Amount) / 100;
+                         <td>@exactAmount</td>
+                    }
             <td>@d.DateTime</td>
             <td>@d.Email</td>
             <td>

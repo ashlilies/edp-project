@@ -76,7 +76,7 @@
             <form method="POST" asp-page-handler="delete">
                 <input type="hidden" name="postId" value="@Model.post.PostId">
                 <button type="submit" class="btn btn-danger">Delete Post</button>
-                <a href="" class="btn btn-primary">Edit Post</a>
+                <a href="/Giving/Manage/editPost/@Model.post.PostId" class="btn btn-primary">Edit Post</a>
             </form>
         </div>
     }
