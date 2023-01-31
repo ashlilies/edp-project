@@ -63,6 +63,7 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
                 return Forbid();
 
             Course = course;
+            ViewData["CourseId"] = course.Id;
 
             CourseId = course.Id;
             Name = course.Name;

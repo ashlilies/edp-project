@@ -47,6 +47,8 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
                 return Forbid();
 
             Course = course;
+            ViewData["CourseId"] = course.Id;
+            
             Lecture? lecture = _context.Lectures
                 .Include(l => l.Videos)
                 .SingleOrDefault(l => l.Id == lectureId);
