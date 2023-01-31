@@ -7,45 +7,32 @@
 <div class="row">
     @* Sidebar *@
     <div class="col-3">
-        <div class="mb-3 card p-2">
-            <div class="card-body">
-                <h5>@Model.Course.Name</h5>
-                <a asp-page="Index" asp-route-id="@Model.Course.Id" class="text-reset text-decoration-none">Edit Course Details</a>
-                <hr />
-                <h5>
-                    <a asp-page="QnA" asp-route-id="@Model.Course.Id" class="text-reset text-decoration-none">Q&amp;A</a>
-                </h5>
-                <hr />
-                <h5>
-                    <span href="#" class="text-reset text-decoration-none">
-                        Contents&nbsp;
-                        <a asp-page="CreateLecture" asp-route-id="@Model.Course.Id" class="text-reset text-decoration-none">(Add)</a>
-                    </span>
-                </h5>
-                @foreach (var lecture in Model.Course.Lectures)
-                {
-                    <a asp-page="Contents" asp-route-id="@lecture.Course.Id" asp-route-lectureId="@lecture.Id"
-                   class="text-reset text-decoration-none">
-                        @lecture.Name
-                    </a>
-                    <br />
-                }
-                <hr />
-                <h5>
-                    <a asp-page="Quizzes" asp-route-id="@Model.Course.Id" class="text-reset text-decoration-none">Quizzes</a>
-                </h5>
-            </div>
-        </div>
+        @{await Html.RenderPartialAsync("_Sidebar");}
     </div>
     <div class="col-9">
         <form method="post" asp-page-handler="" asp-route-id="@Model.Course.Id" asp-route-lectureId="@Model.Lecture.Id"
+              asp-route-videoId="@Model.VideoEdit?.Id"
               enctype="multipart/form-data">
             <div class="mb-3 card p-2">
                 <div class="card-body">
-                    <h3>Upload Video for @Model.Lecture.Name</h3>
+                    @if (Model.VideoEdit is null)
+                    {
+                        <h3>Upload Video for @Model.Lecture.Name</h3>
+                    }
+                    else
+                    {
+                        <h3>Edit Video: @Model.VideoEdit.Name</h3>
+                    }
                     <div class="row">
+                        @if (Model.VideoEdit is not null)
+                        {
+                            <video width="320" height="240" controls>
+                                <source src="@Model.VideoEdit.Url" type="video/mp4">
+                            </video>
+                        }
+
                         <label asp-for="VideoFile" class="form-label"></label>
-                        <input asp-for="VideoFile" class="form-control" />
+                        <input asp-for="VideoFile" class="form-control"/>
                         <span asp-validation-for="VideoFile" class="text-danger"></span>
 
                         <label asp-for="Title" class="form-label"></label>
@@ -59,7 +46,15 @@
 
 
                     <div class="row text-end mt-3">
-                        <div class="col-3"></div>
+                        <div class="col-3">
+                            @if (Model.VideoEdit is not null)
+                            {
+                                <button type="button" class="btn btn-danger w-100" data-bs-toggle="modal"
+                                        data-bs-target="#deleteModal">
+                                    Delete
+                                </button>
+                            }
+                        </div>
                         <div class="col-3"></div>
                         <div class="col-3">
                             <button type="button" class="btn btn-secondary w-100" onclick="history.back()">Cancel</button>
@@ -75,8 +70,30 @@
     </div>
 </div>
 
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Delete Course</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you wish to do this? <strong>This cannot be undone!</strong>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+
+                <form method="post" asp-page-handler="Delete" asp-route-id="@Model.Course.Id" asp-route-lectureId="@Model.Lecture.Id"
+                      asp-route-videoId="@Model.VideoEdit?.Id">
+                    <button class="btn btn-danger">Yes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section Scripts
-    {
+{
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
