@@ -90,7 +90,7 @@ namespace GrowGreenWeb.Pages.Giving.User
                         postImage = string.Join(",", FileNames);
                     }
                 }
-
+                // create new post
                 Post newPost = new Post()
                 {
                     Timestamp = DateTime.Now,
@@ -103,8 +103,15 @@ namespace GrowGreenWeb.Pages.Giving.User
                     User = null,
                     GivingReviews = null,
             };
+        Completed completedPost = new Completed()
+                {
+                        DateTime = DateTime.Now,
+                        PostId = newPost.PostId,
+                        Tips = null,
+                };
 
             _context.Add(newPost);
+            _context.Add(completedPost);
             await _context.SaveChangesAsync();
             }
             return Page();

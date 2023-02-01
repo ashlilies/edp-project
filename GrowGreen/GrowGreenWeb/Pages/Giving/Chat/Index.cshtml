@@ -3,6 +3,9 @@
 @{
     TempData["Title"] = "Chat";
 }
+<form method="POST" enctype="multipart/form-data" asp-page-handler="send">
+    <input type="hidden" value="@Model.Id" name="postId"/>
+    <input type="hidden" value="@Model.userId" name="userId" />
     <div class="container">
         <div class="row p-1">
             <div class="col-1">User</div>
@@ -14,7 +17,7 @@
         </div>
         <div class="row p-1">
             <div class="col-6 text-end">
-                <input type="button" id="sendButton" value="Send Message"/>
+                <input type="submit" id="sendButton" value="Send Message"/>
             </div>
         </div>
         <div class="row p-1">
@@ -28,5 +31,6 @@
             </div>
         </div>
     </div>
+</form>
 <script src="~/microsoft/signalr/dist/browser/signalr.js"></script>
 <script src="~/js/Giving/chat.js"></script>
