@@ -39,7 +39,9 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
 
             CurrentUser = user;
 
-            Course? course = await _context.Courses.FindAsync(id);
+            Course? course = await _context.Courses
+                .Include(c => c.Lectures)
+                .SingleOrDefaultAsync(c => c.Id == id);
             if (course is null)
                 return NotFound();
 
@@ -47,6 +49,7 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
                 return Forbid();
 
             Course = course;
+            ViewData["CourseId"] = course.Id;
 
             List<Chat> chats = _context.Chats
                 .Include(c => c.User)

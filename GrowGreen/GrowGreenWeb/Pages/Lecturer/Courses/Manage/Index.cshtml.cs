@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using GrowGreenWeb.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 
 namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
 {
@@ -27,6 +28,9 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
         [BindProperty, Required, DisplayName("Ending Availability Date"), DataType(DataType.Date)]
 
         public DateTime EndDate { get; set; } = DateTime.Today.AddYears(1);
+
+        [BindProperty, Required, DisplayName("Max Capacity"), Range(1, 10000)]
+        public int MaxCapacity { get; set; } = 100;
 
         [BindProperty, DisplayName("New course thumbnail (jpg/jpeg/png)")]
         public IFormFile? Upload { get; set; }
@@ -49,7 +53,9 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
             // todo: add account system support
             int lecturerId = TemporaryConstants.LecturerId;
 
-            Course? course = await _context.Courses.FindAsync(id);
+            Course? course = await _context.Courses
+                .Include(c => c.Lectures)
+                .SingleOrDefaultAsync(c => c.Id == id);
             if (course is null)
                 return NotFound();
 
@@ -57,12 +63,14 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
                 return Forbid();
 
             Course = course;
+            ViewData["CourseId"] = course.Id;
 
             CourseId = course.Id;
             Name = course.Name;
             Description = course.Description;
             StartDate = course.StartDate;
             EndDate = course.EndDate;
+            MaxCapacity = course.MaxCapacity;
 
             if (ImageUrl == null) // handle update image case
                 ImageUrl = course.ImageUrl;
@@ -111,6 +119,7 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
             course.StartDate = StartDate;
             course.EndDate = EndDate;
             course.ImageUrl = ImageUrl;
+            course.MaxCapacity = MaxCapacity;
 
             _context.Update(course);
             await _context.SaveChangesAsync();

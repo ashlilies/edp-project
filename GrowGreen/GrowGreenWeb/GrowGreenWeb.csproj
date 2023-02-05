@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -19,6 +19,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.11" />
+    <PackageReference Include="Stripe.net" Version="41.4.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -47,7 +48,6 @@
     <Folder Include="Pages\Account" />
     <Folder Include="Pages\Admin\Newsletters\History" />
     <Folder Include="Pages\Admin\Newsletters\MailingList" />
-    <Folder Include="Pages\Courses\Viewer" />
     <Folder Include="wwwroot\uploads\courseThumbnail" />
     <Folder Include="wwwroot\uploads\newsletter" />
   </ItemGroup>

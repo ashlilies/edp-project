@@ -16,6 +16,7 @@ namespace GrowGreenWeb.Models
         public string Description { get; set; } = null!;
         public DateTime Timestamp { get; set; }
         public int CourseId { get; set; }
+        public DateTime StartDate { get; set; }
 
         public virtual Course Course { get; set; } = null!;
         public virtual ICollection<Quiz> Quizzes { get; set; }
