@@ -1,0 +1,62 @@
+@page
+@model GrowGreenWeb.Pages.Courses.Viewer.ContentsModel
+@{
+    ViewData["Title"] = "Contents";
+}
+<div class="row">
+    @* Sidebar *@
+    <div class="col-3">
+        @{ await Html.RenderPartialAsync("_Sidebar"); }
+    </div>
+    <div class="col-9">
+        @foreach (var video in Model.Lecture.Videos)
+        {
+            <div class="card mb-3 col-12 px-0">
+                <div class="row g-0">
+                    <div class="col-lg-2">
+                        @{
+                            string img;
+
+                            // img = "/img/courses/no-preview.jpg";
+                            img = video.PreviewUrl;
+
+                            //if (lecture.ImageUrl is null)
+                            //{
+                            //    img = "/img/courses/default-course.png";
+                            //}
+                            //else
+                            //{
+                            //    img = lecture.ImageUrl;
+                            //}
+
+                            <img src="@img" class="card-img"
+                                 style="object-fit: cover; border-radius: 15px; height: 132.5px;"/>
+                        }
+                    </div>
+                    <div class="col-lg-8 ps-3">
+                        <div class="card-body">
+                            <h3>@video.Name</h3>
+                            By: <strong>@video.Transcript</strong>
+                            <div class="row pt-2">
+                                <div class="col-12">
+                                    <img src="/img/courses/Clock.png" class="icon"/>
+                                    <span>
+                                        Uploaded on @video.Timestamp.ToString("g")
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <div class="card-body h-100 text-center d-grid" style="place-content: center;">
+                            <a class="text-reset text-decoration-none"
+                               asp-page="VideoViewer" asp-route-id="@Model.Course.Id" asp-route-lectureId="@Model.Lecture.Id" asp-route-videoId="@video.Id">
+                                <img src="/img/icons/right.png" class="icon icon-lg"/>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
