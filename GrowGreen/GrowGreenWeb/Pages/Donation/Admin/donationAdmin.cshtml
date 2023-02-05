@@ -1,0 +1,77 @@
+﻿@page
+@model GrowGreenWeb.Pages.Donation.Admin.donationAdminModel
+@{
+    TempData["Title"] = "Donation Admin Page";
+}
+@section Styles{
+    <link href="@Url.Content("~/css/Donation/admin.css")" rel="stylesheet" type="text/css" />
+}
+    @{
+    var totalAmt = 0;
+    @foreach(var d in Model.acceptedDonations){
+        totalAmt +=  Convert.ToInt32(@d.Amount) / 100;
+    }
+    <h1>Total Amount Donated : @totalAmt</h1>
+}
+<table class="styled-table" width="100%">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Remarks</th>
+            <th>Donated Amount</th>
+            <th>Date</th>
+            <th>Email</th>
+            <th>Delete Record</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var d in Model.acceptedDonations){
+         <tr>
+            <td>@d.Id</td>
+            <td>@d.Remarks</td>
+                @{
+                    int exactAmount = Convert.ToInt32(@d.Amount) / 100;
+                         <td>@exactAmount</td>
+                    }
+            <td>@d.DateTime</td>
+            <td>@d.Email</td>
+            <td>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                    Delete Record
+                </button>
+                </td>
+        </tr>
+
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        
+        <div class="row">
+            <h4>Are you sure you want to delete this record?</h4>
+        </div>
+      </div>
+      <div class="modal-footer">
+            <form method="POST" asp-page-handler = "delete">
+             <input type="hidden" name="id" value="@d.Id" />
+            <button type = "submit" class="btn btn-success">Yes</button>
+            <button type = "button" class="btn btn-danger">No</button>
+            </form>
+      </div>
+    </div>
+  </div>
+</div>
+        }
+
+    </tbody>
+</table
+
+
+
+

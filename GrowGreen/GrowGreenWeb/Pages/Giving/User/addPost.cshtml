@@ -1,0 +1,75 @@
+﻿@page
+@model GrowGreenWeb.Pages.Giving.User.addPostModel
+@{
+    TempData["Title"] = "Add Post";
+}
+
+@section scripts{
+    <script type="text/javascript">
+        var ul = document.getElementById("PictureList");
+        function PictureChange(files) {
+            ul.replaceChildren();
+            ul.style = "list-style-type: none;"
+            if (files.length > 5){
+                alert("pls do not upload more than 5 images");
+                location.reload();
+            }
+            else{
+                for (let i = 0; i < files.length; i++) {
+                    var img = document.createElement("img");
+                    img.style.width = '100px';
+                    img.style.height = '100px';
+                    img.src = window.URL.createObjectURL(files[i]);
+                    ul.appendChild(img);
+                }
+            }
+
+        }
+    </script>
+}
+<div class="container">
+    <div class="row">
+
+        <div class="col-md-8 col-md-offset-2">
+
+            <h1>Create post</h1>
+
+                <form action="" method="POST" enctype="multipart/form-data">
+
+                <div class="form-group has-error">
+                    <label for="Title">Title <span class="required">*</span><small>(This field used to enter the title)</small></label>
+                    <input type="text" class="form-control" name="postTitle" />
+                </div>
+
+                <div class="form-group">
+                    <label for="title">Location<span class="require">*</span></label>
+                    <input type="text" class="form-control" name="postLocation" />
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea rows="5" class="form-control" name="postDescription"></textarea>
+                </div>
+
+                    <div class="form-group">
+                        <input type="file" class="form-control-file" id="exampleFormControlFile1" name="Upload" multiple="multiple"
+                           onchange="PictureChange(this.files);">
+                        <div class="row" id="PictureList">
+                        </div>
+                    </div>
+                <div class="form-group">
+                    <p><span class="require">*</span> - required fields</p>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">
+                        Create
+                    </button>
+                    <button class="btn btn-default">
+                        Cancel
+                    </button>
+                </div>
+
+            </form>
+        </div>
+

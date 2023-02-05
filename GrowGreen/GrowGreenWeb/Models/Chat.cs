@@ -15,13 +15,16 @@ namespace GrowGreenWeb.Models
         public DateTime Timestamp { get; set; }
         public string Content { get; set; } = null!;
         public bool IsReadByLecturer { get; set; }
+        public bool isRead { get; set; }
         public int UserId { get; set; }
         public DateTime? EditedTimestamp { get; set; }
+        public string? PostId { get; set; }
         public int? CourseId { get; set; }
         public int? ReplyToChatId { get; set; }
         public string? AttachmentUrl { get; set; }
 
         public virtual Course? Course { get; set; }
+        public virtual Post? Post { get; set; }
         public virtual Chat? ReplyToChat { get; set; }
         public virtual User User { get; set; } = null!;
         public virtual ICollection<ChatReport> ChatReports { get; set; }

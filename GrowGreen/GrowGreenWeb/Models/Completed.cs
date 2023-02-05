@@ -14,6 +14,6 @@ namespace GrowGreenWeb.Models
         public DateTime DateTime { get; set; }
         public int PostId { get; set; }
 
-        public virtual ICollection<Tip> Tips { get; set; }
+        public virtual ICollection<Tip>? Tips { get; set; }
     }
 }

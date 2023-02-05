@@ -11,7 +11,7 @@ using Stripe;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+builder.Services.AddSignalR();
 builder.Services.AddRazorPages();
 builder.Services.AddDbContext<GrowGreenContext>(options =>
 {
@@ -45,10 +45,11 @@ if (!app.Environment.IsDevelopment())
 }
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+app.MapHub<GrowGreenWeb.Pages.Giving.Chat.SignalRServer>("/chathub");
 
 app.UseRouting();
 app.UseSession(); // default timeout: 20 mins
-app.UseStatusCodePagesWithRedirects("/Error?id={0}");
+//app.UseStatusCodePagesWithRedirects("/Error?id={0}");
 app.UseAuthorization();
 
 app.MapRazorPages();

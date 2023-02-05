@@ -8,6 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNet.SignalR.Core" Version="2.4.3" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Common" Version="7.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.12">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -23,6 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <_ContentIncludedByDefault Remove="Pages\Shared\_LayoutGiving.cshtml" />
     <_ContentIncludedByDefault Remove="wwwroot\img\carousel\1.jpg" />
     <_ContentIncludedByDefault Remove="wwwroot\img\carousel\2.jpg" />
     <_ContentIncludedByDefault Remove="wwwroot\img\carousel\3.jpg" />
@@ -50,6 +53,16 @@
     <Folder Include="Pages\Admin\Newsletters\MailingList" />
     <Folder Include="wwwroot\uploads\courseThumbnail" />
     <Folder Include="wwwroot\uploads\newsletter" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Pages\Shared\_LayoutGiving.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Pages\Shared\_LayoutGiving.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

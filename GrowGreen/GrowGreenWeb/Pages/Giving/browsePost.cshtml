@@ -1,0 +1,152 @@
+﻿@page "{postId}"
+@model GrowGreenWeb.Pages.Giving.browsePostModel
+@{
+    TempData["Title"] = "Browse Posts";
+}
+
+
+@section Styles{
+    <link href="@Url.Content("~/css/Donation/admin.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/css/GivingC/browsePost.css")" rel="stylesheet" type="text/css" />
+}
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('.color-choose input').on('click', function () {
+                var headphonesColor = $(this).attr('data-image');
+
+                $('.active').removeClass('active');
+                $('.left-column img[data-image = ' + headphonesColor + ']').addClass('active');
+                $(this).addClass('active');
+            });
+
+        });</script>
+}        @if (Model.post != null)
+{
+    <main class="container1">
+
+        <div class="left-column">
+            <img data-image="black" src="~/favicon.ico" alt="" height="200" width="200">
+            <img data-image="blue" src="images/blue.png" alt="" height="200" width="200">
+            <img data-image="red" class="active" src="images/red.png" alt="" height="200" width="200">
+        </div>
+
+
+        <div class="right-column">
+
+            <div class="product-description">
+                <span>Grow Green Post</span>
+                <h1>@Model.post.Title</h1>
+                <p>@Model.post.Description</p>
+
+            </div>
+
+
+            <div class="product-configuration">
+                <div class="product-color">
+                    <span>Images</span>
+
+                    <div class="color-choose">
+                        <div>
+                            <input data-image="red" type="radio" id="red" name="color" value="red" checked>
+                            <label for="red"><span></span></label>
+                        </div>
+                        <div>
+                            <input data-image="blue" type="radio" id="blue" name="color" value="blue">
+                            <label for="blue"><span></span></label>
+                        </div>
+                        <div>
+                            <input data-image="black" type="radio" id="black" name="color" value="black">
+                            <label for="black"><span></span></label>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="product-price">
+                    <span>Listers Location : @Model.post.Location</span>
+                    <form method="POST" asp-page-handler="chat">
+                    <input type="hidden" name="postId" value="@Model.post.PostId">
+                      <input type="hidden" name="userId" value="2">
+                    <button class="cart-btn" type="submit">Chat!</button>
+                    </form>
+               
+            </div>
+        </div>
+    </main>
+    @*check if post belongs to current user (hard coded for now)*@
+    @if (Model.userId == 1)
+    {
+        <div class="container1">
+            <form method="POST" asp-page-handler="delete">
+                <input type="hidden" name="postId" value="@Model.post.PostId">
+                <button type="submit" class="btn btn-danger">Delete Post</button>
+                <a href="/Giving/Manage/editPost/@Model.post.PostId" class="btn btn-primary">Edit Post</a>
+            </form>
+        </div>
+
+        // request part
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+            View Post Chat Requests
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                     <table class="styled-table" width="100%">
+                        <thead>
+                        <tr>
+                                <th>Post ID</th>
+                                <th>Date Sent</th>
+                                <th>Accepted Status</th>
+                                <th>Sender ID</th>
+                                <th>Accept record</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @foreach(var req in Model.requests){
+                         <tr>
+                            <td>@req.PostId</td>
+                            <td>@req.DateSent</td>
+                            <td>@req.AcceptedStatus</td>
+                            <td>@req.SenderId</td>
+                            @if (req.AcceptedStatus == false){
+                             <td>
+                                  <form method="POST" asp-page-handler="Accept">
+                                   <input type="hidden" name="postId" value="@req.PostId">
+                                   <input type="hidden" name="senderId" value="@req.SenderId">
+                                    <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                                    Accept
+                                    </button>
+                                  </form>
+                            </td>
+                            }
+                            else{
+                                <td><button class="btn btn-primary">Chat!</button></td>
+                            }
+                        </tr>
+                        }
+            </tbody>
+            </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    }
+    }
