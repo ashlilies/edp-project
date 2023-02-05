@@ -87,9 +87,6 @@
             </form>
         </div>
 
-
-
-
         // request part
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
             View Post Chat Requests
@@ -123,15 +120,20 @@
                             <td>@req.DateSent</td>
                             <td>@req.AcceptedStatus</td>
                             <td>@req.SenderId</td>
-                            <td>
-                                <form method="POST" asp-page-handler="Accept" >
-                                <input type="hidden" name="postId" value="@req.PostId">
-                                <input type="hidden" name="senderId" value="@req.SenderId">
-                                <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                            @if (req.AcceptedStatus == false){
+                             <td>
+                                  <form method="POST" asp-page-handler="Accept">
+                                   <input type="hidden" name="postId" value="@req.PostId">
+                                   <input type="hidden" name="senderId" value="@req.SenderId">
+                                    <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                                     Accept
-                                </button>
-                                </form>
+                                    </button>
+                                  </form>
                             </td>
+                            }
+                            else{
+                                <td><button class="btn btn-primary">Chat!</button></td>
+                            }
                         </tr>
                         }
             </tbody>
