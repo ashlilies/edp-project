@@ -7,49 +7,30 @@
 <div class="row">
     @* Sidebar *@
     <div class="col-3">
-        <div class="mb-3 card p-2">
-            <div class="card-body">
-                <h5>@Model.Course.Name</h5>
-                <a asp-page="Index" asp-route-id="@Model.Course.Id" class="text-reset text-decoration-none">Edit Course Details</a>
-                <hr />
-                <h5>
-                    <a asp-page="QnA" asp-route-id="@Model.Course.Id" class="text-reset text-decoration-none">Q&amp;A</a>
-                </h5>
-                <hr />
-                <h5>
-                    <span href="#" class="text-reset text-decoration-none">
-                        Contents&nbsp;
-                        <a asp-page="CreateLecture" asp-route-id="@Model.Course.Id" class="text-reset text-decoration-none">(Add)</a>
-                    </span>
-                </h5>
-                @foreach (var lecture in Model.Course.Lectures)
-                {
-                    <a asp-page="Contents" asp-route-id="@lecture.Course.Id" asp-route-lectureId="@lecture.Id"
-                   class="text-reset text-decoration-none">
-                        @lecture.Name
-                    </a>
-                }
-                <hr />
-                <h5>
-                    <a asp-page="Quizzes" asp-route-id="@Model.Course.Id" class="text-reset text-decoration-none">Quizzes</a>
-                </h5>
-            </div>
-        </div>
+        @{ await Html.RenderPartialAsync("_Sidebar"); }
     </div>
+
     <div class="col-9">
-        <form method="post" asp-page-handler="" asp-route-id="@Model.Course.Id">
+        <form method="post" asp-page-handler="" asp-route-id="@Model.Course.Id" asp-route-lectureId="@Model.LectureEdit?.Id">
             <div class="mb-3 card p-2">
                 <div class="card-body">
-                    <h3>Create Lecture</h3>
+                    @if (Model.LectureEdit is not null)
+                    {
+                        <h3>Create Lecture</h3>
+                    }
+                    else
+                    {
+                        <h3>Update Lecture Details</h3>
+                    }
                     <div class="row">
                         <div class="col-12">
                             <label asp-for="Title" class="form-label"></label>
-                            <input asp-for="Title" class="form-control" />
+                            <input asp-for="Title" class="form-control"/>
                             <span asp-validation-for="Title" class="text-danger"></span>
 
                             <div class="col-12">
                                 <label asp-for="StartDate" class="form-label"></label>
-                                <input asp-for="StartDate" class="form-control" />
+                                <input asp-for="StartDate" class="form-control"/>
                                 <span asp-validation-for="StartDate" class="text-danger"></span>
                             </div>
 
@@ -74,13 +55,14 @@
                         </div>
                     </div>
                 </div>
+            </div>
         </form>
 
     </div>
 </div>
 
 @section Scripts
-    {
+{
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }

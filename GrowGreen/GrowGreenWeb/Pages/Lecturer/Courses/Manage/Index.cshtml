@@ -8,34 +8,7 @@
 <div class="row">
     @* Sidebar *@
     <div class="col-3">
-        <div class="mb-3 card p-2">
-            <div class="card-body">
-                <h5>@Model.Course.Name</h5>
-                <a asp-page="Index" asp-route-id="@Model.Course.Id" class="text-reset text-decoration-none">Edit Course Details</a>
-                <hr />
-                <h5>
-                    <a asp-page="QnA" asp-route-id="@Model.Course.Id" class="text-reset text-decoration-none">Q&amp;A</a>
-                </h5>
-                <hr />
-                <h5>
-                    <span href="#" class="text-reset text-decoration-none">
-                        Contents&nbsp;
-                        <a asp-page="CreateLecture" asp-route-id="@Model.Course.Id" class="text-reset text-decoration-none">(Add)</a>
-                    </span>
-                </h5>
-                @foreach (var lecture in Model.Course.Lectures)
-                {
-                    <a asp-page="Contents" asp-route-id="@lecture.Course.Id" asp-route-lectureId="@lecture.Id"
-                   class="text-reset text-decoration-none">
-                        @lecture.Name
-                    </a>
-                }
-                <hr />
-                <h5>
-                    <a asp-page="Quizzes" asp-route-id="@Model.Course.Id" class="text-reset text-decoration-none">Quizzes</a>
-                </h5>
-            </div>
-        </div>
+        @{await Html.RenderPartialAsync("_Sidebar");}
     </div>
 
     <div class="col-9">

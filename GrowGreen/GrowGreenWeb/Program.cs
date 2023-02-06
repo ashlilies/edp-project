@@ -1,12 +1,17 @@
 using System.Configuration;
 using System.Reflection;
+using GrowGreenWeb;
+using GrowGreenWeb.Data;
 using GrowGreenWeb.Models;
+using GrowGreenWeb.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+using Stripe;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
 builder.Services.AddRazorPages();
 builder.Services.AddDbContext<GrowGreenContext>(options =>
 {
@@ -14,6 +19,7 @@ builder.Services.AddDbContext<GrowGreenContext>(options =>
 });
 
 builder.Services.AddSession();
+builder.Services.AddTransient<SidebarService>();
 
 // redirect to 403 on Forbid()
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -24,16 +30,19 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         };
     });
 
+// configure Stripe - for rh
+StripeConfiguration.SetApiKey(builder.Configuration.GetSection("Stripe")["SecretKey"]);
+builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Error");
+    app.UseDeveloperExceptionPage();
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 

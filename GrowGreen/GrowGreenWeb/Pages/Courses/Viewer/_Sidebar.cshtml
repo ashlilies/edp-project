@@ -1,0 +1,40 @@
+@using GrowGreenWeb.Models
+@using Microsoft.EntityFrameworkCore
+@inject GrowGreenContext _context
+@{
+    int courseId = ViewBag.CourseId;
+    
+    Course? course = await _context.Courses
+        .Include(c => c.Lectures)
+        .SingleOrDefaultAsync(c => c.Id == courseId);
+
+    if (course is null)
+        return;
+
+    List<Lecture> lectures = course.Lectures
+        .Where(l => l.StartDate <= DateTime.Today)
+        .OrderBy(l => l.Timestamp)
+        .ToList();
+    
+    <div class="mb-3 card p-2">
+        <div class="card-body">
+
+            <h5>@course.Name</h5>
+            <hr/>
+            <h5>
+                <a asp-page="QnA" asp-route-id="@Model.Course.Id" class="text-reset text-decoration-none">Q&amp;A</a>
+            </h5>
+            <hr/>
+            <h5>Contents</h5>
+
+            @foreach (Lecture lecture in lectures)
+            {
+                <a asp-page="Contents" asp-route-courseId="@lecture.Course.Id"
+                   asp-route-lectureId="@lecture.Id" class="text-reset text-decoration-none">
+                    @lecture.Name
+                </a>
+                <br/>
+            }
+        </div>
+    </div>
+}

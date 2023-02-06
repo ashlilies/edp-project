@@ -49,6 +49,7 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
                 return Forbid();
 
             Course = course;
+            ViewData["CourseId"] = course.Id;
 
             List<Chat> chats = _context.Chats
                 .Include(c => c.User)
