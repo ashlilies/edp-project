@@ -8,13 +8,21 @@
     <div class="col-6">
         <h1>My Courses</h1>
     </div>
+    <div>
+        <form>
+            <p>
+                Course Title: <input type="text" name="SearchQuery">
+                <input type="submit" value="Filter"/>
+            </p>
+        </form>
+    </div>
     <div class="col-6 text-end">
         <a class="btn btn-success bg-3 me-2" asp-page="Create">
             New course
             <img src="/img/icons/plus.png" class="icon icon-btn"/>
         </a>
-        <a href="#" class="btn btn-success bg-5">
-            Search/Filter
+        <a asp-page="SearchQuery" class="btn btn-success bg-5">
+            Search
             <img src="/img/icons/filter.png" class="icon icon-btn"/>
         </a>
     </div>
