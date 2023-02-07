@@ -16,6 +16,18 @@ public class RecyclerService
     static string _testTagsTsv = Path.Combine(_imagesFolder, "test-tags.tsv");
     static string _predictSingleImage = Path.Combine(_imagesFolder, "toaster3.jpg");
     static string _inceptionTensorFlowModel = Path.Combine(_assetsPath, "inception", "tensorflow_inception_graph.pb");
+
+    public static void Execute()
+    {
+        MLContext mlContext = new MLContext();
+
+        
+    }
+    
+    void ClassifySingleImage(MLContext mlContext, ITransformer model)
+    {
+
+    }
     
     void DisplayResults(IEnumerable<ImagePrediction> imagePredictionData)
     {
