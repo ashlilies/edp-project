@@ -8,6 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="dotenv.net" Version="3.1.2" />
+    <PackageReference Include="jQuery" Version="3.6.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.12">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -20,8 +22,8 @@
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.11" />
     <PackageReference Include="Microsoft.Web.LibraryManager.Build" Version="2.1.175" />
+    <PackageReference Include="SendGrid" Version="9.28.1" />
     <PackageReference Include="Stripe.net" Version="41.4.0" />
-    <PackageReference Include="summernote.editor" Version="0.8.10" />
   </ItemGroup>
 
   <ItemGroup>
@@ -39,6 +41,18 @@
     <_ContentIncludedByDefault Remove="Areas\Lecturer\Pages\Index.cshtml" />
     <_ContentIncludedByDefault Remove="Areas\Lecturer\Pages\_ViewImports.cshtml" />
     <_ContentIncludedByDefault Remove="Areas\Lecturer\_ViewStart.cshtml" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\summernote\font\summernote.eot" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\summernote\font\summernote.ttf" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\summernote\font\summernote.woff" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\summernote\font\summernote.woff2" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\summernote\plugin\databasic\summernote-ext-databasic.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\summernote\plugin\databasic\summernote-ext-databasic.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\summernote\plugin\databasic\summernote-ext-databasic.min.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\summernote\plugin\databasic\summernote-ext-databasic.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\summernote\plugin\hello\summernote-ext-hello.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\summernote\plugin\hello\summernote-ext-hello.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\summernote\plugin\specialchars\summernote-ext-specialchars.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\lib\summernote\plugin\specialchars\summernote-ext-specialchars.min.js" />
   </ItemGroup>
 
   <ItemGroup>
@@ -50,6 +64,7 @@
     <Folder Include="Pages\Account" />
     <Folder Include="Pages\Admin\Newsletters\History" />
     <Folder Include="Pages\Admin\Newsletters\MailingList" />
+    <Folder Include="Pages\Recycler" />
     <Folder Include="wwwroot\uploads\courseThumbnail" />
     <Folder Include="wwwroot\uploads\newsletter" />
   </ItemGroup>

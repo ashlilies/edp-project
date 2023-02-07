@@ -22,18 +22,19 @@
     @* <div class="col-9"> *@
     <div class="mb-3 card p-2">
         <div class="card-body">
-            <form method="post" asp-page-handler="">
+            <form method="post" asp-page-handler="" id="form">
                 <h3>Compose Newsletter</h3>
                 <p>Compose a newsletter to send to all subscribers.</p>
 
-                <textarea asp-for="Message" class="form-control"></textarea>
+                <textarea asp-for="Message" class="form-control" hidden id="ta-input"></textarea>
+                <div class="summernote" id="summernote-1">@Model.Message</div>
                 <span asp-validation-for="Message" class="text-danger"></span>
                 <button type="button" data-bs-toggle="modal" data-bs-target="#imageModal"
                         class="btn btn-primary bg-6 w-100 mt-2">
                     Upload Image
                 </button>
 
-                <button class="btn btn-success w-100 mt-4">Send to @Model.RecipientCount recipients</button>
+                <button type="button" onclick="submitForm()" class="btn btn-success w-100 mt-4">Send to @Model.RecipientCount recipients</button>
             </form>
         </div>
     </div>
@@ -62,3 +63,19 @@
         </div>
     </form>
 </div>
+
+@section Scripts
+{ 
+    <script>
+    $(document).ready(function() {
+      $('.summernote').summernote();
+    });
+    
+    function submitForm() {
+        var markupStr = $('#summernote-1').summernote('code');
+        console.log(markupStr);
+        $('#ta-input').val(markupStr);
+        $('#form').submit();
+    }
+    </script>
+}

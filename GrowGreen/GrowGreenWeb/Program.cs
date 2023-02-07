@@ -1,5 +1,6 @@
 using System.Configuration;
 using System.Reflection;
+using dotenv.net;
 using GrowGreenWeb;
 using GrowGreenWeb.Data;
 using GrowGreenWeb.Models;
@@ -7,6 +8,7 @@ using GrowGreenWeb.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
+DotEnv.Load();
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -20,6 +22,7 @@ builder.Services.AddDbContext<GrowGreenContext>(options =>
 builder.Services.AddSession();
 builder.Services.AddTransient<SidebarService>();
 builder.Services.AddSingleton<AccountService>();
+builder.Services.AddTransient<EmailService>();
 
 // redirect to 403 on Forbid()
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
