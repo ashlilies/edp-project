@@ -49,7 +49,7 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
 
             Course = course;
             ViewData["CourseId"] = course.Id;
-            
+
             Lecture? lecture = _context.Lectures
                 .Include(l => l.Videos)
                 .SingleOrDefault(l => l.Id == lectureId);
@@ -133,11 +133,11 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
                 {
                     await VideoFile.CopyToAsync(fileStream);
                 }
-                
+
                 // create a preview image
                 string outputImgPath = "wwwroot" + webRootPath + ".jpg";
                 string ffmpegVideoPath = "wwwroot" + webRootPath;
-                
+
                 FfmpegHelper.GetThumbnail(ffmpegVideoPath, outputImgPath, null);
             }
 
@@ -158,6 +158,9 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
                 };
 
                 _context.Add(video);
+
+                TempData["FlashMessage.Type"] = "success";
+                TempData["FlashMessage.Text"] = "Successfully uploaded video";
             }
             else
             {
@@ -174,12 +177,13 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
                     video.Timestamp = DateTime.Now;
                     video.PreviewUrl = webRootPath + ".jpg";
                 }
+
+                TempData["FlashMessage.Type"] = "success";
+                TempData["FlashMessage.Text"] = "Successfully updated video";
             }
 
             await _context.SaveChangesAsync();
 
-            TempData["FlashMessage.Type"] = "success";
-            TempData["FlashMessage.Text"] = "Successfully uploaded video";
 
             return RedirectToPage("Contents", new { id, lectureId });
         }
@@ -206,8 +210,8 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
             if (lecture is null)
                 return NotFound();
             if (lecture.CourseId != course.Id)
-                return Forbid(); 
-            
+                return Forbid();
+
             // delete the video
             Video? video = _context.Videos.Find(videoId);
             if (video is null)
@@ -217,7 +221,7 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
 
             _context.Remove(video);
             _context.SaveChanges();
-            
+
             return RedirectToPage("Contents", new { id, lectureId });
         }
     }
