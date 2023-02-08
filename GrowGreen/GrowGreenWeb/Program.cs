@@ -21,7 +21,7 @@ builder.Services.AddDbContext<GrowGreenContext>(options =>
 
 builder.Services.AddSession();
 builder.Services.AddTransient<SidebarService>();
-builder.Services.AddSingleton<AccountService>();
+builder.Services.AddTransient<AccountService>();
 builder.Services.AddTransient<EmailService>();
 
 // redirect to 403 on Forbid()

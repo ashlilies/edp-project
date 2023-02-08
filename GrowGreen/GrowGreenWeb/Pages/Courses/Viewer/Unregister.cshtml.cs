@@ -9,6 +9,7 @@ namespace GrowGreenWeb.Pages.Courses.Viewer
     {
         public User Learner { get; set; } = null!;
         private readonly GrowGreenContext _context;
+
         public UnregisterModel(GrowGreenContext context)
         {
             _context = context;
@@ -25,21 +26,24 @@ namespace GrowGreenWeb.Pages.Courses.Viewer
                 return Forbid();
             Learner = learner;
 
-            Course? course = await _context.Courses.Include(c => c.Learners).SingleOrDefaultAsync(c => c.Id == id);
-            if (course is null)
+            CourseSignup? courseSignup = await _context.CourseSignups
+                .Include(cs => cs.Course)
+                .Include(cs => cs.Learner)
+                .SingleOrDefaultAsync(cs => cs.CourseId == id);
+
+            if (courseSignup is null)
                 return NotFound();
 
             // delete registration record
-            if (course.Learners.Contains(Learner))
+            _context.Remove(courseSignup);
+            await _context.SaveChangesAsync();
+
+            TempData["FlashMessage.Type"] = "success";
+            TempData["FlashMessage.Text"] = "Successfully deregistered from course";
+            return RedirectToPage("../Details", new
             {
-                course.Learners.Remove(Learner);
-                await _context.SaveChangesAsync();
-
-                TempData["FlashMessage.Type"] = "success";
-                TempData["FlashMessage.Text"] = "Successfully deregistered from course";
-            }
-
-            return RedirectToPage("../Details", new { id });
+                id
+            });
         }
     }
 }

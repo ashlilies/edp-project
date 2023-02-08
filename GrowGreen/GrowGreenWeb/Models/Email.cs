@@ -12,6 +12,7 @@ namespace GrowGreenWeb.Models
 
         public int Id { get; set; }
         public string Email1 { get; set; } = null!;
+        public DateTime Timestamp { get; set; }
 
         public virtual ICollection<Newsletter> Newsletters { get; set; }
     }

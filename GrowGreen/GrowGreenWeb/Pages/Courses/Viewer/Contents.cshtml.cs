@@ -35,7 +35,7 @@ namespace GrowGreenWeb.Pages.Courses.Viewer
             Learner = learner;
 
             Course? course = await _context.Courses
-                .Include(c => c.Learners)
+                .Include(c => c.CourseSignups).ThenInclude(cs => cs.Learner)
                 .SingleOrDefaultAsync(c => c.Id == courseId);
 
             if (course is null)

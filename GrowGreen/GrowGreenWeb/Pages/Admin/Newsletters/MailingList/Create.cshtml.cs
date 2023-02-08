@@ -35,6 +35,7 @@ namespace GrowGreenWeb.Pages.Admin.Newsletters.MailingList
                 return Page();
             }
 
+            Email.Timestamp = DateTime.Now;
             _context.Emails.Add(Email);
             await _context.SaveChangesAsync();
 

@@ -36,7 +36,7 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses
 
             var courses = _context.Courses
                 .Include(c => c.Lectures).ThenInclude(l => l.Videos)
-                .Include(c => c.Learners)
+                .Include(c => c.CourseSignups).ThenInclude(cs => cs.Learner)
                 .Include(c => c.Chats)
                 .Where(c => c.LecturerId == lecturerId);
 

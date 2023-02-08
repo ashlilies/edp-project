@@ -13,7 +13,7 @@ namespace GrowGreenWeb.Pages.Courses.Viewer
     {
         [BindProperty]
         public string NewMessageText { get; set; } = string.Empty;
-        
+
         [BindProperty]
         public string? EditMessageText { get; set; }
 
@@ -39,14 +39,18 @@ namespace GrowGreenWeb.Pages.Courses.Viewer
 
             Learner = user;
 
-            Course? course = await _context.Courses.Include(c => c.Learners).SingleOrDefaultAsync(c => c.Id == id);
+            Course? course = await _context.Courses
+                .Include(c => c.CourseSignups)
+                .ThenInclude(cs => cs.Learner)
+                .SingleOrDefaultAsync(c => c.Id == id);
+
             if (course is null)
                 return NotFound();
-            
+
             ViewData["CourseId"] = course.Id;
 
             // add learner record if not found (todo: update to registration page)
-            if (!course.Learners.Contains(Learner))
+            if (!course.CourseSignups.Select(cs => cs.Learner).Contains(Learner))
             {
                 return Forbid();
             }
@@ -73,12 +77,16 @@ namespace GrowGreenWeb.Pages.Courses.Viewer
 
             Learner = user;
 
-            Course? course = await _context.Courses.Include(c => c.Learners).SingleOrDefaultAsync(c => c.Id == id);
+            Course? course = await _context.Courses
+                .Include(c => c.CourseSignups)
+                .ThenInclude(cs => cs.Learner)
+                .SingleOrDefaultAsync(c => c.Id == id);
+            
             if (course is null)
                 return NotFound();
 
             // add learner record if not found (todo: update to registration page)
-            if (!course.Learners.Contains(Learner))
+            if (!course.CourseSignups.Select(cs => cs.Learner).Contains(Learner))
             {
                 return Forbid();
             }
@@ -121,12 +129,16 @@ namespace GrowGreenWeb.Pages.Courses.Viewer
 
             Learner = user;
 
-            Course? course = await _context.Courses.Include(c => c.Learners).SingleOrDefaultAsync(c => c.Id == id);
+            Course? course = await _context.Courses
+                .Include(c => c.CourseSignups)
+                .ThenInclude(cs => cs.Learner)
+                .SingleOrDefaultAsync(c => c.Id == id);
+            
             if (course is null)
                 return NotFound();
 
             // add learner record if not found (todo: update to registration page)
-            if (!course.Learners.Contains(Learner))
+            if (!course.CourseSignups.Select(cs => cs.Learner).Contains(Learner))
             {
                 return Forbid();
             }
@@ -162,12 +174,16 @@ namespace GrowGreenWeb.Pages.Courses.Viewer
 
             Learner = user;
 
-            Course? course = await _context.Courses.Include(c => c.Learners).SingleOrDefaultAsync(c => c.Id == id);
+            Course? course = await _context.Courses
+                .Include(cs => cs.CourseSignups)
+                .ThenInclude(cs => cs.Learner)
+                .SingleOrDefaultAsync(c => c.Id == id);
+            
             if (course is null)
                 return NotFound();
 
             // add learner record if not found (todo: update to registration page)
-            if (!course.Learners.Contains(Learner))
+            if (!course.CourseSignups.Select(cs => cs.Learner).Contains(Learner))
             {
                 return Forbid();
             }

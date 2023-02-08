@@ -2,13 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GrowGreenWeb.Filters;
 using GrowGreenWeb.Models;
+using GrowGreenWeb.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 
 namespace GrowGreenWeb.Pages.Courses.Viewer
 {
+    [Authenticated(AccountType.Learner)]
     public class IndexModel : PageModel
     {
         public User Learner { get; set; } = null!;
@@ -33,16 +36,26 @@ namespace GrowGreenWeb.Pages.Courses.Viewer
 
             Learner = learner;
 
-            Course? course = await _context.Courses.Include(c => c.Learners).SingleOrDefaultAsync(c => c.Id == id);
+            Course? course = await _context.Courses
+                .Include(c => c.CourseSignups)
+                .ThenInclude(cs => cs.Learner)
+                .SingleOrDefaultAsync(c => c.Id == id);
+            
             if (course is null)
                 return NotFound();
 
             ViewData["CourseId"] = course.Id;
             
             // add learner record if not found (todo: update to registration page)
-            if (!course.Learners.Contains(Learner))
+            if (!course.CourseSignups.Select(cs => cs.Learner).Contains(Learner))
             {
-                course.Learners.Add(Learner);
+                // course.Learners.Add(Learner);
+                course.CourseSignups.Add(new CourseSignup
+                {
+                    Course = course,
+                    Learner = Learner
+                });
+                
                 await _context.SaveChangesAsync();
 
                 TempData["FlashMessage.Type"] = "success";

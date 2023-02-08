@@ -6,6 +6,7 @@ using GrowGreenWeb.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol;
 
 namespace GrowGreenWeb.Pages.Courses
 {
@@ -30,13 +31,13 @@ namespace GrowGreenWeb.Pages.Courses
 
             List<Course> courses = await _context.Courses
                 .Include(c => c.Lectures).ThenInclude(l => l.Videos)
-                .Include(c => c.Learners)
+                .Include(c => c.CourseSignups).ThenInclude(cs => cs.Learner)
                 .Include(c => c.Lecturer)
                 .Include(c => c.Chats)
                 .ToListAsync();
 
             if (learner is not null)
-                SignedUpCourses = courses.Where(c => c.Learners.Contains(learner)).ToList();
+                SignedUpCourses = courses.Where(c => c.CourseSignups.Select(cs => cs.Learner).Contains(learner)).ToList();
             OngoingCourses = courses.Where(c => c.EndDate >= DateTime.Today && !SignedUpCourses.Contains(c)).ToList();
             PastCourses = courses.Where(c => c.EndDate < DateTime.Today && !SignedUpCourses.Contains(c)).ToList();
 

@@ -24,7 +24,7 @@ namespace GrowGreenWeb.Pages.Courses
             Course? course = _context.Courses
                 .Include(c => c.CourseReviews)
                 .Include(c => c.Lecturer)
-                .Include(c => c.Learners)
+                .Include(c => c.CourseSignups).ThenInclude(c => c.Learner)
                 .SingleOrDefault(c => c.Id == id);
 
             if (course == null)

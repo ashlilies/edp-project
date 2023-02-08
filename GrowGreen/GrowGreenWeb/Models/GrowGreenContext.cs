@@ -26,6 +26,7 @@ namespace GrowGreenWeb.Models
         public virtual DbSet<Completed> Completeds { get; set; } = null!;
         public virtual DbSet<Course> Courses { get; set; } = null!;
         public virtual DbSet<CourseReview> CourseReviews { get; set; } = null!;
+        public virtual DbSet<CourseSignup> CourseSignups { get; set; } = null!;
         public virtual DbSet<Donation> Donations { get; set; } = null!;
         public virtual DbSet<Email> Emails { get; set; } = null!;
         public virtual DbSet<Event> Events { get; set; } = null!;
@@ -51,6 +52,7 @@ namespace GrowGreenWeb.Models
         public virtual DbSet<Ticket> Tickets { get; set; } = null!;
         public virtual DbSet<Tip> Tips { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
+        public virtual DbSet<UserSession> UserSessions { get; set; } = null!;
         public virtual DbSet<Video> Videos { get; set; } = null!;
         public virtual DbSet<VideoCompletion> VideoCompletions { get; set; } = null!;
 
@@ -223,6 +225,28 @@ namespace GrowGreenWeb.Models
                     .HasConstraintName("FK_Review_Course");
             });
 
+            modelBuilder.Entity<CourseSignup>(entity =>
+            {
+                entity.HasKey(e => new { e.LearnerId, e.CourseId });
+
+                entity.ToTable("CourseSignup");
+
+                entity.Property(e => e.Status)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasDefaultValueSql("('Created')");
+
+                entity.HasOne(d => d.Course)
+                    .WithMany(p => p.CourseSignups)
+                    .HasForeignKey(d => d.CourseId)
+                    .HasConstraintName("FK_CourseSignup_Course");
+
+                entity.HasOne(d => d.Learner)
+                    .WithMany(p => p.CourseSignups)
+                    .HasForeignKey(d => d.LearnerId)
+                    .HasConstraintName("FK_CourseSignup_User");
+            });
+
             modelBuilder.Entity<Donation>(entity =>
             {
                 entity.ToTable("Donation");
@@ -257,6 +281,10 @@ namespace GrowGreenWeb.Models
                 entity.Property(e => e.Email1)
                     .HasMaxLength(200)
                     .HasColumnName("Email");
+
+                entity.Property(e => e.Timestamp)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
             });
 
             modelBuilder.Entity<Event>(entity =>
@@ -616,19 +644,6 @@ namespace GrowGreenWeb.Models
 
                 entity.Property(e => e.SignupTimestamp).HasColumnType("datetime");
 
-                entity.HasMany(d => d.CoursesNavigation)
-                    .WithMany(p => p.Learners)
-                    .UsingEntity<Dictionary<string, object>>(
-                        "CourseSignup",
-                        l => l.HasOne<Course>().WithMany().HasForeignKey("CourseId").HasConstraintName("FK_CourseSignup_Course"),
-                        r => r.HasOne<User>().WithMany().HasForeignKey("LearnerId").HasConstraintName("FK_CourseSignup_User"),
-                        j =>
-                        {
-                            j.HasKey("LearnerId", "CourseId");
-
-                            j.ToTable("CourseSignup");
-                        });
-
                 entity.HasMany(d => d.QuizChoices)
                     .WithMany(p => p.Learners)
                     .UsingEntity<Dictionary<string, object>>(
@@ -641,6 +656,18 @@ namespace GrowGreenWeb.Models
 
                             j.ToTable("QuizResponse");
                         });
+            });
+
+            modelBuilder.Entity<UserSession>(entity =>
+            {
+                entity.ToTable("UserSession");
+
+                entity.Property(e => e.SessionId).HasMaxLength(256);
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.UserSessions)
+                    .HasForeignKey(d => d.UserId)
+                    .HasConstraintName("FK_UserSession_User");
             });
 
             modelBuilder.Entity<Video>(entity =>

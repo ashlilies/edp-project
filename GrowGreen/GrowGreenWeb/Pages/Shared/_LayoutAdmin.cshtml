@@ -90,9 +90,9 @@
                             <li>
                                 <a class="dropdown-item text-reset" asp-page="/Admin/Newsletters/MailingList/Index">Mailing List</a>
                             </li>
-                            <li>
-                                <a class="dropdown-item text-reset" asp-page="/Admin/Newsletters/History/Index">Newsletter History</a>
-                            </li>
+                            @* <li> *@
+                            @*     <a class="dropdown-item text-reset" asp-page="/Admin/Newsletters/History/Index">Newsletter History</a> *@
+                            @* </li> *@
                             <li>
                                 <a class="dropdown-item text-reset" asp-page="/Admin/Newsletters/Index">Compose Newsletter</a>
                             </li>
@@ -270,8 +270,8 @@
 <script src="~/js/site.js" asp-append-version="true"></script>
 <!-- include libraries(jQuery, bootstrap) -->
 <!-- include summernote css/js-->
-<link href="~/lib/summernote/dist/summernote-bs5.css" rel="stylesheet" />
-<script src="~/lib/summernote/dist/summernote-bs5.js"></script>
+<link href="~/lib/summernote/dist/summernote-lite.css" rel="stylesheet" />
+<script src="~/lib/summernote/dist/summernote-lite.js"></script>
 
 @await RenderSectionAsync("Scripts", required: false)
 </body>
