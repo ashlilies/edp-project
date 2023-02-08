@@ -1,0 +1,46 @@
+@page
+@model GrowGreenWeb.Pages.Account.LoginModel
+@{
+    ViewData["Title"] = "Login";
+    Layout = null;
+}
+<link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+<link href="~/css/account/login.css" rel="stylesheet"/>
+
+<div class="login">
+    <h1 height="16">GROW GREEN</h1><br>
+
+    <h2 class="active"> sign in </h2>
+
+    <h2 class="nonactive"> sign up </h2>
+    <form method="post">
+
+
+        <input type="email" class="text" asp-for="Email">
+        <span>email</span>
+
+        <br>
+
+        <br>
+
+        <input type="password" class="text" asp-for="Password">
+        <span>password</span>
+        <br>
+
+        <input type="checkbox" id="checkbox-1-1" asp-for="RememberMe" class="custom-checkbox"/>
+        <label for="checkbox-1-1">Keep me signed in</label>
+
+        <button class="signin">
+            Sign In
+        </button>
+
+
+        <hr class="bottom-hr">
+
+        <a href="#">Forgot Password?</a>
+    </form>
+
+</div>
+
+<script src="~/lib/jquery/3.6.3/jquery.min.js"></script>
+@{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
