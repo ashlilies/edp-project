@@ -29,15 +29,15 @@ namespace GrowGreenWeb.Pages.Courses.Viewer
 
         public async Task<IActionResult> OnGetAsync(int videoId)
         {
-                       User learner = _accountService.GetCurrentUser(HttpContext)!;
-                _context.Attach(learner);
+            User learner = _accountService.GetCurrentUser(HttpContext)!;
+            _context.Attach(learner);
 
             Learner = learner;
-            
+
             Video? video = await _context.Videos
-                .Include(v=> v.Lecture).ThenInclude(l => l.Course).ThenInclude(c => c.Lecturer)
+                .Include(v => v.Lecture).ThenInclude(l => l.Course).ThenInclude(c => c.Lecturer)
                 .SingleOrDefaultAsync(v => v.Id == videoId);
-            
+
             if (video is null)
                 return NotFound();
 
@@ -46,7 +46,7 @@ namespace GrowGreenWeb.Pages.Courses.Viewer
             ViewData["CourseId"] = Course.Id;
 
             // load lecture video
-;
+            ;
 
             return Page();
         }

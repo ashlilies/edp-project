@@ -28,20 +28,19 @@ namespace GrowGreenWeb.Pages.Courses.Viewer
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
-                       User learner = _accountService.GetCurrentUser(HttpContext)!;
-                _context.Attach(learner);
+            User learner = _accountService.GetCurrentUser(HttpContext)!;
             _context.Attach(learner);
-            
+
             Course? course = await _context.Courses
                 .Include(c => c.CourseSignups)
                 .ThenInclude(cs => cs.Learner)
                 .SingleOrDefaultAsync(c => c.Id == id);
-            
+
             if (course is null)
                 return NotFound();
 
             ViewData["CourseId"] = course.Id;
-            
+
             // add learner record if not found (todo: update to registration page)
             if (!course.CourseSignups.Select(cs => cs.Learner).Contains(Learner))
             {
@@ -51,7 +50,7 @@ namespace GrowGreenWeb.Pages.Courses.Viewer
                     Course = course,
                     Learner = Learner
                 });
-                
+
                 await _context.SaveChangesAsync();
 
                 TempData["FlashMessage.Type"] = "success";
