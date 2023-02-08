@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GrowGreenWeb.Models;
+using GrowGreenWeb.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -16,22 +17,17 @@ namespace GrowGreenWeb.Pages.Courses.Viewer
         public Lecture Lecture { get; set; } = null!;
 
         private readonly GrowGreenContext _context;
+        private AccountService _accountService;
 
-        public ContentsModel(GrowGreenContext context)
+        public ContentsModel(GrowGreenContext context, AccountService accountService)
         {
             _context = context;
+            _accountService = accountService;
         }
 
         public async Task<IActionResult> OnGetAsync(int courseId, int lectureId)
         {
-            // todo: add account system support
-            int learnerId = TemporaryConstants.LearnerId;
-
-            User? learner = await _context.Users.FindAsync(learnerId);
-
-            if (learner is null)
-                return Forbid();
-
+            User? learner = _accountService.GetCurrentUser(HttpContext)!;
             Learner = learner;
 
             Course? course = await _context.Courses

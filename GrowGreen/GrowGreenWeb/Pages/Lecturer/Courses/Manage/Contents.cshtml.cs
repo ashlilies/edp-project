@@ -1,4 +1,5 @@
 using GrowGreenWeb.Models;
+using GrowGreenWeb.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -11,16 +12,17 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
         public Lecture Lecture { get; set; } = null!;
 
         private readonly GrowGreenContext _context;
+        private AccountService _accountService;
 
-        public ContentsModel(GrowGreenContext context)
+        public ContentsModel(GrowGreenContext context, AccountService accountService)
         {
             _context = context;
+            _accountService = accountService;
         }
 
         public IActionResult OnGet(int id, int lectureId)
         {
-            // todo: add account system support
-            int lecturerId = TemporaryConstants.LecturerId;
+            int lecturerId = _accountService.GetCurrentUser(HttpContext)!.Id;
 
             Course? course = _context.Courses
                 .Include(c => c.Lectures)
@@ -50,8 +52,7 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
 
         public IActionResult OnPostDelete(int id, int lectureId)
         {
-            // todo: add account system support
-            int lecturerId = TemporaryConstants.LecturerId;
+            int lecturerId = _accountService.GetCurrentUser(HttpContext)!.Id;
 
             Course? course = _context.Courses
                 .Include(c => c.Lectures)

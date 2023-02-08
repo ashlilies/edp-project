@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using GrowGreenWeb.Helpers;
+using GrowGreenWeb.Services;
 
 namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
 {
@@ -26,17 +27,18 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
 
         private readonly GrowGreenContext _context;
         private readonly IWebHostEnvironment _environment;
+        private AccountService _accountService;
 
-        public CreateVideoModel(GrowGreenContext context, IWebHostEnvironment environment)
+        public CreateVideoModel(GrowGreenContext context, IWebHostEnvironment environment, AccountService accountService)
         {
             _context = context;
             _environment = environment;
+            _accountService = accountService;
         }
 
         public IActionResult OnGet(int id, int lectureId, int? videoId = null)
         {
-            // todo: add account system support
-            int lecturerId = TemporaryConstants.LecturerId;
+            int lecturerId = _accountService.GetCurrentUser(HttpContext)!.Id;
 
             Course? course = _context.Courses
                 .Include(c => c.Lectures)
@@ -78,8 +80,7 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
 
         public async Task<IActionResult> OnPostAsync(int id, int lectureId, int? videoId = null)
         {
-            // todo: add account system support
-            int lecturerId = TemporaryConstants.LecturerId;
+            int lecturerId = _accountService.GetCurrentUser(HttpContext)!.Id;
 
             Course? course = _context.Courses
                 .Include(c => c.Lectures)
@@ -190,8 +191,7 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
 
         public IActionResult OnPostDelete(int id, int lectureId, int videoId)
         {
-            // todo: add account system support
-            int lecturerId = TemporaryConstants.LecturerId;
+            int lecturerId = _accountService.GetCurrentUser(HttpContext)!.Id;
 
             Course? course = _context.Courses
                 .Include(c => c.Lectures)

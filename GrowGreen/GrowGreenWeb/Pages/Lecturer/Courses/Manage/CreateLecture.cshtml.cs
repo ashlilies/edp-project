@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
+using GrowGreenWeb.Services;
 
 namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
 {
@@ -22,16 +23,17 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
         public Course Course { get; set; } = null!;
         public Lecture? LectureEdit { get; set; } = null!;
         private readonly GrowGreenContext _context;
+        private AccountService _accountService;
 
-        public CreateLectureModel(GrowGreenContext context)
+        public CreateLectureModel(GrowGreenContext context, AccountService accountService)
         {
             _context = context;
+            _accountService = accountService;
         }
 
         public IActionResult OnGet(int id, int? lectureId = null)
         {
-            // todo: add account system support
-            int lecturerId = TemporaryConstants.LecturerId;
+            int lecturerId = _accountService.GetCurrentUser(HttpContext)!.Id;
 
             Course? course = _context.Courses
                 .Include(c => c.Lectures)
@@ -62,8 +64,7 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
 
         public async Task<IActionResult> OnPostAsync(int id, int? lectureId = null)
         {
-            // todo: add account system support
-            int lecturerId = TemporaryConstants.LecturerId;
+            int lecturerId = _accountService.GetCurrentUser(HttpContext)!.Id;
 
             Course? course = _context.Courses
                 .Include(c => c.Lectures)

@@ -18,24 +18,17 @@ namespace GrowGreenWeb.Pages.Courses.Viewer
         public Course Course { get; set; } = null!;
 
         private readonly GrowGreenContext _context;
+        private AccountService _accountService;
 
-        public IndexModel(GrowGreenContext context)
+        public IndexModel(GrowGreenContext context, AccountService accountService)
         {
             _context = context;
+            _accountService = accountService;
         }
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
-            // todo: add account system support
-            int learnerId = TemporaryConstants.LearnerId;
-
-            User? learner = await _context.Users.FindAsync(learnerId);
-
-            if (learner is null)
-                return Forbid();
-
-            Learner = learner;
-
+            User learner = _accountService.GetCurrentUser(HttpContext)!;
             Course? course = await _context.Courses
                 .Include(c => c.CourseSignups)
                 .ThenInclude(cs => cs.Learner)

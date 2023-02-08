@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GrowGreenWeb.Models;
+using GrowGreenWeb.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -23,16 +24,18 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses
         public string SearchQuery {get;set;}
 
         private readonly GrowGreenContext _context;
+        private AccountService _accountService;
 
-        public IndexModel(GrowGreenContext context)
+        public IndexModel(GrowGreenContext context, AccountService accountService)
         {
             _context = context;
+            _accountService = accountService;
         }
 
         public async Task<IActionResult> OnGet(string? SearchQuery = null)
         {
             // todo: change to support account system :"D
-            int lecturerId = TemporaryConstants.LecturerId;
+            int lecturerId = _accountService.GetCurrentUser(HttpContext)!.Id;
 
             var courses = _context.Courses
                 .Include(c => c.Lectures).ThenInclude(l => l.Videos)

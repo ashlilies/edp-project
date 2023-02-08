@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GrowGreenWeb.Models;
+using GrowGreenWeb.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -22,16 +23,17 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
         public User CurrentUser { get; set; } = null!;
 
         private readonly GrowGreenContext _context;
+        private AccountService _accountService;
 
-        public QnAModel(GrowGreenContext context)
+        public QnAModel(GrowGreenContext context, AccountService accountService)
         {
             _context = context;
+            _accountService = accountService;
         }
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
-            // todo: add account system support
-            int lecturerId = TemporaryConstants.LecturerId;
+            int lecturerId = _accountService.GetCurrentUser(HttpContext)!.Id;
 
             User? user = await _context.Users.FindAsync(lecturerId);
             if (user == null)
@@ -71,8 +73,7 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
 
         public async Task<IActionResult> OnPostSendAsync(int id)
         {
-            // todo: add account system support
-            int lecturerId = TemporaryConstants.LecturerId;
+            int lecturerId = _accountService.GetCurrentUser(HttpContext)!.Id;
 
             User? user = await _context.Users.FindAsync(lecturerId);
             if (user == null)
@@ -116,8 +117,7 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
 
         public async Task<IActionResult> OnPostEditAsync(int id, int chatId)
         {
-            // todo: add account system support
-            int lecturerId = TemporaryConstants.LecturerId;
+            int lecturerId = _accountService.GetCurrentUser(HttpContext)!.Id;
 
             User? user = await _context.Users.FindAsync(lecturerId);
             if (user == null)
@@ -154,8 +154,7 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
 
         public async Task<IActionResult> OnPostDeleteAsync(int id, int chatId)
         {
-            // todo: add account system support
-            int lecturerId = TemporaryConstants.LecturerId;
+            int lecturerId = _accountService.GetCurrentUser(HttpContext)!.Id;
 
             User? user = await _context.Users.FindAsync(lecturerId);
             if (user == null)
