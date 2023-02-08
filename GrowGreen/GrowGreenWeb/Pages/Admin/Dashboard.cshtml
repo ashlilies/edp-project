@@ -27,8 +27,6 @@
 
     const listOfCourses = @Html.Raw(Model.listOfCoursesJson);
     listOfCourses.forEach(genValues);
-    console.log(`xValues ${xValues}`);
-    console.log(`yValues ${yValues}`);
     var ctx = document.getElementById("canvas")
 
     new Chart("canvas", {
