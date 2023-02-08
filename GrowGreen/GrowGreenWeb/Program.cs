@@ -3,6 +3,7 @@ using System.Reflection;
 using dotenv.net;
 using GrowGreenWeb;
 using GrowGreenWeb.Data;
+using GrowGreenWeb.Middleware;
 using GrowGreenWeb.Models;
 using GrowGreenWeb.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -56,5 +57,8 @@ app.UseSession(); // default timeout: 20 mins
 app.UseAuthorization();
 
 app.MapRazorPages();
+
+// Middleware - ashlee
+app.UseMiddleware<UnauthenticatedOrAuthenticatedMiddleware>();
 
 app.Run();

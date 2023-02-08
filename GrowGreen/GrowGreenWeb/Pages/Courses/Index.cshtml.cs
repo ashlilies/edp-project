@@ -30,7 +30,7 @@ namespace GrowGreenWeb.Pages.Courses
         {
             User? learner = _accountService.GetCurrentUser(HttpContext);
             if (learner is not null)
-                
+                _context.Attach(learner);
 
             List<Course> courses = await _context.Courses
                 .Include(c => c.Lectures).ThenInclude(l => l.Videos)

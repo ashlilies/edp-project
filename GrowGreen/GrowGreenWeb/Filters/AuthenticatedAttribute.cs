@@ -29,8 +29,13 @@ public class AuthenticatedAttribute : ActionFilterAttribute
         User? user = svc.GetCurrentUser(context.HttpContext, AccountType);
         if (user != null)
         {
-            context.HttpContext.Items.Add("User", user);
-            return;
+            if (user.IsAdmin && AccountType == AccountType.Admin
+                || user.IsLecturer && AccountType == AccountType.Lecturer
+                || user.IsLearner && AccountType == AccountType.Learner)
+            {
+                context.HttpContext.Items.Add("User", user);
+                return;
+            }
         }
 
         string prevUrl = context.HttpContext.Request.Path + context.HttpContext.Request.QueryString;
