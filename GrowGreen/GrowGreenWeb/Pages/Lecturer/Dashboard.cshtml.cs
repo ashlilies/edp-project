@@ -7,7 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
-namespace GrowGreenWeb.Pages.Admin
+
+namespace GrowGreenWeb.Pages.Lecturer
 {
     public class DashboardModel : PageModel
     {
