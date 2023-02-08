@@ -12,7 +12,6 @@ using NuGet.Protocol;
 
 namespace GrowGreenWeb.Pages.Courses
 {
-    [Authenticated(AccountType.Learner)]
     public class IndexModel : PageModel
     {
         public List<Course> SignedUpCourses { get; set; } = new();
@@ -29,8 +28,9 @@ namespace GrowGreenWeb.Pages.Courses
 
         public async Task<IActionResult> OnGet()
         {
-            User learner = _accountService.GetCurrentUser(HttpContext)!;
-
+            User? learner = _accountService.GetCurrentUser(HttpContext);
+            if (learner is not null)
+                _context.Attach(learner);
 
             List<Course> courses = await _context.Courses
                 .Include(c => c.Lectures).ThenInclude(l => l.Videos)
@@ -39,7 +39,8 @@ namespace GrowGreenWeb.Pages.Courses
                 .Include(c => c.Chats)
                 .ToListAsync();
 
-            SignedUpCourses = courses.Where(c => c.CourseSignups.Select(cs => cs.Learner).Contains(learner)).ToList();
+            if (learner is not null)
+                SignedUpCourses = courses.Where(c => c.CourseSignups.Select(cs => cs.Learner).Contains(learner)).ToList();
             OngoingCourses = courses.Where(c => c.EndDate >= DateTime.Today && !SignedUpCourses.Contains(c)).ToList();
             PastCourses = courses.Where(c => c.EndDate < DateTime.Today && !SignedUpCourses.Contains(c)).ToList();
 

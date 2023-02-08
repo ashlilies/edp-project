@@ -35,7 +35,8 @@ namespace GrowGreenWeb.Pages.Courses.Viewer
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
-            User user = _accountService.GetCurrentUser(HttpContext)!;
+                        User user = _accountService.GetCurrentUser(HttpContext)!;
+                _context.Attach(user);            _context.Attach(user);
             Learner = user;
 
             Course? course = await _context.Courses
@@ -67,7 +68,8 @@ namespace GrowGreenWeb.Pages.Courses.Viewer
 
         public async Task<IActionResult> OnPostSendAsync(int id)
         {
-User user = _accountService.GetCurrentUser(HttpContext)!;
+            User user = _accountService.GetCurrentUser(HttpContext)!;
+                _context.Attach(user);            _context.Attach(user);
 
             Learner = user;
 
@@ -114,7 +116,8 @@ User user = _accountService.GetCurrentUser(HttpContext)!;
 
         public async Task<IActionResult> OnPostEditAsync(int id, int chatId)
         {
-User user = _accountService.GetCurrentUser(HttpContext)!;
+            User user = _accountService.GetCurrentUser(HttpContext)!;
+                _context.Attach(user);            _context.Attach(user);
 
             Learner = user;
 
@@ -154,8 +157,8 @@ User user = _accountService.GetCurrentUser(HttpContext)!;
 
         public async Task<IActionResult> OnPostDeleteAsync(int id, int chatId)
         {
-User user = _accountService.GetCurrentUser(HttpContext)!;
-
+            User user = _accountService.GetCurrentUser(HttpContext)!;
+                _context.Attach(user);
             Learner = user;
 
             Course? course = await _context.Courses

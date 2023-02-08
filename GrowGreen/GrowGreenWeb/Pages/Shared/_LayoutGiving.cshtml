@@ -1,8 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@using GrowGreenWeb.Services
+@inject AccountService AccountService
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>@ViewData["Title"] - Grow Green</title>
 
     @* Font Awesome Icons *@
@@ -11,124 +13,143 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css"
           integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
 
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/GrowGreenWeb.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/GrowGreenWeb.styles.css" asp-append-version="true"/>
 </head>
 <body>
-    <header>
-        @* First navbar *@
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow"
-             id="first-navbar">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Index">
-                    <img src="/img/logo.png" />
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    @* Left-aligned navbar links *@
-                    <ul class="navbar-nav flex-grow-1 pt-2">
-                        @*     <li class="nav-item"> *@
-                        @*         <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a> *@
-                        @*     </li> *@
-                        @*     <li class="nav-item"> *@
-                        @*         <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a> *@
-                        @*     </li> *@
+<header>
+    @* First navbar *@
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow"
+         id="first-navbar">
+        <div class="container">
+            <a class="navbar-brand" asp-area="" asp-page="/Index">
+                <img src="/img/logo.png"/>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                @* Left-aligned navbar links *@
+                <ul class="navbar-nav flex-grow-1 pt-2">
+                    @*     <li class="nav-item"> *@
+                    @*         <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a> *@
+                    @*     </li> *@
+                    @*     <li class="nav-item"> *@
+                    @*         <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a> *@
+                    @*     </li> *@
 
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                English
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li>
-                                    <a class="dropdown-item text-reset" href="#">Coming Soon</a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-
-                    @* Right-aligned navbar links *@
-                    <div class="ms-auto">
-                        <ul class="navbar-nav flex-grow-1">
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Login">Login</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            English
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li>
+                                <a class="dropdown-item text-reset" href="#">Coming Soon</a>
                             </li>
                         </ul>
-                    </div>
-                </div>
-            </div>
-        </nav>
+                    </li>
+                </ul>
 
-        @* Second navbar *@
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3"
-             id="second-navbar">
-            <div class="container">
-                @* <a class="navbar-brand" asp-area="" asp-page="/Index"> *@
-                @*     <img src="img/logo.png"/> *@
-                @* </a> *@
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-md-inline-flex justify-content-between">
-                    @* Left-aligned navbar links *@
+                @* Right-aligned navbar links *@
+                <div class="ms-auto">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/AboutUs">About Us</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/AboutUs">Our Events</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/AboutUs">Ways to Give</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Courses/Index">Our Courses</a>
-                        </li>
+                        @{
+                            var user = AccountService.GetCurrentUser(Context);
+                        }
+                        @if (user != null)
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Hi, @user.FullName
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li>
+                                        <a class="dropdown-item text-reset" asp-page="/Account/Login" asp-page-handler="Logout">Sign Out</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Account/Login">Login</a>
+                            </li>
+                        }
                     </ul>
-
-                    @* Right-aligned navbar links *@
-                    <div class="ms-auto">
-                        <ul class="navbar-nav flex-grow-1">
-                            <a class="btn btn-primary btn-prominent rounded-0" id="donate-button" asp-page="/Donation/main">Donate Now</a>
-                        </ul>
-                    </div>
                 </div>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        @await Html.PartialAsync("_FlashMessage")
+        </div>
+    </nav>
 
-        <main role="main" class="pb-3" style="margin-bottom: 32rem;">
-            @RenderBody()
-        </main>
-    </div>
+    @* Second navbar *@
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3"
+         id="second-navbar">
+        <div class="container">
+            @* <a class="navbar-brand" asp-area="" asp-page="/Index"> *@
+            @*     <img src="img/logo.png"/> *@
+            @* </a> *@
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse d-md-inline-flex justify-content-between">
+                @* Left-aligned navbar links *@
+                <ul class="navbar-nav flex-grow-1">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-page="/AboutUs">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-page="/AboutUs">Our Events</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-page="/AboutUs">Ways to Give</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-page="/Courses/Index">Our Courses</a>
+                    </li>
+                </ul>
 
-    <footer class="border-top footer text-white py-2">
-        <div class="row d-flex align-items-center" style="height: 80px; margin: 0" id="subscribe-card-row">
-            <div class="col-1"></div>
-            <div class="card mb-3 col-10 card-footer">
-                <form method="post" asp-page="/Subscribe">
-                    <div class="row g-0">
-                        <div class="col-lg-3">
-                            <div class="card-body">
-                                <div class="row">
-                                    @* <div class="col-sm-1"></div> *@
-                                    <div class="col-sm-10">
-                                        <h4 class="card-title" style="line-height: 3rem; font-size: 1.4rem;">Subscribe to our newletter!</h4>
-                                    </div>
-                                    @* <div class="col-sm-1 ms-auto d-md-none d-lg-none"> *@
-                                    @*     <a class="text-decoration-none text-reset" href="#" onclick="hideSubscribe()">X</a> *@
-                                    @* </div> *@
-                                    <script>
+                @* Right-aligned navbar links *@
+                <div class="ms-auto">
+                    <ul class="navbar-nav flex-grow-1">
+                        <a class="btn btn-primary btn-prominent rounded-0" id="donate-button" asp-page="/Donation/main">Donate Now</a>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+<div class="container">
+    @await Html.PartialAsync("_FlashMessage")
+
+    <main role="main" class="pb-3" style="margin-bottom: 32rem;">
+        @RenderBody()
+    </main>
+</div>
+
+<footer class="border-top footer text-white py-2">
+    <div class="row d-flex align-items-center" style="height: 80px; margin: 0" id="subscribe-card-row">
+        <div class="col-1"></div>
+        <div class="card mb-3 col-10 card-footer">
+            <form method="post" asp-page="/Subscribe">
+                <div class="row g-0">
+                    <div class="col-lg-3">
+                        <div class="card-body">
+                            <div class="row">
+                                @* <div class="col-sm-1"></div> *@
+                                <div class="col-sm-10">
+                                    <h4 class="card-title" style="line-height: 3rem; font-size: 1.4rem;">Subscribe to our newletter!</h4>
+                                </div>
+                                @* <div class="col-sm-1 ms-auto d-md-none d-lg-none"> *@
+                                @*     <a class="text-decoration-none text-reset" href="#" onclick="hideSubscribe()">X</a> *@
+                                @* </div> *@
+                                <script>
                                         function hideSubscribe() {
                                             /* CLOSES the MOTD fancily, unless "hide" is passed to function */
                                             motd = document.getElementById('subscribe-card-row');
@@ -151,119 +172,119 @@
 
                                         }
                                     </script>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-7">
-                            <div class="card-body">
-                                <input id="Email" name="Email" class="form-control footer-input"
-                                       style="border-radius: 8px; padding-top: 0.8rem; padding-bottom: 0.8rem;"
-                                       placeholder="Enter your email here" />
-                            </div>
-                        </div>
-                        <div class="col-lg-2">
-                            <div class="card-body">
-                                <button class="btn btn-primary bg-white text-black border-0 w-100" href="#"
-                                        style="border-radius: 8px; padding-top: 0.9rem">
-                                    <h5>Subscribe</h5>
-                                </button>
                             </div>
                         </div>
                     </div>
-                </form>
-            </div>
-            <div class="col-1"></div>
+                    <div class="col-lg-7">
+                        <div class="card-body">
+                            <input id="Email" name="Email" class="form-control footer-input"
+                                   style="border-radius: 8px; padding-top: 0.8rem; padding-bottom: 0.8rem;"
+                                   placeholder="Enter your email here"/>
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <div class="card-body">
+                            <button class="btn btn-primary bg-white text-black border-0 w-100" href="#"
+                                    style="border-radius: 8px; padding-top: 0.9rem">
+                                <h5>Subscribe</h5>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
+        <div class="col-1"></div>
+    </div>
 
 
-        <div class="container my-3 pb-3" style="padding-left: 5rem;">
-            <h1>Grow Green</h1>
-            <div class="row mt-3">
-                <div class="col-lg-3 col-md-12">
-                    <h5>Useful Links</h5>
-                    <div class="row">
-                        <a class="text-reset text-decoration-none" asp-page="/Index">Home</a>
-                    </div>
-                    <div class="row">
-                        <a class="text-reset text-decoration-none" asp-page="/AboutUs">About Us</a>
-                    </div>
-                    <div class="row">
-                        <a class="text-reset text-decoration-none" asp-page="/Index">Our Events</a>
-                    </div>
-                    <div class="row">
-                        <a class="text-reset text-decoration-none" asp-page="/Index">Ways to Give</a>
-                    </div>
-                    <div class="row">
-                        <a class="text-reset text-decoration-none" asp-page="/Index">Our Workshops</a>
-                    </div>
+    <div class="container my-3 pb-3" style="padding-left: 5rem;">
+        <h1>Grow Green</h1>
+        <div class="row mt-3">
+            <div class="col-lg-3 col-md-12">
+                <h5>Useful Links</h5>
+                <div class="row">
+                    <a class="text-reset text-decoration-none" asp-page="/Index">Home</a>
                 </div>
-                <div class="col-lg-6 col-md-12">
-                    <h5>Find Us</h5>
-                    <div class="row mb-3">
-                        <span><img class="footer-icon me-2" src="/img/footer/Phone.png" />+65 1234 5678</span>
-                    </div>
-                    <div class="row mb-3">
-                        <span>
-                            <img class="footer-icon me-2" src="/img/footer/Email.png" />
-                            <a class="text-reset" href="mailto:growgreen@gmail.com">
-                                growgreen@gmail.com
-                            </a>
-                        </span>
-                    </div>
-                    <div class="row mb-3">
-                        <span>
-                            <img class="footer-icon me-2" src="/img/footer/Location.png" />
-                            180 Ang Mo Kio Ave 8, Singapore 569830
-                        </span>
-                    </div>
+                <div class="row">
+                    <a class="text-reset text-decoration-none" asp-page="/AboutUs">About Us</a>
                 </div>
-                <div class="col-lg-3 col-md-12">
-                    <h5>Our Socials</h5>
-                    <div class="row mb-2">
-                        <span>
-                            <img class="footer-icon-social me-2" src="/img/footer/Facebook.png" />
-                            <a class="text-reset text-decoration-none" href="#">
-                                growgreen
-                            </a>
-                        </span>
-                    </div>
-                    <div class="row mb-2">
-                        <span>
-                            <img class="footer-icon-social me-2" src="/img/footer/Instagram.png" />
-                            <a class="text-reset text-decoration-none" href="#">
-                                growgreen
-                            </a>
-                        </span>
-                    </div>
-                    <div class="row mb-2">
-                        <span>
-                            <img class="footer-icon-social me-2" src="/img/footer/Twitter.png" />
-                            <a class="text-reset text-decoration-none" href="#">
-                                growgreen
-                            </a>
-                        </span>
-                    </div>
-                    <div class="row mb-2">
-                        <span>
-                            <img class="footer-icon-social me-2" src="/img/footer/Pinterest.png" />
-                            <a class="text-reset text-decoration-none" href="#">
-                                growgreen
-                            </a>
-                        </span>
-                    </div>
-
+                <div class="row">
+                    <a class="text-reset text-decoration-none" asp-page="/Index">Our Events</a>
+                </div>
+                <div class="row">
+                    <a class="text-reset text-decoration-none" asp-page="/Index">Ways to Give</a>
+                </div>
+                <div class="row">
+                    <a class="text-reset text-decoration-none" asp-page="/Index">Our Workshops</a>
                 </div>
             </div>
-        </div>
-    </footer>
+            <div class="col-lg-6 col-md-12">
+                <h5>Find Us</h5>
+                <div class="row mb-3">
+                    <span><img class="footer-icon me-2" src="/img/footer/Phone.png"/>+65 1234 5678</span>
+                </div>
+                <div class="row mb-3">
+                    <span>
+                        <img class="footer-icon me-2" src="/img/footer/Email.png"/>
+                        <a class="text-reset" href="mailto:growgreen@gmail.com">
+                            growgreen@gmail.com
+                        </a>
+                    </span>
+                </div>
+                <div class="row mb-3">
+                    <span>
+                        <img class="footer-icon me-2" src="/img/footer/Location.png"/>
+                        180 Ang Mo Kio Ave 8, Singapore 569830
+                    </span>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-12">
+                <h5>Our Socials</h5>
+                <div class="row mb-2">
+                    <span>
+                        <img class="footer-icon-social me-2" src="/img/footer/Facebook.png"/>
+                        <a class="text-reset text-decoration-none" href="#">
+                            growgreen
+                        </a>
+                    </span>
+                </div>
+                <div class="row mb-2">
+                    <span>
+                        <img class="footer-icon-social me-2" src="/img/footer/Instagram.png"/>
+                        <a class="text-reset text-decoration-none" href="#">
+                            growgreen
+                        </a>
+                    </span>
+                </div>
+                <div class="row mb-2">
+                    <span>
+                        <img class="footer-icon-social me-2" src="/img/footer/Twitter.png"/>
+                        <a class="text-reset text-decoration-none" href="#">
+                            growgreen
+                        </a>
+                    </span>
+                </div>
+                <div class="row mb-2">
+                    <span>
+                        <img class="footer-icon-social me-2" src="/img/footer/Pinterest.png"/>
+                        <a class="text-reset text-decoration-none" href="#">
+                            growgreen
+                        </a>
+                    </span>
+                </div>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    @await RenderSectionAsync("Styles", required: false)
-    @await RenderSectionAsync("Scripts", required: false)
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+@await RenderSectionAsync("Styles", required: false)
+@await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

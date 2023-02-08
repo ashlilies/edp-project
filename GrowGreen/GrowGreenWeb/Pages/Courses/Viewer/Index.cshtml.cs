@@ -28,7 +28,10 @@ namespace GrowGreenWeb.Pages.Courses.Viewer
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
-            User learner = _accountService.GetCurrentUser(HttpContext)!;
+                       User learner = _accountService.GetCurrentUser(HttpContext)!;
+                _context.Attach(learner);
+            _context.Attach(learner);
+            
             Course? course = await _context.Courses
                 .Include(c => c.CourseSignups)
                 .ThenInclude(cs => cs.Learner)

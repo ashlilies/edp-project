@@ -23,6 +23,7 @@ namespace GrowGreenWeb.Pages.Courses.Viewer
         public async Task<IActionResult> OnPostAsync(int id)
         {
             User learner = _accountService.GetCurrentUser(HttpContext)!;
+            _context.Attach(learner);
             Learner = learner;
 
             CourseSignup? courseSignup = await _context.CourseSignups

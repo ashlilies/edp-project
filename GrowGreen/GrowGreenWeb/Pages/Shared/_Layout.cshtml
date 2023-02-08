@@ -76,7 +76,7 @@
                         else
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Account/Login">Login</a>
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Account/Login" asp-route-prevUrl="@(Context.Request.Path + @Context.Request.QueryString)">Login</a>
                             </li>
                         }
                     </ul>
