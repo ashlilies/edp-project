@@ -1,13 +1,15 @@
 using System.Configuration;
 using System.Reflection;
+using dotenv.net;
 using GrowGreenWeb;
 using GrowGreenWeb.Data;
+using GrowGreenWeb.Middleware;
 using GrowGreenWeb.Models;
 using GrowGreenWeb.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
-using Stripe;
 
+DotEnv.Load();
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -20,6 +22,8 @@ builder.Services.AddDbContext<GrowGreenContext>(options =>
 
 builder.Services.AddSession();
 builder.Services.AddTransient<SidebarService>();
+builder.Services.AddTransient<AccountService>();
+builder.Services.AddTransient<EmailService>();
 
 // redirect to 403 on Forbid()
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -31,7 +35,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     });
 
 // configure Stripe - for rh
-StripeConfiguration.SetApiKey(builder.Configuration.GetSection("Stripe")["SecretKey"]);
+Stripe.StripeConfiguration.SetApiKey(builder.Configuration.GetSection("Stripe")["SecretKey"]);
 builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
 
 var app = builder.Build();
@@ -53,5 +57,8 @@ app.UseSession(); // default timeout: 20 mins
 app.UseAuthorization();
 
 app.MapRazorPages();
+
+// Middleware - ashlee
+app.UseMiddleware<UnauthenticatedOrAuthenticatedMiddleware>();
 
 app.Run();

@@ -47,7 +47,8 @@ namespace GrowGreenWeb.Pages
             {
                 _context.Add(new Email
                 {
-                    Email1 = Email
+                    Email1 = Email,
+                    Timestamp = DateTime.Now
                 });
 
                 await _context.SaveChangesAsync();

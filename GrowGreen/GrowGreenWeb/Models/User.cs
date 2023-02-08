@@ -10,6 +10,7 @@ namespace GrowGreenWeb.Models
             BadgeLearners = new HashSet<BadgeLearner>();
             CarbonHistories = new HashSet<CarbonHistory>();
             Chats = new HashSet<Chat>();
+            CourseSignups = new HashSet<CourseSignup>();
             Courses = new HashSet<Course>();
             Donations = new HashSet<Donation>();
             NewsletterEditHistories = new HashSet<NewsletterEditHistory>();
@@ -20,8 +21,8 @@ namespace GrowGreenWeb.Models
             Requests = new HashSet<Request>();
             SearchRequests = new HashSet<SearchRequest>();
             Tickets = new HashSet<Ticket>();
+            UserSessions = new HashSet<UserSession>();
             VideoCompletions = new HashSet<VideoCompletion>();
-            CoursesNavigation = new HashSet<Course>();
             QuizChoices = new HashSet<QuizChoice>();
         }
 
@@ -43,6 +44,7 @@ namespace GrowGreenWeb.Models
         public virtual ICollection<BadgeLearner> BadgeLearners { get; set; }
         public virtual ICollection<CarbonHistory> CarbonHistories { get; set; }
         public virtual ICollection<Chat> Chats { get; set; }
+        public virtual ICollection<CourseSignup> CourseSignups { get; set; }
         public virtual ICollection<Course> Courses { get; set; }
         public virtual ICollection<Donation> Donations { get; set; }
         public virtual ICollection<NewsletterEditHistory> NewsletterEditHistories { get; set; }
@@ -53,9 +55,9 @@ namespace GrowGreenWeb.Models
         public virtual ICollection<Request> Requests { get; set; }
         public virtual ICollection<SearchRequest> SearchRequests { get; set; }
         public virtual ICollection<Ticket> Tickets { get; set; }
+        public virtual ICollection<UserSession> UserSessions { get; set; }
         public virtual ICollection<VideoCompletion> VideoCompletions { get; set; }
 
-        public virtual ICollection<Course> CoursesNavigation { get; set; }
         public virtual ICollection<QuizChoice> QuizChoices { get; set; }
     }
 }

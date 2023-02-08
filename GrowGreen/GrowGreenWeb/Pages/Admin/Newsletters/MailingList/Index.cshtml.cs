@@ -2,13 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GrowGreenWeb.Filters;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using GrowGreenWeb.Models;
+using GrowGreenWeb.Services;
 
 namespace GrowGreenWeb.Pages.Admin.Newsletters.MailingList
 {
+    [Authenticated(AccountType.Admin)]
     public class IndexModel : PageModel
     {
         private readonly GrowGreenWeb.Models.GrowGreenContext _context;

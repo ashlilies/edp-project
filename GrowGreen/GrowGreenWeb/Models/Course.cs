@@ -10,8 +10,8 @@ namespace GrowGreenWeb.Models
             Badges = new HashSet<Badge>();
             Chats = new HashSet<Chat>();
             CourseReviews = new HashSet<CourseReview>();
+            CourseSignups = new HashSet<CourseSignup>();
             Lectures = new HashSet<Lecture>();
-            Learners = new HashSet<User>();
         }
 
         public int Id { get; set; }
@@ -28,8 +28,7 @@ namespace GrowGreenWeb.Models
         public virtual ICollection<Badge> Badges { get; set; }
         public virtual ICollection<Chat> Chats { get; set; }
         public virtual ICollection<CourseReview> CourseReviews { get; set; }
+        public virtual ICollection<CourseSignup> CourseSignups { get; set; }
         public virtual ICollection<Lecture> Lectures { get; set; }
-
-        public virtual ICollection<User> Learners { get; set; }
     }
 }

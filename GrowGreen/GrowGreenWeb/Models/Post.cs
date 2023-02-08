@@ -22,8 +22,8 @@ namespace GrowGreenWeb.Models
         public int UserId { get; set; }
 
         public virtual User User { get; set; } = null!;
-        public virtual ICollection<GivingReview>? GivingReviews { get; set; }
-        public virtual ICollection<Request>? Requests { get; set; }
+        public virtual ICollection<GivingReview> GivingReviews { get; set; }
+        public virtual ICollection<Request> Requests { get; set; }
 
         public virtual ICollection<SearchResult> SearchResults { get; set; }
     }

@@ -26,6 +26,15 @@ public partial class Course
 {
     public int AvailableCapacity
     {
-        get => MaxCapacity - Learners.Count;
+        get => MaxCapacity - CourseSignups.Count;
+    }
+}
+
+public partial class Email
+{
+    // todo: removet his workaround
+    public DateTime TimestampSgp
+    {
+        get => Timestamp.AddHours(8);
     }
 }

@@ -4,13 +4,16 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using GrowGreenWeb.Filters;
 using GrowGreenWeb.Models;
+using GrowGreenWeb.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 
 namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
 {
+    [Authenticated(AccountType.Lecturer)]
     public class IndexModel : PageModel
     {
         public Course Course { get; set; } = null!; // for sidebar
@@ -41,17 +44,18 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
         private readonly GrowGreenContext _context;
 
         private readonly IWebHostEnvironment _environment;
+        private AccountService _accountService;
 
-        public IndexModel(GrowGreenContext context, IWebHostEnvironment environment)
+        public IndexModel(GrowGreenContext context, IWebHostEnvironment environment, AccountService accountService)
         {
             _context = context;
             _environment = environment;
+            _accountService = accountService;
         }
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
-            // todo: add account system support
-            int lecturerId = TemporaryConstants.LecturerId;
+            int lecturerId = _accountService.GetCurrentUser(HttpContext)!.Id;
 
             Course? course = await _context.Courses
                 .Include(c => c.Lectures)
@@ -80,8 +84,7 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
 
         public async Task<IActionResult> OnPostAsync(int id)
         {
-            // todo: add login system support here
-            int lecturerId = TemporaryConstants.LecturerId;
+            int lecturerId = _accountService.GetCurrentUser(HttpContext)!.Id;
 
             if (EndDate <= StartDate)
             {
@@ -132,8 +135,7 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
 
         public async Task<IActionResult> OnPostUploadAsync(int id)
         {
-            // todo: add account system support
-            int lecturerId = TemporaryConstants.LecturerId;
+            int lecturerId = _accountService.GetCurrentUser(HttpContext)!.Id;
 
             ModelState.Clear();
 
@@ -180,8 +182,7 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
 
         public async Task<IActionResult> OnPostDeleteAsync(int id)
         {
-            // todo: add account system support
-            int lecturerId = TemporaryConstants.LecturerId;
+            int lecturerId = _accountService.GetCurrentUser(HttpContext)!.Id;
 
             Course? course = await _context.Courses.FindAsync(id);
             if (course is null)

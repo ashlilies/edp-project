@@ -1,18 +1,21 @@
-﻿<!DOCTYPE html>
+﻿@using GrowGreenWeb.Services
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using GrowGreenWeb.Models
+@inject AccountService AccountService
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>@ViewData["Title"] - Grow Green</title>
-    
+
     @* Font Awesome Icons *@
-   	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
-   		integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-   	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css"
-             integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous"> 
-    
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css"
+          integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
     <link rel="stylesheet" href="~/GrowGreenWeb.styles.css" asp-append-version="true"/>
 </head>
@@ -54,9 +57,28 @@
                 @* Right-aligned navbar links *@
                 <div class="ms-auto">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Login">Login</a>
-                        </li>
+                        @{
+                            var user = AccountService.GetCurrentUser(Context);
+                        }
+                        @if (user != null)
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Hi, @user.FullName
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li>
+                                        <a class="dropdown-item text-reset" asp-page="/Account/Login" asp-page-handler="Logout">Sign Out</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Account/Login" asp-route-prevUrl="@(Context.Request.Path + @Context.Request.QueryString)">Login</a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
@@ -97,7 +119,7 @@
                 @* Right-aligned navbar links *@
                 <div class="ms-auto">
                     <ul class="navbar-nav flex-grow-1">
-                            <a class="btn btn-primary btn-prominent rounded-0" id="donate-button" asp-page="/Donation/main">Donate Now</a>
+                        <a class="btn btn-primary btn-prominent rounded-0" id="donate-button" asp-page="/Donation/main">Donate Now</a>
                     </ul>
                 </div>
             </div>
@@ -106,7 +128,7 @@
 </header>
 <div class="container">
     @await Html.PartialAsync("_FlashMessage")
-    
+
     <main role="main" class="pb-3" style="margin-bottom: 32rem;">
         @RenderBody()
     </main>
@@ -258,7 +280,7 @@
     </div>
 </footer>
 
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery/3.6.3/jquery.min.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>
 @await RenderSectionAsync("Styles", required: false)

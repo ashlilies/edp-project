@@ -2,18 +2,21 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GrowGreenWeb.Filters;
 using GrowGreenWeb.Models;
+using GrowGreenWeb.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 
 namespace GrowGreenWeb.Pages.Courses.Viewer
 {
+    [Authenticated(AccountType.Learner)]
     public class QnAModel : PageModel
     {
         [BindProperty]
         public string NewMessageText { get; set; } = string.Empty;
-        
+
         [BindProperty]
         public string? EditMessageText { get; set; }
 
@@ -22,31 +25,32 @@ namespace GrowGreenWeb.Pages.Courses.Viewer
         public User Learner { get; set; } = null!;
 
         private readonly GrowGreenContext _context;
+        private AccountService _accountService;
 
-        public QnAModel(GrowGreenContext context)
+        public QnAModel(GrowGreenContext context, AccountService accountService)
         {
             _context = context;
+            _accountService = accountService;
         }
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
-            // todo: add account system support
-            int learnerId = TemporaryConstants.LearnerId;
-
-            User? user = await _context.Users.FindAsync(learnerId);
-            if (user == null)
-                return Forbid();
-
+                        User user = _accountService.GetCurrentUser(HttpContext)!;
+                _context.Attach(user);            _context.Attach(user);
             Learner = user;
 
-            Course? course = await _context.Courses.Include(c => c.Learners).SingleOrDefaultAsync(c => c.Id == id);
+            Course? course = await _context.Courses
+                .Include(c => c.CourseSignups)
+                .ThenInclude(cs => cs.Learner)
+                .SingleOrDefaultAsync(c => c.Id == id);
+
             if (course is null)
                 return NotFound();
-            
+
             ViewData["CourseId"] = course.Id;
 
             // add learner record if not found (todo: update to registration page)
-            if (!course.Learners.Contains(Learner))
+            if (!course.CourseSignups.Select(cs => cs.Learner).Contains(Learner))
             {
                 return Forbid();
             }
@@ -64,21 +68,21 @@ namespace GrowGreenWeb.Pages.Courses.Viewer
 
         public async Task<IActionResult> OnPostSendAsync(int id)
         {
-            // todo: add account system support
-            int learnerId = TemporaryConstants.LearnerId;
-
-            User? user = await _context.Users.FindAsync(learnerId);
-            if (user == null)
-                return Forbid();
+            User user = _accountService.GetCurrentUser(HttpContext)!;
+                _context.Attach(user);            _context.Attach(user);
 
             Learner = user;
 
-            Course? course = await _context.Courses.Include(c => c.Learners).SingleOrDefaultAsync(c => c.Id == id);
+            Course? course = await _context.Courses
+                .Include(c => c.CourseSignups)
+                .ThenInclude(cs => cs.Learner)
+                .SingleOrDefaultAsync(c => c.Id == id);
+            
             if (course is null)
                 return NotFound();
 
             // add learner record if not found (todo: update to registration page)
-            if (!course.Learners.Contains(Learner))
+            if (!course.CourseSignups.Select(cs => cs.Learner).Contains(Learner))
             {
                 return Forbid();
             }
@@ -112,21 +116,21 @@ namespace GrowGreenWeb.Pages.Courses.Viewer
 
         public async Task<IActionResult> OnPostEditAsync(int id, int chatId)
         {
-            // todo: add account system support
-            int learnerId = TemporaryConstants.LearnerId;
-
-            User? user = await _context.Users.FindAsync(learnerId);
-            if (user == null)
-                return Forbid();
+            User user = _accountService.GetCurrentUser(HttpContext)!;
+                _context.Attach(user);            _context.Attach(user);
 
             Learner = user;
 
-            Course? course = await _context.Courses.Include(c => c.Learners).SingleOrDefaultAsync(c => c.Id == id);
+            Course? course = await _context.Courses
+                .Include(c => c.CourseSignups)
+                .ThenInclude(cs => cs.Learner)
+                .SingleOrDefaultAsync(c => c.Id == id);
+            
             if (course is null)
                 return NotFound();
 
             // add learner record if not found (todo: update to registration page)
-            if (!course.Learners.Contains(Learner))
+            if (!course.CourseSignups.Select(cs => cs.Learner).Contains(Learner))
             {
                 return Forbid();
             }
@@ -153,21 +157,20 @@ namespace GrowGreenWeb.Pages.Courses.Viewer
 
         public async Task<IActionResult> OnPostDeleteAsync(int id, int chatId)
         {
-            // todo: add account system support
-            int learnerId = TemporaryConstants.LearnerId;
-
-            User? user = await _context.Users.FindAsync(learnerId);
-            if (user == null)
-                return Forbid();
-
+            User user = _accountService.GetCurrentUser(HttpContext)!;
+                _context.Attach(user);
             Learner = user;
 
-            Course? course = await _context.Courses.Include(c => c.Learners).SingleOrDefaultAsync(c => c.Id == id);
+            Course? course = await _context.Courses
+                .Include(cs => cs.CourseSignups)
+                .ThenInclude(cs => cs.Learner)
+                .SingleOrDefaultAsync(c => c.Id == id);
+            
             if (course is null)
                 return NotFound();
 
             // add learner record if not found (todo: update to registration page)
-            if (!course.Learners.Contains(Learner))
+            if (!course.CourseSignups.Select(cs => cs.Learner).Contains(Learner))
             {
                 return Forbid();
             }

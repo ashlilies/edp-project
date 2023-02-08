@@ -6,23 +6,33 @@
 }
 
 <h1>Delete</h1>
+<div class="mb-3 card p-2">
+    <div class="card-body">
+        <h3>Are you sure you want to remove this email from the mailing list?</h3>
+        <div>
+            <hr/>
+            <dl class="row">
+                <dt class="col-sm-2">
+                    Email Record
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Email.Email1)
+                </dd>
+            </dl>
 
-<h3>Are you sure you want to remove this email from the mailing list?</h3>
-<div>
-    <h4>Email</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            Email Record
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Email.Email1)
-        </dd>
-    </dl>
-    
-    <form method="post">
-        <input type="hidden" asp-for="Email.Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-page="./Index">Back to List</a>
-    </form>
+            <form method="post">
+                <input type="hidden" asp-for="Email.Id"/>
+                <div class="row">
+
+                    <div class="text-start col-6">
+                        <input type="submit" value="Delete" class="btn btn-danger"/>
+                    </div>
+                    <div class="text-end col-6">
+                        <a class="btn btn-secondary" asp-page="./Index">Back to List</a>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
 </div>

@@ -1,45 +1,49 @@
+using GrowGreenWeb.Filters;
 using GrowGreenWeb.Models;
+using GrowGreenWeb.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 
 namespace GrowGreenWeb.Pages.Courses.Viewer
 {
+    [Authenticated(AccountType.Learner)]
     public class UnregisterModel : PageModel
     {
         public User Learner { get; set; } = null!;
         private readonly GrowGreenContext _context;
-        public UnregisterModel(GrowGreenContext context)
+        private AccountService _accountService;
+
+        public UnregisterModel(GrowGreenContext context, AccountService accountService)
         {
             _context = context;
+            _accountService = accountService;
         }
 
         public async Task<IActionResult> OnPostAsync(int id)
         {
-            // todo: add account system support
-            int learnerId = TemporaryConstants.LearnerId;
-
-            User? learner = await _context.Users.FindAsync(learnerId);
-
-            if (learner is null)
-                return Forbid();
+            User learner = _accountService.GetCurrentUser(HttpContext)!;
+            _context.Attach(learner);
             Learner = learner;
 
-            Course? course = await _context.Courses.Include(c => c.Learners).SingleOrDefaultAsync(c => c.Id == id);
-            if (course is null)
+            CourseSignup? courseSignup = await _context.CourseSignups
+                .Include(cs => cs.Course)
+                .Include(cs => cs.Learner)
+                .SingleOrDefaultAsync(cs => cs.CourseId == id && cs.Learner == Learner);
+
+            if (courseSignup is null)
                 return NotFound();
 
             // delete registration record
-            if (course.Learners.Contains(Learner))
+            _context.Remove(courseSignup);
+            await _context.SaveChangesAsync();
+
+            TempData["FlashMessage.Type"] = "success";
+            TempData["FlashMessage.Text"] = "Successfully deregistered from course";
+            return RedirectToPage("../Details", new
             {
-                course.Learners.Remove(Learner);
-                await _context.SaveChangesAsync();
-
-                TempData["FlashMessage.Type"] = "success";
-                TempData["FlashMessage.Text"] = "Successfully deregistered from course";
-            }
-
-            return RedirectToPage("../Details", new { id });
+                id
+            });
         }
     }
 }

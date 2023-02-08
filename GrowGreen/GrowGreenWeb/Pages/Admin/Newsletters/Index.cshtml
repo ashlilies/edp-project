@@ -22,18 +22,19 @@
     @* <div class="col-9"> *@
     <div class="mb-3 card p-2">
         <div class="card-body">
-            <form method="post" asp-page-handler="">
+            <form method="post" asp-page-handler="" id="form">
                 <h3>Compose Newsletter</h3>
                 <p>Compose a newsletter to send to all subscribers.</p>
 
-                <textarea asp-for="Message" class="form-control"></textarea>
+                <textarea asp-for="Message" class="form-control" hidden id="ta-input"></textarea>
+                <div class="summernote" id="summernote-1"></div>
                 <span asp-validation-for="Message" class="text-danger"></span>
                 <button type="button" data-bs-toggle="modal" data-bs-target="#imageModal"
                         class="btn btn-primary bg-6 w-100 mt-2">
-                    Upload Image
+                    Upload Large Image (> 1 MB)
                 </button>
 
-                <button class="btn btn-success w-100 mt-4">Send to @Model.RecipientCount recipients</button>
+                <button type="button" onclick="submitForm()" class="btn btn-success w-100 mt-4">Send to @Model.RecipientCount recipients</button>
             </form>
         </div>
     </div>
@@ -41,11 +42,11 @@
 </div>
 
 <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
-    <form method="post" asp-page-handler="Upload" enctype="multipart/form-data">
+    <form method="post" asp-page-handler="Upload" enctype="multipart/form-data" id="upload-form">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="imageModalLabel">Upload new image</h5>
+                    <h5 class="modal-title" id="imageModalLabel">Upload large image</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -55,10 +56,43 @@
                     </div>
                 </div>
                 <div class="modal-footer">
+                    <input type="text" name="Message" id="existingMsg" hidden/>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button class="btn btn-success">Upload</button>
+                    <button class="btn btn-success" type="button" onclick="submitUpload()">Upload</button>
                 </div>
             </div>
         </div>
     </form>
 </div>
+
+@section Scripts
+{
+    <script>
+    $(document).ready(function() {
+      $('.summernote').summernote({
+            // your options... and
+            maximumImageFileSize: 1024*1024, // 500 KB
+            callbacks:{
+                onImageUploadError: function(msg){
+                   console.log(msg + ' (1 MB)');
+                }
+            }
+      });
+      $('.summernote').summernote('code', "@Html.Raw(Model.Message)")
+    });
+    
+    function submitForm() {
+        var markupStr = $('#summernote-1').summernote('code');
+        console.log(markupStr);
+        $('#ta-input').val(markupStr);
+        $('#form').submit();
+    }
+    
+       function submitUpload() {
+            var markupStr = $('#summernote-1').summernote('code');
+            console.log(markupStr);
+            $('#existingMsg').val(markupStr);
+            $('#upload-form').submit();
+        }
+    </script>
+}

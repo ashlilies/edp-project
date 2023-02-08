@@ -25,16 +25,17 @@ namespace GrowGreenWeb.Pages.Admin.Newsletters.MailingList
 
         [BindProperty]
         public Email Email { get; set; } = default!;
-        
+
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-          if (!ModelState.IsValid || _context.Emails == null || Email == null)
+            if (!ModelState.IsValid || _context.Emails == null || Email == null)
             {
                 return Page();
             }
 
+            Email.Timestamp = DateTime.Now;
             _context.Emails.Add(Email);
             await _context.SaveChangesAsync();
 

@@ -2,13 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GrowGreenWeb.Filters;
 using GrowGreenWeb.Models;
+using GrowGreenWeb.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 
 namespace GrowGreenWeb.Pages.Courses.Viewer
 {
+    [Authenticated(AccountType.Learner)]
     public class ContentsModel : PageModel
     {
         public User Learner { get; set; } = null!;
@@ -16,26 +19,22 @@ namespace GrowGreenWeb.Pages.Courses.Viewer
         public Lecture Lecture { get; set; } = null!;
 
         private readonly GrowGreenContext _context;
+        private AccountService _accountService;
 
-        public ContentsModel(GrowGreenContext context)
+        public ContentsModel(GrowGreenContext context, AccountService accountService)
         {
             _context = context;
+            _accountService = accountService;
         }
 
         public async Task<IActionResult> OnGetAsync(int courseId, int lectureId)
         {
-            // todo: add account system support
-            int learnerId = TemporaryConstants.LearnerId;
-
-            User? learner = await _context.Users.FindAsync(learnerId);
-
-            if (learner is null)
-                return Forbid();
-
+            User? learner = _accountService.GetCurrentUser(HttpContext)!;
+            _context.Attach(learner);
             Learner = learner;
 
             Course? course = await _context.Courses
-                .Include(c => c.Learners)
+                .Include(c => c.CourseSignups).ThenInclude(cs => cs.Learner)
                 .SingleOrDefaultAsync(c => c.Id == courseId);
 
             if (course is null)

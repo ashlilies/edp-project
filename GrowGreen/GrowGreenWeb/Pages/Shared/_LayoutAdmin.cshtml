@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using GrowGreenWeb.Services
+@inject AccountService AccountService
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
@@ -15,6 +17,7 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
     <link rel="stylesheet" href="~/css/siteAdmin.css" asp-append-version="true"/>
     <link rel="stylesheet" href="~/GrowGreenWeb.styles.css" asp-append-version="true"/>
+
 </head>
 <body>
 <header>
@@ -55,9 +58,28 @@
                 @* Right-aligned navbar links *@
                 <div class="ms-auto">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-page="/Login">Login</a>
-                        </li>
+                        @{
+                            var user = AccountService.GetCurrentUser(Context);
+                        }
+                        @if (user != null)
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Hi, @user.FullName
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li>
+                                        <a class="dropdown-item text-reset" asp-page="/Account/Login" asp-page-handler="Logout">Sign Out</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Account/Login" asp-route-prevUrl="@(Context.Request.Path + @Context.Request.QueryString)">Login</a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
@@ -89,9 +111,9 @@
                             <li>
                                 <a class="dropdown-item text-reset" asp-page="/Admin/Newsletters/MailingList/Index">Mailing List</a>
                             </li>
-                            <li>
-                                <a class="dropdown-item text-reset" asp-page="/Admin/Newsletters/History/Index">Newsletter History</a>
-                            </li>
+                            @* <li> *@
+                            @*     <a class="dropdown-item text-reset" asp-page="/Admin/Newsletters/History/Index">Newsletter History</a> *@
+                            @* </li> *@
                             <li>
                                 <a class="dropdown-item text-reset" asp-page="/Admin/Newsletters/Index">Compose Newsletter</a>
                             </li>
@@ -264,9 +286,13 @@
     </div>
 </footer>
 
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery/3.6.3/jquery.min.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>
+<!-- include libraries(jQuery, bootstrap) -->
+<!-- include summernote css/js-->
+<link href="~/lib/summernote/dist/summernote-lite.css" rel="stylesheet"/>
+<script src="~/lib/summernote/dist/summernote-lite.js"></script>
 
 @await RenderSectionAsync("Scripts", required: false)
 </body>

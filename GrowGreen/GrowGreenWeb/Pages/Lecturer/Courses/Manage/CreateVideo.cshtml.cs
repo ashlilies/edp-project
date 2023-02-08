@@ -4,10 +4,13 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using GrowGreenWeb.Filters;
 using GrowGreenWeb.Helpers;
+using GrowGreenWeb.Services;
 
 namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
 {
+    [Authenticated(AccountType.Lecturer)]
     public class CreateVideoModel : PageModel
     {
         [BindProperty, DisplayName("Video File (mp4, ogg)")]
@@ -26,17 +29,18 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
 
         private readonly GrowGreenContext _context;
         private readonly IWebHostEnvironment _environment;
+        private AccountService _accountService;
 
-        public CreateVideoModel(GrowGreenContext context, IWebHostEnvironment environment)
+        public CreateVideoModel(GrowGreenContext context, IWebHostEnvironment environment, AccountService accountService)
         {
             _context = context;
             _environment = environment;
+            _accountService = accountService;
         }
 
         public IActionResult OnGet(int id, int lectureId, int? videoId = null)
         {
-            // todo: add account system support
-            int lecturerId = TemporaryConstants.LecturerId;
+            int lecturerId = _accountService.GetCurrentUser(HttpContext)!.Id;
 
             Course? course = _context.Courses
                 .Include(c => c.Lectures)
@@ -49,7 +53,7 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
 
             Course = course;
             ViewData["CourseId"] = course.Id;
-            
+
             Lecture? lecture = _context.Lectures
                 .Include(l => l.Videos)
                 .SingleOrDefault(l => l.Id == lectureId);
@@ -78,8 +82,7 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
 
         public async Task<IActionResult> OnPostAsync(int id, int lectureId, int? videoId = null)
         {
-            // todo: add account system support
-            int lecturerId = TemporaryConstants.LecturerId;
+            int lecturerId = _accountService.GetCurrentUser(HttpContext)!.Id;
 
             Course? course = _context.Courses
                 .Include(c => c.Lectures)
@@ -133,11 +136,11 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
                 {
                     await VideoFile.CopyToAsync(fileStream);
                 }
-                
+
                 // create a preview image
                 string outputImgPath = "wwwroot" + webRootPath + ".jpg";
                 string ffmpegVideoPath = "wwwroot" + webRootPath;
-                
+
                 FfmpegHelper.GetThumbnail(ffmpegVideoPath, outputImgPath, null);
             }
 
@@ -158,6 +161,9 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
                 };
 
                 _context.Add(video);
+
+                TempData["FlashMessage.Type"] = "success";
+                TempData["FlashMessage.Text"] = "Successfully uploaded video";
             }
             else
             {
@@ -174,20 +180,20 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
                     video.Timestamp = DateTime.Now;
                     video.PreviewUrl = webRootPath + ".jpg";
                 }
+
+                TempData["FlashMessage.Type"] = "success";
+                TempData["FlashMessage.Text"] = "Successfully updated video";
             }
 
             await _context.SaveChangesAsync();
 
-            TempData["FlashMessage.Type"] = "success";
-            TempData["FlashMessage.Text"] = "Successfully uploaded video";
 
             return RedirectToPage("Contents", new { id, lectureId });
         }
 
         public IActionResult OnPostDelete(int id, int lectureId, int videoId)
         {
-            // todo: add account system support
-            int lecturerId = TemporaryConstants.LecturerId;
+            int lecturerId = _accountService.GetCurrentUser(HttpContext)!.Id;
 
             Course? course = _context.Courses
                 .Include(c => c.Lectures)
@@ -206,8 +212,8 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
             if (lecture is null)
                 return NotFound();
             if (lecture.CourseId != course.Id)
-                return Forbid(); 
-            
+                return Forbid();
+
             // delete the video
             Video? video = _context.Videos.Find(videoId);
             if (video is null)
@@ -217,7 +223,7 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
 
             _context.Remove(video);
             _context.SaveChanges();
-            
+
             return RedirectToPage("Contents", new { id, lectureId });
         }
     }

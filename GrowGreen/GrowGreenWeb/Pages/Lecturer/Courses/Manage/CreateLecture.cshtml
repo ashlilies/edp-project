@@ -7,23 +7,30 @@
 <div class="row">
     @* Sidebar *@
     <div class="col-3">
-        @{await Html.RenderPartialAsync("_Sidebar");}
+        @{ await Html.RenderPartialAsync("_Sidebar"); }
     </div>
 
     <div class="col-9">
-        <form method="post" asp-page-handler="" asp-route-id="@Model.Course.Id">
+        <form method="post" asp-page-handler="" asp-route-id="@Model.Course.Id" asp-route-lectureId="@Model.LectureEdit?.Id">
             <div class="mb-3 card p-2">
                 <div class="card-body">
-                    <h3>Create Lecture</h3>
+                    @if (Model.LectureEdit is not null)
+                    {
+                        <h3>Create Lecture</h3>
+                    }
+                    else
+                    {
+                        <h3>Update Lecture Details</h3>
+                    }
                     <div class="row">
                         <div class="col-12">
                             <label asp-for="Title" class="form-label"></label>
-                            <input asp-for="Title" class="form-control" />
+                            <input asp-for="Title" class="form-control"/>
                             <span asp-validation-for="Title" class="text-danger"></span>
 
                             <div class="col-12">
                                 <label asp-for="StartDate" class="form-label"></label>
-                                <input asp-for="StartDate" class="form-control" />
+                                <input asp-for="StartDate" class="form-control"/>
                                 <span asp-validation-for="StartDate" class="text-danger"></span>
                             </div>
 
@@ -48,13 +55,14 @@
                         </div>
                     </div>
                 </div>
+            </div>
         </form>
 
     </div>
 </div>
 
 @section Scripts
-    {
+{
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
