@@ -5,10 +5,12 @@ using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
+using GrowGreenWeb.Filters;
 using GrowGreenWeb.Services;
 
 namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
 {
+    [Authenticated(AccountType.Lecturer)]
     public class CreateLectureModel : PageModel
     {
         [BindProperty, DisplayName("Title*"), Required, MaxLength(100)]

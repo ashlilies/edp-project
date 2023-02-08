@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using GrowGreenWeb.Filters;
 using GrowGreenWeb.Models;
 using GrowGreenWeb.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -12,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
 {
+    [Authenticated(AccountType.Lecturer)]
     public class IndexModel : PageModel
     {
         public Course Course { get; set; } = null!; // for sidebar

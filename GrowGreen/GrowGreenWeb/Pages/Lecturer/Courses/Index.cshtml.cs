@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GrowGreenWeb.Filters;
 using GrowGreenWeb.Models;
 using GrowGreenWeb.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -12,6 +13,7 @@ using NuGet.Protocol.Core.Types;
 
 namespace GrowGreenWeb.Pages.Lecturer.Courses
 {
+    [Authenticated(AccountType.Lecturer)]
     public class IndexModel : PageModel
     {
         public List<Course> OngoingCourses { get; set; } = new();

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GrowGreenWeb.Filters;
 using GrowGreenWeb.Models;
 using GrowGreenWeb.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GrowGreenWeb.Pages.Courses.Viewer
 {
+    [Authenticated(AccountType.Learner)]
     public class QnAModel : PageModel
     {
         [BindProperty]

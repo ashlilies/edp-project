@@ -4,11 +4,13 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using GrowGreenWeb.Filters;
 using GrowGreenWeb.Helpers;
 using GrowGreenWeb.Services;
 
 namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
 {
+    [Authenticated(AccountType.Lecturer)]
     public class CreateVideoModel : PageModel
     {
         [BindProperty, DisplayName("Video File (mp4, ogg)")]

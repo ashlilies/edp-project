@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using GrowGreenWeb.Filters;
 using GrowGreenWeb.Models;
 using GrowGreenWeb.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +12,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace GrowGreenWeb.Pages.Lecturer.Courses
 {
+    [Authenticated(AccountType.Lecturer)]
     public class CreateModel : PageModel
     {
         [BindProperty, Required, MaxLength(100), DisplayName("Title")]
