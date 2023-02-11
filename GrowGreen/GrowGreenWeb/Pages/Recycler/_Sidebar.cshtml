@@ -1,0 +1,17 @@
+@using GrowGreenWeb.Models
+@using Microsoft.EntityFrameworkCore
+@inject GrowGreenContext Db
+
+<h3 class="mb-3">Item Types</h3>
+@* List of items *@
+@{
+    foreach (ItemType itemType in ViewBag.ItemTypes)
+    {
+        <p>
+            <a asp-page="Map" asp-route-selectedItemTypeId="@itemType.Id"
+               class="text-reset text-decoration-none">
+                @itemType.Name
+            </a>
+        </p>
+    }
+}

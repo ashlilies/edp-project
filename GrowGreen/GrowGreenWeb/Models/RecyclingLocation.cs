@@ -8,6 +8,7 @@ namespace GrowGreenWeb.Models
         public RecyclingLocation()
         {
             RecyclingRecords = new HashSet<RecyclingRecord>();
+            ItemTypes = new HashSet<ItemType>();
         }
 
         public int Id { get; set; }
@@ -18,5 +19,7 @@ namespace GrowGreenWeb.Models
         public TimeSpan ClosingTime { get; set; }
 
         public virtual ICollection<RecyclingRecord> RecyclingRecords { get; set; }
+
+        public virtual ICollection<ItemType> ItemTypes { get; set; }
     }
 }

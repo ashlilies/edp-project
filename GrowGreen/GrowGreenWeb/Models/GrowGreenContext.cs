@@ -468,6 +468,19 @@ namespace GrowGreenWeb.Models
                 entity.ToTable("RecyclingLocation");
 
                 entity.Property(e => e.Name).HasMaxLength(100);
+
+                entity.HasMany(d => d.ItemTypes)
+                    .WithMany(p => p.RecyclingLocations)
+                    .UsingEntity<Dictionary<string, object>>(
+                        "RecyclingLocationItemType",
+                        l => l.HasOne<ItemType>().WithMany().HasForeignKey("ItemTypeId").HasConstraintName("FK_RecyclingLocationItemType_ItemType"),
+                        r => r.HasOne<RecyclingLocation>().WithMany().HasForeignKey("RecyclingLocationId").HasConstraintName("FK_RecyclingLocationItemType_RecyclingLocation"),
+                        j =>
+                        {
+                            j.HasKey("RecyclingLocationId", "ItemTypeId");
+
+                            j.ToTable("RecyclingLocationItemType");
+                        });
             });
 
             modelBuilder.Entity<RecyclingRecord>(entity =>

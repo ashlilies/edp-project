@@ -30,9 +30,11 @@
     <div class="card-body text-center">
 
         <h1>Recycler Assistant</h1>
-        <h5>Find the nearest recycling point today!</h5>
+	    <h5>Find the nearest recycling point today!</h5>
+	    
+	    <a class="btn btn-secondary px-5 mt-3" asp-page="Map">View Map</a>
 
-        <form method="post" enctype="multipart/form-data"
+	    <form method="post" enctype="multipart/form-data"
               class="mt-4 w-50 ms-auto me-auto" id="upload-form">
             <label asp-for="ImageFile" class="form-label"></label>
             <input asp-for="ImageFile" class="form-control" accept="image/*"

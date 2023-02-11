@@ -9,8 +9,10 @@
     <ItemGroup>
         <PackageReference Include="AWSSDK.Core" Version="3.7.105.1" />
         <PackageReference Include="AWSSDK.Rekognition" Version="3.7.102.38" />
+        <PackageReference Include="bootstrap-select" Version="1.13.18" />
         <PackageReference Include="Microsoft.ML.OnnxRuntime" Version="1.13.1" />
         <PackageReference Include="Microsoft.ML.Vision" Version="2.0.1" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
         <PackageReference Include="SciSharp.TensorFlow.Redist" Version="2.10.0" />
         <PackageReference Include="Stripe.net" Version="41.4.0" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />

@@ -1,0 +1,178 @@
+@page
+@model GrowGreenWeb.Pages.Recycler.MapModel
+@{
+    ViewData["Title"] = "Map";
+}
+
+<h1>Recycler</h1>
+<div class="mb-3 card p-2">
+    <div class="card-body row" style="height: 80vh;">
+        <div class="col-lg-3 border-end h-100">
+            @{ await Html.RenderPartialAsync("_Sidebar"); }
+        </div>
+        <div class="col-lg-9 h-100">
+            @* The actual map *@
+            <div class="row mb-3">
+                <div class="col-6">
+                    <h3 class="lh-base">All Disposal Locations</h3>
+                </div>
+                <div class="col-6 text-end">
+                    @if (Model.Learner is not null)
+                    {
+                        <button type="button" class="btn btn-success bg-3 me-2"
+                                asp-page="Create" data-bs-toggle="modal"
+                                data-bs-target="#contribute-modal">
+                            Contribute Location
+                            <img src="/img/icons/plus.png" class="icon icon-btn"/>
+                        </button>
+                    }
+                </div>
+            </div>
+            <div id="map" class="w-100" style="height: 95%"></div>
+            <script
+                src="https://maps.googleapis.com/maps/api/js?key=@(Model.MapsApiKey)&callback=initMap"
+                defer></script>
+        </div>
+    </div>
+</div>
+
+@if (Model.Learner is not null)
+{
+    <div class="modal fade" id="contribute-modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Contribute Disposal Location</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    @* Get the location of an address entered by the user *@
+                    <form method="post">
+                        <label class="form-label" asp-for="Address"></label>
+                        <div class="row mb-2">
+                            <div class="col-9">
+                                <input class="form-control"
+                                       asp-for="Address"
+                                       id="address-input"/>
+                            </div>
+                            <div class="col-3">
+                                <button type="button" class="btn btn-secondary w-100"
+                                        onclick="loadAddress()">
+                                    Load
+                                </button>
+                            </div>
+                        </div>
+                        <label asp-for="Latitude" class="form-label mb-2"></label>
+                        <input asp-for="Latitude" class="form-control" disabled
+                               id="latitude"/>
+                        <label asp-for="Longitude" class="form-label mb-2"></label>
+                        <input asp-for="Latitude" class="form-control" disabled
+                               id="longitude"/>
+                        
+                        <div id="placeInformation">
+                            <label asp-for="Name" class="form-label mb-2"></label>
+                            <input asp-for="Name" class="form-control"
+                                   id="name-input"/>
+                            <label asp-for="OpeningTime" class="form-label mb-2"></label>
+                            <input asp-for="OpeningTime" class="form-control"
+                                   id="opening-time"/>
+                            <label asp-for="ClosingTime" class="form-label mb-2"></label>
+                            <input asp-for="ClosingTime" class="form-control"
+                                   id="closing-time"/>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger me-auto" data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+                    <button type="button disabled" class="btn btn-success" id="save-btn" disabled>
+                        Save changes
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts
+{
+    <script>
+    // Initialize and add the map
+    function initMap() {
+      // The location of Singapore
+      const singapore = { lat: 1.3521, lng: 103.8198 };
+      // // The map
+      const map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 12,
+        center: singapore,
+      });
+      // The marker, positioned at Uluru
+      // const marker = new google.maps.Marker({
+      //   position: uluru,
+      //   map: map,
+      // });
+      
+     //  let infoWindow = new google.maps.InfoWindow({
+     //   content: "Click the map to contribute a location!",
+     //   position: singapore,
+     // });
+      
+      // infoWindow.open(map)
+      // map.addListener("click", (mapsMouseEvent) => {
+      //     // Close the current InfoWindow.
+      //     infoWindow.close();
+      //     // Create a new InfoWindow.
+      //     infoWindow = new google.maps.InfoWindow({
+      //       position: mapsMouseEvent.latLng,
+      //     });
+      //     infoWindow.setContent(
+      //       JSON.stringify(mapsMouseEvent.latLng.toJSON(), null, 2)
+      //     );
+      //     infoWindow.open(map);
+      // });
+    }
+    
+    $("#placeInformation").hide();
+    
+    function loadAddress() {
+       var geocoder = new google.maps.Geocoder();
+       var address = $("#address-input").val();
+       
+       if (!address) {
+           alert("Please enter an address!");
+           return;
+       }
+       
+       geocoder.geocode( { 'address': address}, function(results, status) {
+         if (status == 'OK') {
+             let location = results[0].geometry.location;
+             
+           // map.setCenter(location);
+           // var marker = new google.maps.Marker({
+           //     map: map,
+           //     position: location
+           // });
+           
+           // set lat and long
+           console.log(results);
+           console.log(location.lat());
+           
+           let oldName = $("#address-input").val();
+           
+           $("#address-input").val(results[0].formatted_address)
+           $("#latitude").val(location.lat());
+           $("#longitude").val(location.lng());
+           $("#name-input").val(oldName);
+           
+           $("#save-btn").removeAttr("disabled");
+           $("#placeInformation").show()
+         } else {
+           alert('Geocode was not successful for the following reason: ' + status);
+         }
+       }); 
+    }
+    
+    window.initMap = initMap;
+    </script>
+}
