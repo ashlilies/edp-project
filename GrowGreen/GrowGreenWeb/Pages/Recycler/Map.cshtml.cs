@@ -92,6 +92,7 @@ namespace GrowGreenWeb.Pages.Recycler
                 });
 
                 IsFilteredFromRecycler = true;
+                ViewData["IsFilteredFromRecycler"] = true;
             }
 
             if (itemTypes?.Any() != true)

@@ -7,17 +7,38 @@
       overflow: auto;
     }
 </style>
-
-<h3 class="mb-3">Item Types</h3>
+@if (ViewBag.IsFilteredFromRecycler == true)
+{
+    <style>
+        #itemTypeList {
+        height: 85%;
+        }
+    </style>
+    <h3 class="mb-3">Detected Item Types</h3>
+    <a class="text-decoration-none"
+       asp-page="Map">
+        View all item types
+    </a>
+}
+else
+{
+    <style>
+        #itemTypeList {
+        height: 90%;
+        }
+    </style>
+    <h3 class="mb-3">Item Types</h3>
+}
 @* List of items *@
 <input class="form-control mb-2" id="searchTypeInput" type="text" placeholder="Search..">
 
-<ul class="list-group list-scrollable" id="itemTypeList" style="height: 90%;">
+<ul class="list-group list-scrollable" id="itemTypeList">
     @{
         foreach (ItemType itemType in ViewBag.ItemTypes)
         {
             <a asp-page="Map" asp-route-selectedItemTypeId="@itemType.Id"
-               class="text-reset text-decoration-none"><p>
+               class="text-reset text-decoration-none">
+                <p>
                 <li>
                     @itemType.Name
                 </li>

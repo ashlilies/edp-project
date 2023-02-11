@@ -6,6 +6,25 @@
     ViewData["Title"] = "Map";
 }
 
+<style>
+    #map {
+        @if (Model.ItemType is not null)
+        {
+            <text>height: 85%;</text>
+
+        }
+        else
+        {
+            <text>height: 90%;</text>
+        }
+    }
+        
+     .pin-image {
+        height: 200px;
+        width: auto;
+     }   
+</style>
+
 <h1>Recycler</h1>
 <div class="mb-3 card p-2">
     <div class="card-body row" style="height: 80vh;">
@@ -47,7 +66,7 @@
                     }
                 </div>
             </div>
-            <div id="map" class="w-100" style="height: 90%"></div>
+            <div id="map" class="w-100"></div>
             <script
                 src="https://maps.googleapis.com/maps/api/js?key=@(Model.MapsApiKey)&callback=initMap"
                 defer></script>
@@ -205,12 +224,12 @@
             var openingTime = "@HttpUtility.JavaScriptStringEncode(location.OpeningTime.ToString("hh\\:mm"))"
             var closingTime = "@HttpUtility.JavaScriptStringEncode(location.ClosingTime.ToString("hh\\:mm"))"
             var itemTypes = "@(HttpUtility
-                .JavaScriptStringEncode(
-                    string.Join(", ", @location.ItemTypes.Select(t => t.Name).ToList())))";
+                                   .JavaScriptStringEncode(
+                                       string.Join(", ", @location.ItemTypes.Select(t => t.Name).ToList())))";
             
             @if (location.ImageUrl is not null)
             {
-                var imgUrl = "@HttpUtility.JavaScriptStringEncode(location.ImageUrl)";
+                <text>var imgUrl = "@HttpUtility.JavaScriptStringEncode(location.ImageUrl)";</text>
 
             }
             
@@ -219,8 +238,13 @@
                 <h6>${address}</h6>
                 
                 <p>Item Types: <span class="color-3">${itemTypes}</span></p>
-                
-                <span class=text-muted>${position.lat}, ${position.lng}</span>
+
+                @if (location.ImageUrl is not null)
+                {
+                <img src="${imgUrl}" class="pin-image" /><br>
+                    
+                }
+                <span class="text-muted mt-2">${position.lat}, ${position.lng}</span>
             `;
             
             const marker = new google.maps.Marker({
@@ -279,7 +303,8 @@
            $("#save-btn").removeAttr("disabled");
            $("#placeInformation").show()
          } else {
-           alert('Geocode was not successful for the following reason: ' + status);
+             alert("Error: No locations found")
+           console.log('Geocode was not successful for the following reason: ' + status);
          }
        }); 
     }
