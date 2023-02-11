@@ -20,7 +20,7 @@ public class AuthenticatedAttribute : ResultFilterAttribute
     }
 
 
-    public override async Task OnResultExecutionAsync(ResultExecutingContext context, ResultExecutionDelegate next)
+    public override void OnResultExecuting(ResultExecutingContext context)
     {
         AccountService svc = context.HttpContext.RequestServices.GetRequiredService<AccountService>();
 
@@ -32,7 +32,7 @@ public class AuthenticatedAttribute : ResultFilterAttribute
                 || user.IsLearner && AccountType == AccountType.Learner)
             {
                 context.HttpContext.Items.Add("User", user);
-                await next.Invoke();
+                // await next.Invoke();
                 return;
             }
         }
@@ -42,6 +42,6 @@ public class AuthenticatedAttribute : ResultFilterAttribute
         {
             prevUrl = prevUrl
         });
-        await context.Result.ExecuteResultAsync(context);
+        // await context.Result.ExecuteResultAsync(context);
     }
 }
