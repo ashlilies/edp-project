@@ -28,7 +28,9 @@ namespace GrowGreenWeb.Pages.Courses.Viewer
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
-            User learner = _accountService.GetCurrentUser(HttpContext)!;
+            User? learner = _accountService.GetCurrentUser(HttpContext);
+            if (learner is null)
+                return Page();
             _context.Attach(learner);
             Learner = learner;
 

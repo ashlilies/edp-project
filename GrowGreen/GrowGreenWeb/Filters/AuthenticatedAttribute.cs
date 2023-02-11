@@ -10,7 +10,7 @@ namespace GrowGreenWeb.Filters;
 /// use [Authenticated(AccountType.Learner)] to check if learner is logged in,
 /// and so on for other user types such as Lecturer and Admin.
 /// </summary>
-public class AuthenticatedAttribute : ActionFilterAttribute
+public class AuthenticatedAttribute : ResultFilterAttribute
 {
     private AccountType AccountType { get; init; }
 
@@ -20,10 +20,8 @@ public class AuthenticatedAttribute : ActionFilterAttribute
     }
 
 
-    public override async void OnResultExecuting(ResultExecutingContext context)
+    public override async Task OnResultExecutionAsync(ResultExecutingContext context, ResultExecutionDelegate next)
     {
-        base.OnResultExecuting(context);
-
         AccountService svc = context.HttpContext.RequestServices.GetRequiredService<AccountService>();
 
         User? user = svc.GetCurrentUser(context.HttpContext, AccountType);
@@ -34,6 +32,7 @@ public class AuthenticatedAttribute : ActionFilterAttribute
                 || user.IsLearner && AccountType == AccountType.Learner)
             {
                 context.HttpContext.Items.Add("User", user);
+                await next.Invoke();
                 return;
             }
         }
