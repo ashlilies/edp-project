@@ -15,6 +15,7 @@ namespace GrowGreenWeb.Models
             Donations = new HashSet<Donation>();
             NewsletterEditHistories = new HashSet<NewsletterEditHistory>();
             Posts = new HashSet<Post>();
+            RecyclingLocations = new HashSet<RecyclingLocation>();
             RecyclingRecords = new HashSet<RecyclingRecord>();
             RedeemRewards = new HashSet<RedeemReward>();
             ReportHistories = new HashSet<ReportHistory>();
@@ -49,6 +50,7 @@ namespace GrowGreenWeb.Models
         public virtual ICollection<Donation> Donations { get; set; }
         public virtual ICollection<NewsletterEditHistory> NewsletterEditHistories { get; set; }
         public virtual ICollection<Post> Posts { get; set; }
+        public virtual ICollection<RecyclingLocation> RecyclingLocations { get; set; }
         public virtual ICollection<RecyclingRecord> RecyclingRecords { get; set; }
         public virtual ICollection<RedeemReward> RedeemRewards { get; set; }
         public virtual ICollection<ReportHistory> ReportHistories { get; set; }

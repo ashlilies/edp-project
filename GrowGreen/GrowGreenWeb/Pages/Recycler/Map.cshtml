@@ -38,19 +38,24 @@
                     @if (Model.ItemType is not null)
                     {
                         <h3 class="lh-base">@Model.ItemType.Name Disposal Locations</h3>
+                        <span>
+                            @Model.RecyclingLocationPins.Count location(s) found&nbsp;
                         <a class="text-decoration-none"
                            asp-page="Map"
-                           asp-page-itemTypesIdsCsv="@ViewContext.RouteData.Values["itemTypesIdsCsv"]?.ToString()">
-                            Reset filter
+                           asp-route-itemTypesIdsCsv="@ViewBag.ItemTypeIdsCsv">
+                            (Reset filter)
                         </a>
+                        </span>
                     }
                     else if (Model.IsFilteredFromRecycler)
                     {
                         <h3 class="lh-base">Matching Disposal Locations</h3>
+                        <span>@Model.RecyclingLocationPins.Count location(s) found&nbsp;</span>
                     }
                     else
                     {
                         <h3 class="lh-base">All Disposal Locations</h3>
+                        <span>@Model.RecyclingLocationPins.Count location(s) found&nbsp;</span>
                     }
 
                 </div>
@@ -149,7 +154,7 @@
                                         class="selectpicker"
                                         data-live-search="true">
                                 </select>
-
+                                <span asp-validation-for="ItemTypeIds" class="text-dan"></span>
                             </div>
                         </div>
                     </div>
@@ -181,7 +186,7 @@
       const singapore = { lat: 1.3521, lng: 103.8198 };
       // // The map
       map = new google.maps.Map(document.getElementById("map"), {
-        zoom: 12,
+        zoom: 11.5,
         center: singapore,
       });
       // The marker, positioned at Uluru
@@ -191,7 +196,8 @@
       // });
       
       infoWindow = new google.maps.InfoWindow({
-       content: "Click the map to contribute a location!",
+       // content: "Click the map to contribute a location!",
+       content: "Click the pins to find out more about a location!",
        position: singapore,
      });
       
@@ -218,54 +224,74 @@
         @foreach (RecyclingLocation location in Model.RecyclingLocationPins)
         {
             <text>
-            var title = "@HttpUtility.JavaScriptStringEncode(location.Name)"
-            var address = "@HttpUtility.JavaScriptStringEncode(location.Address)"
-            var position = { lat: @location.Latitude, lng: @location.Longitude }
-            var openingTime = "@HttpUtility.JavaScriptStringEncode(location.OpeningTime.ToString("hh\\:mm"))"
-            var closingTime = "@HttpUtility.JavaScriptStringEncode(location.ClosingTime.ToString("hh\\:mm"))"
-            var itemTypes = "@(HttpUtility
-                                   .JavaScriptStringEncode(
-                                       string.Join(", ", @location.ItemTypes.Select(t => t.Name).ToList())))";
+            var title@(location.Id) = "@HttpUtility.JavaScriptStringEncode(location.Name)"
+            var address@(location.Id) = "@HttpUtility.JavaScriptStringEncode(location.Address)"
+            var position@(location.Id) = { lat: @location.Latitude, lng: @location.Longitude }
+            var openingTime@(location.Id) = "@HttpUtility.JavaScriptStringEncode(location.OpeningTime.ToString("hh\\:mm"))"
+            var closingTime@(location.Id) = "@HttpUtility.JavaScriptStringEncode(location.ClosingTime.ToString("hh\\:mm"))"
+            var isOpen@(location.Id) = "@((DateTime.Now - DateTime.Today) > location.OpeningTime && (DateTime.Now - DateTime.Today) < location.ClosingTime)";
+            var itemTypes@(location.Id) = "@(HttpUtility
+                                                 .JavaScriptStringEncode(
+                                                     string.Join(", ", @location.ItemTypes.Select(t => t.Name).ToList())))";
             
             @if (location.ImageUrl is not null)
             {
-                <text>var imgUrl = "@HttpUtility.JavaScriptStringEncode(location.ImageUrl)";</text>
+                <text>var imgUrl@(location.Id) = "@HttpUtility.JavaScriptStringEncode(location.ImageUrl)";</text>
 
             }
             
-            var contentString = `
-                <h5>${title}</h5>
-                <h6>${address}</h6>
+            console.log(isOpen@(location.Id))
+            
+            if (isOpen@(location.Id) != "False") {
+                isOpen@(location.Id) = "<p class=\"text-success\">Open right now</p>"
+            } else {
+                isOpen@(location.Id) = "<p class=\"text-danger\">Closed right now</p>"
+            }
+            var contentString@(location.Id) = `
+                <h5>${title@(location.Id)}</h5>
+                <h6>${address@(location.Id)}</h6>
                 
-                <p>Item Types: <span class="color-3">${itemTypes}</span></p>
+                ${isOpen@(location.Id)}
+                <p>Opening Hours: ${openingTime@(location.Id)} - ${closingTime@(location.Id)}</p>
+                <p>Item Types: <span class="color-3">${itemTypes@(location.Id)}</span></p>
 
                 @if (location.ImageUrl is not null)
                 {
-                <img src="${imgUrl}" class="pin-image" /><br>
-                    
+                    <img src="${imgUrl@(location.Id)}" class="pin-image" /><br>
+
                 }
-                <span class="text-muted mt-2">${position.lat}, ${position.lng}</span>
+                <span class="text-muted mt-2">${position@(location.Id).lat}, ${position@(location.Id).lng}</span>
+                @if (Model.Learner?.Id == location.UserId)
+                {
+                    <br><text>Added by you </text><a class="text-danger" href="/Recycler/Map?handler=Delete&id=@location.Id">(Delete)</a>
+                }
+                else
+                {
+                    <br><span class="text-muted">Added by @location.User.FullName</span>
+                }
             `;
             
-            const marker = new google.maps.Marker({
-                    position: position,
+            let marker@(location.Id) = new google.maps.Marker({
+                    position: position@(location.Id),
                     map: map,
             })
                 
-            infoWindow.close();  
-            infoWindow = new google.maps.InfoWindow({
-                   content: contentString,
-                   position: position,
-            })
+
             
             // infoWindow.open(map)
             
-              google.maps.event.addListener(marker, 'click', (function(marker) {
-                return function() {
-                  infoWindow.setContent(contentString);
-                  infoWindow.open(map, marker);
+              google.maps.event.addListener(marker@(location.Id), 'click', (function(marker@(location.Id)) {
+                  return function() {
+                      infoWindow.close();  
+                      // infoWindow = new google.maps.InfoWindow({
+                      //        content: contentString,
+                      //        position: position,
+                      // })
+                      infoWindow.setContent(contentString@(location.Id));
+                      infoWindow.setPosition(position@(location.Id));
+                      infoWindow.open(map, marker@(location.Id));
                 }
-              })(marker));
+              })(marker@(location.Id)));
             </text>
         }
     }

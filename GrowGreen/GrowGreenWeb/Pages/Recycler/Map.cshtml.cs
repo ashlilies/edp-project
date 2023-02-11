@@ -75,8 +75,11 @@ namespace GrowGreenWeb.Pages.Recycler
                                                int? selectedItemTypeId = null)
         {
             // for the sidebar only - searching from the AI image
+
             #region sidebar
+
             List<ItemType>? itemTypes = null;
+            ViewData["ItemTypeIdsCsv"] = itemTypesIdsCsv;
 
             if (!string.IsNullOrEmpty(itemTypesIdsCsv))
             {
@@ -86,7 +89,8 @@ namespace GrowGreenWeb.Pages.Recycler
                 itemTypesIds.ToList().ForEach(id =>
                 {
                     // get item type from db
-                    ItemType? type = _context.ItemTypes.Find(id);
+                    int itemTypeId = Convert.ToInt32(id);
+                    ItemType? type = _context.ItemTypes.Find(itemTypeId);
                     if (type is not null)
                         itemTypes.Add(type);
                 });
@@ -104,18 +108,23 @@ namespace GrowGreenWeb.Pages.Recycler
 
             ViewData["ItemTypes"] = itemTypes;
             ViewData["SelectedItemTypeId"] = selectedItemTypeId;
+
             #endregion
-            
+
             // load map pins
-            var allPins = _context.RecyclingLocations.Include(l => l.ItemTypes);
+            var allPins = (await _context.RecyclingLocations
+                    .Include(l => l.ItemTypes)
+                    .Include(l => l.User)
+                    .ToListAsync())
+                .Where(l => l.ItemTypes.Intersect(itemTypes).Any());
 
             if (selectedItemTypeId != null)
             {
                 ItemType itemType = (await _context.ItemTypes
                     .FindAsync(selectedItemTypeId))!;
-                RecyclingLocationPins = await allPins
+                RecyclingLocationPins = allPins
                     .Where(l => l.ItemTypes.Contains(itemType))
-                    .ToListAsync();
+                    .ToList();
                 ItemType = itemType;
             }
             else
@@ -166,11 +175,13 @@ namespace GrowGreenWeb.Pages.Recycler
             RecyclingLocation location = new RecyclingLocation
             {
                 Name = Name,
+                Address = Address,
                 Latitude = Latitude,
                 Longitude = Longitude,
                 OpeningTime = OpeningTime,
                 ClosingTime = ClosingTime,
-                ImageUrl = imageUrl
+                ImageUrl = imageUrl,
+                UserId = _accountService.GetCurrentUser(HttpContext)!.Id
             };
 
             _context.Add(location);
@@ -183,6 +194,39 @@ namespace GrowGreenWeb.Pages.Recycler
             TempData["FlashMessage.Text"] =
                 "Successfully added location. Check the map!";
             return await OnGet(itemTypesIdsCsv, selectedItemTypeId);
+        }
+
+        public async Task<IActionResult> OnGetDelete(int id)
+        {
+            User? user = _accountService.GetCurrentUser(HttpContext);
+            RecyclingLocation? toDelete = await _context.RecyclingLocations
+                .FindAsync(id);
+
+            if (toDelete is null)
+            {
+                TempData["FlashMessage.Type"] = "danger";
+                TempData["FlashMessage.Text"] =
+                    "Error deleting your contribution.";
+                return await OnGet();
+            }
+
+            if (toDelete.UserId != user.Id)
+            {
+                TempData["FlashMessage.Type"] = "danger";
+                TempData["FlashMessage.Text"] =
+                    "Error deleting your contribution.";
+                return await OnGet();
+            }
+
+            _context.Remove(toDelete);
+            await _context.SaveChangesAsync();
+
+
+            TempData["FlashMessage.Type"] = "success";
+            TempData["FlashMessage.Text"] =
+                "Successfully removed your contribution.";
+
+            return await OnGet();
         }
 
         private async Task<string?> UploadFile()
