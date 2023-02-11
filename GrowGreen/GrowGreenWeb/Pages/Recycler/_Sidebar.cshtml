@@ -37,6 +37,7 @@ else
         foreach (ItemType itemType in ViewBag.ItemTypes)
         {
             <a asp-page="Map" asp-route-selectedItemTypeId="@itemType.Id"
+               asp-route-itemTypesIdsCsv="@ViewBag.ItemTypeIdsCsv"
                class="text-reset text-decoration-none">
                 <p>
                 <li>

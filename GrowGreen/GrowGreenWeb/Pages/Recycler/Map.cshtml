@@ -42,7 +42,7 @@
                             @Model.RecyclingLocationPins.Count location(s) found&nbsp;
                         <a class="text-decoration-none"
                            asp-page="Map"
-                           asp-page-itemTypesIdsCsv="@ViewContext.RouteData.Values["itemTypesIdsCsv"]?.ToString()">
+                           asp-route-itemTypesIdsCsv="@ViewBag.ItemTypeIdsCsv">
                             (Reset filter)
                         </a>
                         </span>
@@ -186,7 +186,7 @@
       const singapore = { lat: 1.3521, lng: 103.8198 };
       // // The map
       map = new google.maps.Map(document.getElementById("map"), {
-        zoom: 12,
+        zoom: 11.5,
         center: singapore,
       });
       // The marker, positioned at Uluru

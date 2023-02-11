@@ -79,6 +79,7 @@ namespace GrowGreenWeb.Pages.Recycler
             #region sidebar
 
             List<ItemType>? itemTypes = null;
+            ViewData["ItemTypeIdsCsv"] = itemTypesIdsCsv;
 
             if (!string.IsNullOrEmpty(itemTypesIdsCsv))
             {
