@@ -8,6 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AWSSDK.Core" Version="3.7.105.1" />
+    <PackageReference Include="AWSSDK.Rekognition" Version="3.7.102.38" />
     <PackageReference Include="dotenv.net" Version="3.1.2" />
     <PackageReference Include="jQuery" Version="3.6.3" />
     <PackageReference Include="Microsoft.AspNet.SignalR.Core" Version="2.4.3" />
@@ -70,11 +72,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Assets\Inception" />
     <Folder Include="Pages\Account" />
     <Folder Include="Pages\Admin\Newsletters\History" />
     <Folder Include="Pages\Admin\Newsletters\MailingList" />
-    <Folder Include="Pages\Recycler" />
     <Folder Include="wwwroot\uploads\courseThumbnail" />
     <Folder Include="wwwroot\uploads\newsletter" />
   </ItemGroup>
@@ -87,13 +87,14 @@
     <Content Update="Pages\Shared\_LayoutGiving.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Remove="Assets\AmazonRekognitionAllLabels_v3.0.csv" />
+    <Content Include="Assets\AmazonRekognitionAllLabels_v3.0.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
     <None Remove="Assets\mobilenetv2-7.onnx" />
-    <Resource Include="Assets\mobilenetv2-7.onnx">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
   </ItemGroup>
 
 </Project>

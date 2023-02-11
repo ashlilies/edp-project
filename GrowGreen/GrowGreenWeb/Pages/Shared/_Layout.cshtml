@@ -109,10 +109,13 @@
                         <a class="nav-link text-dark" asp-area="" asp-page="/AboutUs">Our Events</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-page="/AboutUs">Ways to Give</a>
+                        <a class="nav-link text-dark" asp-area="" asp-page="/Giving/main">Ways to Give</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-page="/Courses/Index">Our Courses</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-page="/Recycler/Index">Recycler</a>
                     </li>
                 </ul>
 
@@ -134,13 +137,13 @@
     </main>
 </div>
 
-<footer class="border-top footer text-white py-2">
+<footer class="border-top footer text-white py-2 d-none d-md-block">
     <div class="row d-flex align-items-center" style="height: 80px; margin: 0" id="subscribe-card-row">
         <div class="col-1"></div>
         <div class="card mb-3 col-10 card-footer">
             <form method="post" asp-page="/Subscribe">
                 <div class="row g-0">
-                    <div class="col-lg-3">
+                    <div class="col-md-3">
                         <div class="card-body">
                             <div class="row">
                                 @* <div class="col-sm-1"></div> *@
@@ -214,10 +217,13 @@
                     <a class="text-reset text-decoration-none" asp-page="/Index">Our Events</a>
                 </div>
                 <div class="row">
-                    <a class="text-reset text-decoration-none" asp-page="/Index">Ways to Give</a>
+                    <a class="text-reset text-decoration-none" asp-page="/Giving/main">Ways to Give</a>
                 </div>
                 <div class="row">
-                    <a class="text-reset text-decoration-none" asp-page="/Index">Our Workshops</a>
+                    <a class="text-reset text-decoration-none" asp-page="/Courses">Our Courses</a>
+                </div>
+                <div class="row">
+                    <a class="text-reset text-decoration-none" asp-page="/Recycler">Recycler</a>
                 </div>
             </div>
             <div class="col-lg-6 col-md-12">

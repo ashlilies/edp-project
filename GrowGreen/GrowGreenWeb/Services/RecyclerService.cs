@@ -1,62 +1,50 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.IO;
-using Microsoft.ML;
-using static Microsoft.ML.DataOperationsCatalog;
-using Microsoft.ML.Vision;
+using Amazon.Rekognition;
+using Amazon.Rekognition.Model;
 
 namespace GrowGreenWeb.Services;
 
 public class RecyclerService
 {
-    static string _assetsPath = Path.Combine(Environment.CurrentDirectory, "assets");
-    static string _imagesFolder = Path.Combine(_assetsPath, "images");
-    static string _trainTagsTsv = Path.Combine(_imagesFolder, "tags.tsv");
-    static string _testTagsTsv = Path.Combine(_imagesFolder, "test-tags.tsv");
-    static string _predictSingleImage = Path.Combine(_imagesFolder, "toaster3.jpg");
-    static string _inceptionTensorFlowModel = Path.Combine(_assetsPath, "inception", "tensorflow_inception_graph.pb");
+    private readonly AmazonRekognitionClient _client;
 
-    public static void Execute()
+    public RecyclerService()
     {
-        MLContext mlContext = new MLContext();
+        string accessKey =
+            Environment.GetEnvironmentVariable("AWS_REKOGNITION_ACCESS_KEY")!;
+        string secretKey =
+            Environment.GetEnvironmentVariable("AWS_REKOGNITION_SECRET_KEY")!;
+        string region = Environment.GetEnvironmentVariable("AWS_REGION")!;
 
-        
+        var credentials =
+            new Amazon.Runtime.BasicAWSCredentials(accessKey, secretKey);
+        var regionEndpoint = Amazon.RegionEndpoint.GetBySystemName(region);
+
+        _client = new AmazonRekognitionClient(credentials, regionEndpoint);
     }
-    
-    void ClassifySingleImage(MLContext mlContext, ITransformer model)
-    {
 
-    }
-    
-    void DisplayResults(IEnumerable<ImagePrediction> imagePredictionData)
+    public async Task<DetectLabelsResponse> GetLabels(string imagePath)
     {
-        foreach (ImagePrediction prediction in imagePredictionData)
+        Image image = new Image
         {
-            Console.WriteLine($"Image: {Path.GetFileName(prediction.ImagePath)} predicted as: {prediction.PredictedLabelValue} with score: {prediction.Score.Max()} ");
-        }
+            Bytes = new MemoryStream(await LoadFile(imagePath))
+        };
+
+        DetectLabelsRequest request = new DetectLabelsRequest
+        {
+            Image = image,
+            MaxLabels = 10,
+            MinConfidence = 80F
+        };
+
+        return await _client.DetectLabelsAsync(request);
     }
-}
 
-struct InceptionSettings
-{
-    public const int ImageHeight = 224;
-    public const int ImageWidth = 224;
-    public const float Mean = 117;
-    public const float Scale = 1;
-    public const bool ChannelsLast = true;
-}
-
-public class ImageData
-{
-    public string ImagePath { get; set; }
-
-    public string Label { get; set; }
-}
-
-public class ImagePrediction : ImageData
-{
-    public float[] Score;
-
-    public string PredictedLabelValue;
+    private async Task<byte[]> LoadFile(string path)
+    {
+        await using var fs =
+            new FileStream(path, FileMode.Open, FileAccess.Read);
+        byte[] data = new byte[fs.Length];
+        _ = await fs.ReadAsync(data, 0, (int)fs.Length);
+        return data;
+    }
 }
