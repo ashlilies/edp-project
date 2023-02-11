@@ -1,9 +1,9 @@
 @page
 @model GrowGreenWeb.Pages.Lecturer.DashboardModel
 
-<canvas id="num_of_courses_chart" width="400" height="400"></canvas>
+<canvas id="num_of_signups_chart" width="400" height="400"></canvas>
 <br />
-<canvas id="num_of_events_chart" width="400" height="400"></canvas>
+<canvas id="num_of_courses_chart" width="400" height="400"></canvas>
 <br />
 
 @section Scripts{
@@ -23,9 +23,39 @@
 
 <script>
     // Generate Number of Courses chart 
+    const barColors = ["red", "green", "blue", "orange", "brown"];
+    @* const courseSignUpsXValues = [];
+            const courseSignUpsYValues = [];
+
+            const listOfCourseSignUps = @Html.Raw(Model.listOfCourseSignUpsJson);
+
+            listOfCourseSignUps.forEach((course, index) => {
+            courseSignUpsValues.push(course.);
+            courseSignUpsValues.push(course.MaxCapacity);
+            });
+
+            new Chart("num_of_signups_chart", {
+            type: "bar",
+            data: {
+            labels: courseSignUpsValues,
+            datasets: [{
+            backgroundColor: barColors,
+            data: courseSignUpsValues,
+
+            }]
+            },
+            options: {
+            legend: { display: false },
+            title: {
+            display: true,
+            text: "Number of courses available"
+            }
+            }
+            });*@
+
+    // Generate Number of Events chart
     const coursesXValues = [];
     const coursesYValues = [];
-    const barColors = ["red", "green", "blue", "orange", "brown"];
 
     const listOfCourses = @Html.Raw(Model.listOfCoursesJson);
 
@@ -40,44 +70,14 @@
             labels: coursesXValues,
             datasets: [{
                 backgroundColor: barColors,
-                data: coursesYValues,
-
+                data: coursesYValues
             }]
         },
         options: {
             legend: { display: false },
             title: {
                 display: true,
-                text: "Number of courses available"
-            }
-        }
-    });
-
-    // Generate Number of Events chart
-    const eventsXValues = [];
-    const eventsYValues = [];
-
-    const listOfEvents = @Html.Raw(Model.listOfEventsJson);
-
-    listOfEvents.forEach((event, index) => {
-        eventsXValues.push(event.Name);
-        eventsYValues.push(event.MaxParticipants);
-    });
-
-    new Chart("num_of_events_chart", {
-        type: "bar",
-        data: {
-            labels: eventsXValues,
-            datasets: [{
-                backgroundColor: barColors,
-                data: eventsYValues
-            }]
-        },
-        options: {
-            legend: { display: false },
-            title: {
-                display: true,
-                text: "Number of events available"
+                text: "Number of courses"
             }
         }
     });

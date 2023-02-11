@@ -12,8 +12,8 @@ namespace GrowGreenWeb.Pages.Lecturer
 {
     public class DashboardModel : PageModel
     {
+        public string listOfCourseSignUpsJson { get; set; }
         public string listOfCoursesJson { get; set; }
-        public string listOfEventsJson { get; set; }
         private readonly GrowGreenContext _context;
         public DashboardModel(GrowGreenContext context)
         {
@@ -21,17 +21,24 @@ namespace GrowGreenWeb.Pages.Lecturer
         }
         public async Task<IActionResult> OnGet()
         {
-            List<Course> courses = await _context.Courses.ToListAsync();
+            var listOfCourseSignUps = _context.CourseSignups
+                .Include(c => c.Course).Where(c => c.Course.LecturerId == 1);
 
-            var listOfCourses = courses.DistinctBy(course => course.Id).ToList();
+            // foreach (var test in listOfCourseSignUps)
+            // {
+            //     Console.WriteLine($"listOfCourseSignUps: {test.Course.Lecturer.Courses.}");
+            // }
 
+            // listOfCourseSignUpsJson = JsonSerializer.Serialize(listOfCourseSignUps);
+
+            var listOfCourses = _context.Courses.Where(c => c.LecturerId == 1);
+            foreach (var i in listOfCourses)
+            {
+                Console.WriteLine($"i: {i}");
+                Console.WriteLine($"i: {i.Name}");
+                Console.WriteLine($"i: {i.MaxCapacity}");
+            }
             listOfCoursesJson = JsonSerializer.Serialize(listOfCourses);
-
-            List<Event> events = await _context.Events.ToListAsync();
-
-            var listOfEvents = events.DistinctBy(events => events.Id).ToList();
-
-            listOfEventsJson = JsonSerializer.Serialize(listOfEvents);
 
             return Page();
         }
