@@ -86,7 +86,8 @@ namespace GrowGreenWeb.Pages.Recycler
                 itemTypesIds.ToList().ForEach(id =>
                 {
                     // get item type from db
-                    ItemType? type = _context.ItemTypes.Find(id);
+                    int itemTypeId = Convert.ToInt32(id);
+                    ItemType? type = _context.ItemTypes.Find(itemTypeId);
                     if (type is not null)
                         itemTypes.Add(type);
                 });
@@ -107,15 +108,18 @@ namespace GrowGreenWeb.Pages.Recycler
             #endregion
             
             // load map pins
-            var allPins = _context.RecyclingLocations.Include(l => l.ItemTypes);
+            var allPins = (await _context.RecyclingLocations
+                .Include(l => l.ItemTypes)
+                .ToListAsync())
+                .Where(l => l.ItemTypes.Intersect(itemTypes).Any());
 
             if (selectedItemTypeId != null)
             {
                 ItemType itemType = (await _context.ItemTypes
                     .FindAsync(selectedItemTypeId))!;
-                RecyclingLocationPins = await allPins
+                RecyclingLocationPins = allPins
                     .Where(l => l.ItemTypes.Contains(itemType))
-                    .ToListAsync();
+                    .ToList();
                 ItemType = itemType;
             }
             else
@@ -166,6 +170,7 @@ namespace GrowGreenWeb.Pages.Recycler
             RecyclingLocation location = new RecyclingLocation
             {
                 Name = Name,
+                Address = Address,
                 Latitude = Latitude,
                 Longitude = Longitude,
                 OpeningTime = OpeningTime,

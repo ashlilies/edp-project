@@ -5,9 +5,11 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Amazon.Rekognition.Model;
+using GrowGreenWeb.Models;
 using GrowGreenWeb.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Tensorflow;
 
 namespace GrowGreenWeb.Pages.Recycler
 {
@@ -22,14 +24,17 @@ namespace GrowGreenWeb.Pages.Recycler
         private readonly RecyclerService _recyclerService;
         private readonly IWebHostEnvironment _hostEnvironment;
         private readonly ILogger<IndexModel> _logger;
+        private readonly GrowGreenContext _context;
 
         public IndexModel(RecyclerService recyclerService, 
                           IWebHostEnvironment hostEnvironment, 
-                          ILogger<IndexModel> logger)
+                          ILogger<IndexModel> logger, 
+                          GrowGreenContext context)
         {
             _recyclerService = recyclerService;
             _hostEnvironment = hostEnvironment;
             _logger = logger;
+            _context = context;
         }
 
         public void OnGet()
@@ -62,11 +67,26 @@ namespace GrowGreenWeb.Pages.Recycler
                 System.IO.File.Delete(filepath);
             }
 
-            var items = response.Labels
-                .Select(l => $"{l.Name} ({l.Confidence}%)");
-            Result = string.Join(", ", items);
+            // var items = response.Labels
+            //     .Select(l => $"{l.Name} ({l.Confidence}%)");
+            // Result = string.Join(", ", items);
+
+            var searchItemLabels = response.Labels
+                .OrderByDescending(l => l.Confidence)
+                .Select(l => l.Name);
+            List<int> selectedItemTypeIds = new List<int>();
+            foreach (string label in searchItemLabels)
+            {
+                ItemType itemType = _context.ItemTypes
+                    .Single(t => t.Name == label);
+                selectedItemTypeIds.Add(itemType.Id);
+            }
+
+            string detectedItemTypesIdsCsvStr = string.Join(",", selectedItemTypeIds);
             
-            return Page();
+            // return Page();
+            return RedirectToPage("Map",
+                  new { itemTypesIdsCsv = detectedItemTypesIdsCsvStr });
         }
 
         private async Task<string> UploadFile()
