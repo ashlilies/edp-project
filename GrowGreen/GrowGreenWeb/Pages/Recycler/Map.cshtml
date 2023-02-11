@@ -229,9 +229,10 @@
             var position@(location.Id) = { lat: @location.Latitude, lng: @location.Longitude }
             var openingTime@(location.Id) = "@HttpUtility.JavaScriptStringEncode(location.OpeningTime.ToString("hh\\:mm"))"
             var closingTime@(location.Id) = "@HttpUtility.JavaScriptStringEncode(location.ClosingTime.ToString("hh\\:mm"))"
+            var isOpen@(location.Id) = "@((DateTime.Now - DateTime.Today) > location.OpeningTime && (DateTime.Now - DateTime.Today) < location.ClosingTime)";
             var itemTypes@(location.Id) = "@(HttpUtility
-                                   .JavaScriptStringEncode(
-                                       string.Join(", ", @location.ItemTypes.Select(t => t.Name).ToList())))";
+                                                 .JavaScriptStringEncode(
+                                                     string.Join(", ", @location.ItemTypes.Select(t => t.Name).ToList())))";
             
             @if (location.ImageUrl is not null)
             {
@@ -239,16 +240,25 @@
 
             }
             
+            console.log(isOpen@(location.Id))
+            
+            if (isOpen@(location.Id) != "False") {
+                isOpen@(location.Id) = "<p class=\"text-success\">Open right now</p>"
+            } else {
+                isOpen@(location.Id) = "<p class=\"text-danger\">Closed right now</p>"
+            }
             var contentString@(location.Id) = `
                 <h5>${title@(location.Id)}</h5>
                 <h6>${address@(location.Id)}</h6>
                 
+                ${isOpen@(location.Id)}
+                <p>Opening Hours: ${openingTime@(location.Id)} - ${closingTime@(location.Id)}</p>
                 <p>Item Types: <span class="color-3">${itemTypes@(location.Id)}</span></p>
 
                 @if (location.ImageUrl is not null)
                 {
-                <img src="${imgUrl@(location.Id)}" class="pin-image" /><br>
-                    
+                    <img src="${imgUrl@(location.Id)}" class="pin-image" /><br>
+
                 }
                 <span class="text-muted mt-2">${position@(location.Id).lat}, ${position@(location.Id).lng}</span>
                 @if (Model.Learner?.Id == location.UserId)
