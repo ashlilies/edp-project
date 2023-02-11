@@ -196,7 +196,8 @@
       // });
       
       infoWindow = new google.maps.InfoWindow({
-       content: "Click the map to contribute a location!",
+       // content: "Click the map to contribute a location!",
+       content: "Click the pins to find out more about a location!",
        position: singapore,
      });
       
@@ -250,6 +251,14 @@
                     
                 }
                 <span class="text-muted mt-2">${position@(location.Id).lat}, ${position@(location.Id).lng}</span>
+                @if (Model.Learner?.Id == location.UserId)
+                {
+                    <br><text>Added by you </text><a class="text-danger" href="/Recycler/Map?handler=Delete&id=@location.Id">(Delete)</a>
+                }
+                else
+                {
+                    <br><span class="text-muted">Added by @location.User.FullName</span>
+                }
             `;
             
             let marker@(location.Id) = new google.maps.Marker({

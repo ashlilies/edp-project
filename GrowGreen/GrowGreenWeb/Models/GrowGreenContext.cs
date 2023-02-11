@@ -469,6 +469,11 @@ namespace GrowGreenWeb.Models
 
                 entity.Property(e => e.Name).HasMaxLength(100);
 
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.RecyclingLocations)
+                    .HasForeignKey(d => d.UserId)
+                    .HasConstraintName("FK_RecyclingLocation_User");
+
                 entity.HasMany(d => d.ItemTypes)
                     .WithMany(p => p.RecyclingLocations)
                     .UsingEntity<Dictionary<string, object>>(

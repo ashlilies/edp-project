@@ -19,7 +19,9 @@ namespace GrowGreenWeb.Models
         public TimeSpan ClosingTime { get; set; }
         public string Address { get; set; } = null!;
         public string? ImageUrl { get; set; }
+        public int UserId { get; set; }
 
+        public virtual User User { get; set; } = null!;
         public virtual ICollection<RecyclingRecord> RecyclingRecords { get; set; }
 
         public virtual ICollection<ItemType> ItemTypes { get; set; }
