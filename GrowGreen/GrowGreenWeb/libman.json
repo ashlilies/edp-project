@@ -14,6 +14,11 @@
       "provider": "cdnjs",
       "library": "summernote@0.8.20",
       "destination": "wwwroot/lib/summernote/"
+    },
+    {
+      "provider": "cdnjs",
+      "library": "bootstrap-select@1.13.18",
+      "destination": "wwwroot/lib/bootstrap-select/"
     }
   ]
 }
