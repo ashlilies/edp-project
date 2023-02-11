@@ -19,7 +19,6 @@ public class AuthenticatedAttribute : ResultFilterAttribute
         AccountType = accountType;
     }
 
-
     public override void OnResultExecuting(ResultExecutingContext context)
     {
         AccountService svc = context.HttpContext.RequestServices.GetRequiredService<AccountService>();
