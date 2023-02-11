@@ -17,6 +17,8 @@ namespace GrowGreenWeb.Models
         public double Longitude { get; set; }
         public TimeSpan OpeningTime { get; set; }
         public TimeSpan ClosingTime { get; set; }
+        public string Address { get; set; } = null!;
+        public string? ImageUrl { get; set; }
 
         public virtual ICollection<RecyclingRecord> RecyclingRecords { get; set; }
 

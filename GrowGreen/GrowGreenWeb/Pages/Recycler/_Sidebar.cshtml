@@ -2,16 +2,39 @@
 @using Microsoft.EntityFrameworkCore
 @inject GrowGreenContext Db
 
+<style>
+    .list-scrollable {
+      overflow: auto;
+    }
+</style>
+
 <h3 class="mb-3">Item Types</h3>
 @* List of items *@
-@{
-    foreach (ItemType itemType in ViewBag.ItemTypes)
-    {
-        <p>
+<input class="form-control mb-2" id="searchTypeInput" type="text" placeholder="Search..">
+
+<ul class="list-group list-scrollable" id="itemTypeList" style="height: 90%;">
+    @{
+        foreach (ItemType itemType in ViewBag.ItemTypes)
+        {
             <a asp-page="Map" asp-route-selectedItemTypeId="@itemType.Id"
-               class="text-reset text-decoration-none">
-                @itemType.Name
+               class="text-reset text-decoration-none"><p>
+                <li>
+                    @itemType.Name
+                </li>
             </a>
-        </p>
+        }
     }
-}
+
+</ul>
+
+<script src="~/lib/jquery/3.6.3/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+  $("#searchTypeInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#itemTypeList li").filter(function() {
+      $(this).parent().toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+</script>

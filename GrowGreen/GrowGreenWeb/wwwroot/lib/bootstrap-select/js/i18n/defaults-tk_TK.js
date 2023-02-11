@@ -24,16 +24,27 @@
 
 (function ($) {
   $.fn.selectpicker.defaults = {
-    noneSelectedText: 'Nada selecionado',
-    noneResultsText: 'Nada encontrado contendo {0}',
-    countSelectedText: 'Selecionado {0} de {1}',
-    maxOptionsText: ['Limite excedido (máx. {n} {var})', 'Limite do grupo excedido (máx. {n} {var})', ['itens', 'item']],
-    multipleSeparator: ', ',
-    selectAllText: 'Selecionar Todos',
-    deselectAllText: 'Desmarcar Todos'
+    noneSelectedText: 'Hiç biri saýlanmady',
+    noneResultsText: 'Gabat gelýän tapylmady {0}',
+    countSelectedText: function (numSelected, numTotal) {
+      return numSelected == 1 ? '{0} element saýlandy' : '{0} element saýlandy';
+    },
+    maxOptionsText: function (numAll, numGroup) {
+      return [
+        numAll == 1
+          ? 'Çäkden geçdi (maksimum {n} sany element)'
+          : 'Çäkden geçdi (maksimum {n} sany element)',
+        numGroup == 1
+          ? 'Topar çäkleri geçdi (maksimum {n} sany element)'
+          : 'Topar çäkleri geçdi (maksimum {n} sany element)'
+      ];
+    },
+    selectAllText: 'Hemmesini saýla',
+    deselectAllText: 'Hemmesini aýyr',
+    multipleSeparator: ', '
   };
 })(jQuery);
 
 
 }));
-//# sourceMappingURL=defaults-pt_BR.js.map
+//# sourceMappingURL=defaults-tk_TK.js.map
