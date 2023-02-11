@@ -100,8 +100,11 @@
             <div class="navbar-collapse collapse d-md-inline-flex justify-content-between">
                 @* Left-aligned navbar links *@
                 <ul class="navbar-nav flex-grow-1">
+                    @* <li class="nav-item"> *@
+                    @*     <a class="nav-link text-white" asp-page="/Admin/Index">Home</a> *@
+                    @* </li> *@
                     <li class="nav-item">
-                        <a class="nav-link text-white" asp-page="/Admin/Index">Home</a>
+                        <a class="nav-link text-white" asp-page="/Admin/Dashboard">Dashboard</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -119,6 +122,7 @@
                             </li>
                         </ul>
                     </li>
+                    
                 </ul>
 
                 @* Right-aligned navbar links *@

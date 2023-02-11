@@ -7,8 +7,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
+using GrowGreenWeb.Filters;
+using GrowGreenWeb.Services;
+
 namespace GrowGreenWeb.Pages.Admin
 {
+    [Authenticated(AccountType.Admin)]
     public class DashboardModel : PageModel
     {
         public string listOfCoursesJson { get; set; }
