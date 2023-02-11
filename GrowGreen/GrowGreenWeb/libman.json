@@ -19,6 +19,11 @@
       "provider": "cdnjs",
       "library": "bootstrap-select@1.13.18",
       "destination": "wwwroot/lib/bootstrap-select/"
+    },
+    {
+      "provider": "cdnjs",
+      "library": "popper.js@2.11.6",
+      "destination": "wwwroot/lib/popper.js/"
     }
   ]
 }
