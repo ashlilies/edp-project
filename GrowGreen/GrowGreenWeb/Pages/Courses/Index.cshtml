@@ -187,6 +187,8 @@
 </div>
 
 <h3 class="mt-2">Past courses</h3>
+@if (Model.PastCourses.Any() == true)
+{
 @foreach (var course in Model.PastCourses)
 {
     <div class="card mb-3 col-12 px-0">
@@ -238,12 +240,13 @@
             </div>
             <div class="col-lg-2">
                 <div class="card-body h-100 text-center d-grid" style="place-content: center;">
-                    <a class="text-reset text-decoration-none"
-                       asp-page="Viewer/Index" asp-route-id="@course.Id">
-                        <img src="/img/icons/right.png" class="icon icon-lg"/>
-                    </a>
+                    @* <a class="text-reset text-decoration-none" *@
+                    @*    asp-page="Viewer/Index" asp-route-id="@course.Id"> *@
+                    @*     <img src="/img/icons/right.png" class="icon icon-lg"/> *@
+                    @* </a> *@
                 </div>
             </div>
         </div>
     </div>
+}
 }
