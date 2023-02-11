@@ -1,8 +1,27 @@
 @page
 @model GrowGreenWeb.Pages.Recycler.IndexModel
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Recycler";
 }
 
-<h1>Index</h1>
+<div class="mb-3 card p-2">
+    <div class="card-body text-center">
 
+        <h1>Recycler Assistant</h1>
+        <h5>Find the nearest recycling point today!</h5>
+        
+        <form method="post" enctype="multipart/form-data" 
+              class="mt-4 w-50 ms-auto me-auto">
+            <label asp-for="ImageFile" class="form-label"></label>
+            <input asp-for="ImageFile" class="form-control"/>
+            <span asp-validation-for="ImageFile" class="text-danger"></span>
+            
+            <button class="mt-4 btn bg-5 btn-success w-100">Let's Go</button>
+        </form>
+        
+        @if (Model.Result is not null)
+        {
+            <p class="text-success">Detected @Model.Result</p>
+        }
+    </div>
+</div>

@@ -24,6 +24,8 @@ builder.Services.AddSession();
 builder.Services.AddTransient<SidebarService>();
 builder.Services.AddTransient<AccountService>();
 builder.Services.AddTransient<EmailService>();
+builder.Services.AddTransient<DataImportService>();
+builder.Services.AddTransient<RecyclerService>();
 
 // redirect to 403 on Forbid()
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
