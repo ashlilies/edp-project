@@ -37,7 +37,11 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses
         public async Task<IActionResult> OnGet(string? SearchQuery = null)
         {
             // todo: change to support account system :"D
-            int lecturerId = _accountService.GetCurrentUser(HttpContext)!.Id;
+            User? user = _accountService.GetCurrentUser(HttpContext);
+if (user == null)
+    return Page();
+
+int lecturerId = user.Id;
 
             var courses = _context.Courses
                 .Include(c => c.Lectures).ThenInclude(l => l.Videos)

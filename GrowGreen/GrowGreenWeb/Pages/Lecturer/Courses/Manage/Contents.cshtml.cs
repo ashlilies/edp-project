@@ -24,7 +24,11 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
 
         public IActionResult OnGet(int id, int lectureId)
         {
-            int lecturerId = _accountService.GetCurrentUser(HttpContext)!.Id;
+            User? user = _accountService.GetCurrentUser(HttpContext);
+if (user == null)
+    return Page();
+
+int lecturerId = user.Id;
 
             Course? course = _context.Courses
                 .Include(c => c.Lectures)
@@ -40,6 +44,7 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
 
             Lecture? lecture = _context.Lectures
                 .Include(l => l.Videos)
+                .Include(l => l.Course).ThenInclude(c => c.Lecturer)
                 .SingleOrDefault(l => l.Id == lectureId);
 
             if (lecture is null)
@@ -54,7 +59,11 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
 
         public IActionResult OnPostDelete(int id, int lectureId)
         {
-            int lecturerId = _accountService.GetCurrentUser(HttpContext)!.Id;
+            User? user = _accountService.GetCurrentUser(HttpContext);
+if (user == null)
+    return Page();
+
+int lecturerId = user.Id;
 
             Course? course = _context.Courses
                 .Include(c => c.Lectures)

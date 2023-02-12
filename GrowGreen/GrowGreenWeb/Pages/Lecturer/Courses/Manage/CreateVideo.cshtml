@@ -43,17 +43,21 @@
                         <textarea asp-for="Description" class="form-control"></textarea>
                         <span asp-validation-for="Description" class="text-danger"></span>
 
-                        <label asp-for="GeneratedTranscript" class="form-label"></label>
-                        @if (Model.GeneratedTranscript is null)
+                        @if (Model.VideoEdit is not null)
                         {
-                            <textarea class="form-control" disabled>
+                            <label asp-for="GeneratedTranscript" class="form-label"></label>
+
+                            @if (Model.GeneratedTranscript is null)
+                            {
+                                <textarea class="form-control" disabled>
                                 Transcript is unavailable or still generating, please check back later...
                             </textarea>
-                        }
-                        else
-                        {
-                            <textarea asp-for="GeneratedTranscript" class="form-control"></textarea>
-                            <span asp-validation-for="GeneratedTranscript" class="text-danger"></span>
+                            }
+                            else
+                            {
+                                <textarea asp-for="GeneratedTranscript" class="form-control"></textarea>
+                                <span asp-validation-for="GeneratedTranscript" class="text-danger"></span>
+                            }
                         }
                     </div>
 

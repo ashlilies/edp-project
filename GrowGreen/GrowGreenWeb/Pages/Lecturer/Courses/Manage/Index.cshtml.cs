@@ -55,7 +55,11 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
-            int lecturerId = _accountService.GetCurrentUser(HttpContext)!.Id;
+            User? user = _accountService.GetCurrentUser(HttpContext);
+if (user == null)
+    return Page();
+
+int lecturerId = user.Id;
 
             Course? course = await _context.Courses
                 .Include(c => c.Lectures)
@@ -84,7 +88,11 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
 
         public async Task<IActionResult> OnPostAsync(int id)
         {
-            int lecturerId = _accountService.GetCurrentUser(HttpContext)!.Id;
+            User? user = _accountService.GetCurrentUser(HttpContext);
+if (user == null)
+    return Page();
+
+int lecturerId = user.Id;
 
             if (EndDate <= StartDate)
             {
@@ -135,7 +143,11 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
 
         public async Task<IActionResult> OnPostUploadAsync(int id)
         {
-            int lecturerId = _accountService.GetCurrentUser(HttpContext)!.Id;
+            User? user = _accountService.GetCurrentUser(HttpContext);
+if (user == null)
+    return Page();
+
+int lecturerId = user.Id;
 
             ModelState.Clear();
 
@@ -182,7 +194,11 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
 
         public async Task<IActionResult> OnPostDeleteAsync(int id)
         {
-            int lecturerId = _accountService.GetCurrentUser(HttpContext)!.Id;
+            User? user = _accountService.GetCurrentUser(HttpContext);
+if (user == null)
+    return Page();
+
+int lecturerId = user.Id;
 
             Course? course = await _context.Courses.FindAsync(id);
             if (course is null)

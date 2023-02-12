@@ -30,7 +30,7 @@ namespace GrowGreenWeb.Pages.Courses.Viewer
         {
             User? learner = _accountService.GetCurrentUser(HttpContext);
             if (learner is null)
-                return Page();
+                return RedirectToPage(Constants.UnauthorizedRedirect);
             _context.Attach(learner);
             Learner = learner;
 

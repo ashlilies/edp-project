@@ -3,7 +3,7 @@
 @inject GrowGreenContext _context
 @{
     int courseId = ViewBag.CourseId;
-    
+
     Course? course = await _context.Courses
         .Include(c => c.Lectures)
         .SingleOrDefaultAsync(c => c.Id == courseId);
@@ -15,11 +15,16 @@
         .Where(l => l.StartDate <= DateTime.Today)
         .OrderBy(l => l.Timestamp)
         .ToList();
-    
+
     <div class="mb-3 card p-2">
         <div class="card-body">
 
             <h5>@course.Name</h5>
+            <a asp-page="/Courses/Viewer/Index" asp-route-id="@courseId"
+                class="text-reset text-decoration-none">
+                Course Overview
+            </a>
+            <br/>
             <hr/>
             <h5>
                 <a asp-page="QnA" asp-route-id="@Model.Course.Id" class="text-reset text-decoration-none">Q&amp;A</a>

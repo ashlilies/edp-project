@@ -35,7 +35,12 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
 
         public IActionResult OnGet(int id, int? lectureId = null)
         {
-            int lecturerId = _accountService.GetCurrentUser(HttpContext)!.Id;
+            User? user = _accountService.GetCurrentUser(HttpContext);
+
+if (user == null)
+    return Page();
+
+int lecturerId = user.Id;
 
             Course? course = _context.Courses
                 .Include(c => c.Lectures)
@@ -66,7 +71,11 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
 
         public async Task<IActionResult> OnPostAsync(int id, int? lectureId = null)
         {
-            int lecturerId = _accountService.GetCurrentUser(HttpContext)!.Id;
+            User? user = _accountService.GetCurrentUser(HttpContext);
+if (user == null)
+    return Page();
+
+int lecturerId = user.Id;
 
             Course? course = _context.Courses
                 .Include(c => c.Lectures)

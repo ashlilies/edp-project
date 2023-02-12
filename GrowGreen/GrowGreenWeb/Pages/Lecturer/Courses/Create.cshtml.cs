@@ -57,7 +57,11 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses
         public async Task<IActionResult> OnPostAsync()
         {
             // todo: add login system support here
-            int lecturerId = _accountService.GetCurrentUser(HttpContext)!.Id;
+            User? user = _accountService.GetCurrentUser(HttpContext);
+if (user == null)
+    return Page();
+
+int lecturerId = user.Id;
 
             if (StartDate < DateTime.Today)
             {

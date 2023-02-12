@@ -16,7 +16,7 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
     {
         [BindProperty]
         public string NewMessageText { get; set; } = null!;
-        
+
         [BindProperty]
         public string? EditMessageText { get; set; }
 
@@ -35,7 +35,11 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
-            int lecturerId = _accountService.GetCurrentUser(HttpContext)!.Id;
+            User? lecturer = _accountService.GetCurrentUser(HttpContext);
+            if (lecturer == null)
+                return Page();
+
+            int lecturerId = lecturer.Id;
 
             User? user = await _context.Users.FindAsync(lecturerId);
             if (user == null)
@@ -60,22 +64,26 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
                 .Where(c => c.CourseId == Course.Id)
                 .OrderBy(c => c.Timestamp)
                 .ToList();
-            
+
             Chats = chats.Select(c => c.Clone()).ToList();
-            
+
             chats.Where(c => c.UserId != lecturerId).ToList().ForEach(c =>
             {
                 c.IsReadByLecturer = true;
                 _context.Update(c);
             });
             await _context.SaveChangesAsync();
-            
+
             return Page();
         }
 
         public async Task<IActionResult> OnPostSendAsync(int id)
         {
-            int lecturerId = _accountService.GetCurrentUser(HttpContext)!.Id;
+            User? lecturer = _accountService.GetCurrentUser(HttpContext);
+            if (lecturer == null)
+                return Page();
+
+            int lecturerId = lecturer.Id;
 
             User? user = await _context.Users.FindAsync(lecturerId);
             if (user == null)
@@ -119,7 +127,11 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
 
         public async Task<IActionResult> OnPostEditAsync(int id, int chatId)
         {
-            int lecturerId = _accountService.GetCurrentUser(HttpContext)!.Id;
+            User? lecturer = _accountService.GetCurrentUser(HttpContext);
+            if (lecturer == null)
+                return Page();
+
+            int lecturerId = lecturer.Id;
 
             User? user = await _context.Users.FindAsync(lecturerId);
             if (user == null)
@@ -156,7 +168,11 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
 
         public async Task<IActionResult> OnPostDeleteAsync(int id, int chatId)
         {
-            int lecturerId = _accountService.GetCurrentUser(HttpContext)!.Id;
+            User? lecturer = _accountService.GetCurrentUser(HttpContext);
+            if (lecturer == null)
+                return Page();
+
+            int lecturerId = lecturer.Id;
 
             User? user = await _context.Users.FindAsync(lecturerId);
             if (user == null)
