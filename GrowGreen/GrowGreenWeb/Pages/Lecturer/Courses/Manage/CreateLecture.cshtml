@@ -14,7 +14,7 @@
         <form method="post" asp-page-handler="" asp-route-id="@Model.Course.Id" asp-route-lectureId="@Model.LectureEdit?.Id">
             <div class="mb-3 card p-2">
                 <div class="card-body">
-                    @if (Model.LectureEdit is not null)
+                    @if (Model.LectureEdit is null)
                     {
                         <h3>Create Lecture</h3>
                     }
