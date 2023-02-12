@@ -19,8 +19,11 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
         [BindProperty, Required, DisplayName("Name")]
         public string Title { get; set; } = string.Empty;
 
-        [BindProperty, Required, DisplayName("Transcript")]
+        [BindProperty, Required, DisplayName("Description")]
         public string Description { get; set; } = string.Empty;
+
+        [BindProperty, DisplayName("Generated Transcript")]
+        public string? GeneratedTranscript { get; set; } = string.Empty;
 
         public Course Course { get; set; } = null!;
         public Lecture Lecture { get; set; } = null!;
@@ -30,12 +33,15 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
         private readonly GrowGreenContext _context;
         private readonly IWebHostEnvironment _environment;
         private AccountService _accountService;
+        private readonly TranscriptionService _transcriptionService;
 
-        public CreateVideoModel(GrowGreenContext context, IWebHostEnvironment environment, AccountService accountService)
+        public CreateVideoModel(GrowGreenContext context, IWebHostEnvironment environment,
+            AccountService accountService, TranscriptionService transcriptionService)
         {
             _context = context;
             _environment = environment;
             _accountService = accountService;
+            _transcriptionService = transcriptionService;
         }
 
         public IActionResult OnGet(int id, int lectureId, int? videoId = null)
@@ -75,6 +81,7 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
 
                 Title = VideoEdit.Name;
                 Description = VideoEdit.Transcript;
+                GeneratedTranscript = VideoEdit.GeneratedTranscript;
             }
 
             return Page();
@@ -105,7 +112,9 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
 
             Lecture = lecture;
 
+            string? file = null;
             string? webRootPath = null;
+            Video? videoObj = null;
             if (VideoFile is null && videoId is null)
             {
                 TempData["FlashMessage.Type"] = "danger";
@@ -128,7 +137,7 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
                     _environment.WebRootPath, "uploads", "course", Course.Id.ToString(), "lecture",
                     Lecture.Id.ToString());
 
-                var file = Path.Combine(directory, random + "-" + VideoFile.FileName);
+                file = Path.Combine(directory, random + "-" + VideoFile.FileName);
 
                 Directory.CreateDirectory(directory);
 
@@ -162,6 +171,9 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
 
                 _context.Add(video);
 
+
+                videoObj = video;
+
                 TempData["FlashMessage.Type"] = "success";
                 TempData["FlashMessage.Text"] = "Successfully uploaded video";
             }
@@ -180,6 +192,12 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
                     video.Timestamp = DateTime.Now;
                     video.PreviewUrl = webRootPath + ".jpg";
                 }
+                else if (file is null)
+                {
+                    video.GeneratedTranscript = GeneratedTranscript;
+                }
+
+                videoObj = video;
 
                 TempData["FlashMessage.Type"] = "success";
                 TempData["FlashMessage.Text"] = "Successfully updated video";
@@ -187,6 +205,11 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
 
             await _context.SaveChangesAsync();
 
+            if (videoObj is not null && file is not null)
+            {
+                // generate transcript
+                _ = Task.Run(() => _transcriptionService.GetTranscriptFromVideo(file, videoObj));
+            }
 
             return RedirectToPage("Contents", new { id, lectureId });
         }

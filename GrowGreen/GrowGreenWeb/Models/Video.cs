@@ -17,6 +17,7 @@ namespace GrowGreenWeb.Models
         public int LectureId { get; set; }
         public string Url { get; set; } = null!;
         public string PreviewUrl { get; set; } = null!;
+        public string? GeneratedTranscript { get; set; }
 
         public virtual Lecture Lecture { get; set; } = null!;
         public virtual ICollection<VideoCompletion> VideoCompletions { get; set; }
