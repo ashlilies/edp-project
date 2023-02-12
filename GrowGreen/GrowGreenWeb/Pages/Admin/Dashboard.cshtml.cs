@@ -16,6 +16,7 @@ namespace GrowGreenWeb.Pages.Admin
     public class DashboardModel : PageModel
     {
         public string listOfCoursesJson { get; set; }
+        public string listOfEventsJson { get; set; }
         private readonly GrowGreenContext _context;
         public DashboardModel(GrowGreenContext context)
         {
@@ -28,6 +29,12 @@ namespace GrowGreenWeb.Pages.Admin
             var listOfCourses = courses.DistinctBy(course => course.Id).ToList();
 
             listOfCoursesJson = JsonSerializer.Serialize(listOfCourses);
+
+            List<Event> events = await _context.Events.ToListAsync();
+
+            var listOfEvents = events.DistinctBy(events => events.Id).ToList();
+
+            listOfEventsJson = JsonSerializer.Serialize(listOfEvents);
 
             return Page();
         }

@@ -29,6 +29,16 @@ public static class FfmpegHelper
         Exec(video, outputJpgPath, "-s " + velicina);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="videoPath"></param>
+    /// <param name="outputMp3Path">Must contain .mp3 extension</param>
+    public static void GetMp3(string videoPath, string outputMp3Path)
+    {
+        Exec(videoPath, outputMp3Path, null);
+    }
+
     private static void Exec(string input, string output, string? parametri)
     {
         Process ffmpeg = new Process();

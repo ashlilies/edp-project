@@ -15,6 +15,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddSignalR();
 builder.Services.AddRazorPages();
+builder.Services.AddDbContextFactory<GrowGreenContext>();
 builder.Services.AddDbContext<GrowGreenContext>(options =>
 {
     options.UseSqlServer(builder.Configuration["ConnectionStrings:GrowGreenDB"]);
@@ -26,6 +27,7 @@ builder.Services.AddTransient<AccountService>();
 builder.Services.AddTransient<EmailService>();
 builder.Services.AddTransient<DataImportService>();
 builder.Services.AddTransient<RecyclerService>();
+builder.Services.AddTransient<TranscriptionService>();
 
 // redirect to 403 on Forbid()
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

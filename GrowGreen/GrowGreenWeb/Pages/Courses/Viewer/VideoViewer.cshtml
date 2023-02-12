@@ -20,7 +20,19 @@
                 </video>
                 <hr/>
                 <h5>By: @Model.Course.Lecturer.FullName</h5>
+                <h5>Description</h5>
                 <p>@Model.Video.Transcript</p>
+                <h5>Generated Transcript</h5>
+                @if (Model.Video.GeneratedTranscript is null)
+                {
+                    <p class="fst-italic">
+                        Transcript is unavailable or still generating. Please check back soon...
+                    </p>
+                }
+                else
+                {
+                    <p>@Model.Video.GeneratedTranscript</p>
+                }
             </div>
         </div>
     </div>

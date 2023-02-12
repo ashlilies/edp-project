@@ -7,7 +7,7 @@
 <div class="row">
     @* Sidebar *@
     <div class="col-3">
-        @{await Html.RenderPartialAsync("_Sidebar");}
+        @{ await Html.RenderPartialAsync("_Sidebar"); }
     </div>
     <div class="col-9">
         <form method="post" asp-page-handler="" asp-route-id="@Model.Course.Id" asp-route-lectureId="@Model.Lecture.Id"
@@ -42,6 +42,19 @@
                         <label asp-for="Description" class="form-label"></label>
                         <textarea asp-for="Description" class="form-control"></textarea>
                         <span asp-validation-for="Description" class="text-danger"></span>
+
+                        <label asp-for="GeneratedTranscript" class="form-label"></label>
+                        @if (Model.GeneratedTranscript is null)
+                        {
+                            <textarea class="form-control" disabled>
+                                Transcript is still generating, please check back later...
+                            </textarea>
+                        }
+                        else
+                        {
+                            <textarea asp-for="GeneratedTranscript" class="form-control"></textarea>
+                            <span asp-validation-for="GeneratedTranscript" class="text-danger"></span>
+                        }
                     </div>
 
 
