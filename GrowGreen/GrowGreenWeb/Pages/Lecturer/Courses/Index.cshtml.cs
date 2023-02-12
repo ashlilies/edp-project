@@ -47,7 +47,8 @@ int lecturerId = user.Id;
                 .Include(c => c.Lectures).ThenInclude(l => l.Videos)
                 .Include(c => c.CourseSignups).ThenInclude(cs => cs.Learner)
                 .Include(c => c.Chats)
-                .Where(c => c.LecturerId == lecturerId);
+                .Where(c => c.LecturerId == lecturerId)
+                .OrderByDescending(c => c.LastUpdatedTimestamp);
 
 
             Console.WriteLine("search query: " + SearchQuery);

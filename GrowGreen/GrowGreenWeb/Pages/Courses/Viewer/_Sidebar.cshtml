@@ -1,11 +1,15 @@
 @using GrowGreenWeb.Models
+@using GrowGreenWeb.Services
 @using Microsoft.EntityFrameworkCore
 @inject GrowGreenContext _context
+@inject AccountService _AccountService
 @{
     int courseId = ViewBag.CourseId;
 
     Course? course = await _context.Courses
         .Include(c => c.Lectures)
+        .ThenInclude(l => l.Videos)
+        .ThenInclude(v => v.VideoCompletions)
         .SingleOrDefaultAsync(c => c.Id == courseId);
 
     if (course is null)
@@ -34,8 +38,20 @@
 
             @foreach (Lecture lecture in lectures)
             {
+                int completedVideos = lecture.Videos
+                    .SelectMany(v => v.VideoCompletions)
+                    .Count(vc => vc.LearnerId == _AccountService.GetCurrentUser(Context)?.Id);
+                int totalActualVideos = lecture.Videos.Count();
+
+                bool hasCompletedLecture = completedVideos == totalActualVideos;
+                
                 <a asp-page="Contents" asp-route-courseId="@lecture.Course.Id"
                    asp-route-lectureId="@lecture.Id" class="text-reset text-decoration-none">
+                    @if (hasCompletedLecture)
+                    {
+                        <i class="fa fa-check"></i>
+                    }
+                    
                     @lecture.Name
                 </a>
                 <br/>

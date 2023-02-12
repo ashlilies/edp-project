@@ -29,7 +29,12 @@ namespace GrowGreenWeb.Pages.Courses.Viewer
 
         public async Task<IActionResult> OnGetAsync(int videoId)
         {
-            User learner = _accountService.GetCurrentUser(HttpContext)!;
+            User? learner = _accountService.GetCurrentUser(HttpContext);
+            if (learner is null)
+            {
+                return RedirectToPage(Constants.UnauthorizedRedirect);
+            }
+            
             _context.Attach(learner);
 
             Learner = learner;
@@ -47,6 +52,22 @@ namespace GrowGreenWeb.Pages.Courses.Viewer
 
             // load lecture video
             ;
+            // mark this video as viewed
+            VideoCompletion? completion = _context.VideoCompletions
+                .SingleOrDefault(vc => vc.LearnerId == learner.Id && vc.VideoId == videoId);
+
+            if (completion == null)
+            {
+                completion = new VideoCompletion
+                {
+                    Timestamp = DateTime.Now,
+                    LearnerId = learner.Id,
+                    VideoId = videoId
+                };
+
+                _context.Add(completion);
+                _context.SaveChanges();
+            }
 
             return Page();
         }

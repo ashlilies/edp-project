@@ -142,6 +142,8 @@ int lecturerId = user.Id;
                 TempData["FlashMessage.Type"] = "success";
                 TempData["FlashMessage.Text"] = "Successfully updated lecture " + Title;
             }
+            
+            Course.LastUpdatedTimestamp = DateTime.Now;
 
             await _context.SaveChangesAsync();
 

@@ -47,10 +47,10 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
         public IActionResult OnGet(int id, int lectureId, int? videoId = null)
         {
             User? user = _accountService.GetCurrentUser(HttpContext);
-if (user == null)
-    return Page();
+            if (user == null)
+                return Page();
 
-int lecturerId = user.Id;
+            int lecturerId = user.Id;
 
             Course? course = _context.Courses
                 .Include(c => c.Lectures)
@@ -94,10 +94,10 @@ int lecturerId = user.Id;
         public async Task<IActionResult> OnPostAsync(int id, int lectureId, int? videoId = null)
         {
             User? user = _accountService.GetCurrentUser(HttpContext);
-if (user == null)
-    return Page();
+            if (user == null)
+                return Page();
 
-int lecturerId = user.Id;
+            int lecturerId = user.Id;
 
             Course? course = _context.Courses
                 .Include(c => c.Lectures)
@@ -178,6 +178,8 @@ int lecturerId = user.Id;
                 };
 
                 _context.Add(video);
+            course.LastUpdatedTimestamp = DateTime.Now;
+
 
 
                 videoObj = video;
@@ -199,10 +201,12 @@ int lecturerId = user.Id;
                     video.Url = webRootPath;
                     video.Timestamp = DateTime.Now;
                     video.PreviewUrl = webRootPath + ".jpg";
+                    course.LastUpdatedTimestamp = DateTime.Now;
                 }
                 else if (file is null)
                 {
                     video.GeneratedTranscript = GeneratedTranscript;
+                    course.LastUpdatedTimestamp = DateTime.Now;
                 }
 
                 videoObj = video;
@@ -210,6 +214,8 @@ int lecturerId = user.Id;
                 TempData["FlashMessage.Type"] = "success";
                 TempData["FlashMessage.Text"] = "Successfully updated video";
             }
+
+            course.LastUpdatedTimestamp = DateTime.Now;
 
             await _context.SaveChangesAsync();
 
@@ -225,10 +231,10 @@ int lecturerId = user.Id;
         public IActionResult OnPostDelete(int id, int lectureId, int videoId)
         {
             User? user = _accountService.GetCurrentUser(HttpContext);
-if (user == null)
-    return Page();
+            if (user == null)
+                return Page();
 
-int lecturerId = user.Id;
+            int lecturerId = user.Id;
 
             Course? course = _context.Courses
                 .Include(c => c.Lectures)
@@ -255,6 +261,8 @@ int lecturerId = user.Id;
             {
                 return NotFound();
             }
+
+            course.LastUpdatedTimestamp = DateTime.Now;
 
             _context.Remove(video);
             _context.SaveChanges();

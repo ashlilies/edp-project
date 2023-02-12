@@ -1,7 +1,7 @@
 @page
 @model GrowGreenWeb.Pages.Courses.Viewer.VideoViewerModel
 @{
-    ViewData["Title"] = "VideoViewer";
+    ViewData["Title"] = Model.Video.Name;
 }
 
 <div class="row">
@@ -12,6 +12,15 @@
     <div class="col-9">
         <div class="mb-3 card p-2">
             <div class="card-body">
+                <h2>
+                    <a asp-page="/Courses/Viewer/Contents"
+                       asp-route-courseId="@Model.Course.Id"
+                       asp-route-lectureId="@Model.Video.Lecture.Id"
+                       class="text-reset text-decoration-none">
+                        <i class="fa fa-caret-left"></i> @Model.Video.Lecture.Name
+
+                    </a>
+                </h2>
                 <h3>@Model.Video.Name</h3>
                 <p class="text-muted">Published @Model.Video.Timestamp</p>
                 <hr/>

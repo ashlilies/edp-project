@@ -35,6 +35,7 @@ namespace GrowGreenWeb.Pages.Courses.Viewer
 
             Course? course = await _context.Courses
                 .Include(c => c.CourseSignups).ThenInclude(cs => cs.Learner)
+                .Include(c => c.Lecturer)
                 .SingleOrDefaultAsync(c => c.Id == courseId);
 
             if (course is null)
@@ -45,7 +46,8 @@ namespace GrowGreenWeb.Pages.Courses.Viewer
 
             // load lecture videos
             Lecture? lecture = await _context.Lectures
-                .Include(l => l.Videos)
+                .Include(l => l.Videos).ThenInclude(l => l.VideoCompletions)
+                .ThenInclude(vc => vc.Learner)
                 .SingleOrDefaultAsync(l => l.Id == lectureId);
 
             if (lecture is null)

@@ -17,6 +17,8 @@ namespace GrowGreenWeb.Pages.Courses
         public List<Course> SignedUpCourses { get; set; } = new();
         public List<Course> OngoingCourses { get; set; } = new();
         public List<Course> PastCourses { get; set; } = new();
+        
+        public User? Learner { get; set; }
         private readonly GrowGreenContext _context;
         private AccountService _accountService;
 
@@ -30,10 +32,13 @@ namespace GrowGreenWeb.Pages.Courses
         {
             User? learner = _accountService.GetCurrentUser(HttpContext);
             if (learner is not null)
+            {
                 _context.Attach(learner);
+                Learner = learner;
+            }
 
             List<Course> courses = await _context.Courses
-                .Include(c => c.Lectures).ThenInclude(l => l.Videos)
+                .Include(c => c.Lectures).ThenInclude(l => l.Videos).ThenInclude(v => v.VideoCompletions)
                 .Include(c => c.CourseSignups).ThenInclude(cs => cs.Learner)
                 .Include(c => c.Lecturer)
                 .Include(c => c.Chats)

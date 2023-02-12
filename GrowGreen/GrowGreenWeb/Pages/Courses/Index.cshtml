@@ -44,7 +44,7 @@
                                  style="object-fit: cover; border-radius: 15px; height: 132.5px;"/>
                         }
                     </div>
-                    <div class="col-lg-8 ps-3">
+                    <div class="col-lg-7 ps-3">
                         <div class="card-body">
                             <h3>@course.Name</h3>
                             By: <strong>@course.Lecturer.FullName</strong>
@@ -72,6 +72,26 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="col-lg-1 text-center d-grid" style="place-content: center;">
+                        @{
+                            // check video completions
+                            var completedVideos = course.Lectures
+                                .SelectMany(l => l.Videos)
+                                .SelectMany(v => v.VideoCompletions)
+                                .Count(v => v.LearnerId == Model.Learner?.Id);
+
+                            var totalVideos = course.Lectures
+                                .SelectMany(l => l.Videos)
+                                .Count();
+
+                            bool isCompleted = completedVideos == totalVideos && totalVideos > 0;
+
+                            if (isCompleted)
+                            {
+                                <i class="fa fa-check" aria-hidden="true"></i>
+                            }
+                        }
                     </div>
                     <div class="col-lg-2">
                         <div class="card-body h-100 text-center d-grid" style="place-content: center;">
