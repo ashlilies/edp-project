@@ -15,8 +15,8 @@ namespace GrowGreenWeb.Pages.Lecturer
     [Authenticated(AccountType.Lecturer)]
     public class DashboardModel : PageModel
     {
-        public string listOfCourseSignUpsJson { get; set; }
         public string listOfCoursesJson { get; set; }
+        public List<Course> listOfCourses = new List<Course>();
         private readonly GrowGreenContext _context;
         private readonly AccountService _accountService;
         public DashboardModel(GrowGreenContext context, AccountService accountService)
@@ -27,41 +27,38 @@ namespace GrowGreenWeb.Pages.Lecturer
         public async Task<IActionResult> OnGet()
         {
             var user = _accountService.GetCurrentUser(HttpContext);
+
             if (user == null)
                 return Page();
-            
+
             JsonSerializerSettings jsonSettings = new JsonSerializerSettings
             {
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore
             };
-            
-            var listOfCourseSignUps = await _context.CourseSignups
-                .Include(c => c.Course)
-                .Where(c => c.Course.LecturerId == 1)
-                .ToListAsync();
 
-            // foreach (var test in listOfCourseSignUps)
-            // {
-                // Console.WriteLine($"listOfCourseSignUps: {test.Course.Le}");
-            // }
-
-            listOfCourseSignUpsJson = JsonConvert.SerializeObject(listOfCourseSignUps, jsonSettings);
-
-            var listOfCourses = await _context.Courses
+            listOfCourses = await _context.Courses
                 .Include(c => c.Lecturer)
-                .Where(c => c.LecturerId == 1)
+                .Include(c => c.CourseSignups)
+                .Where(c => c.LecturerId == user!.Id)
                 .ToListAsync();
-            
-            foreach (var i in listOfCourses)
-            {
-                Console.WriteLine($"i: {i}");
-                Console.WriteLine($"i: {i.Name}");
-                Console.WriteLine($"i: {i.MaxCapacity}");
-            }
 
             listOfCoursesJson = JsonConvert.SerializeObject(listOfCourses, jsonSettings);
 
             return Page();
         }
+
+        public FileResult OnPost(string PdfHtml)
+        {
+            Byte[] res = null;
+            using (MemoryStream ms = new MemoryStream())
+            {
+                var pdf = TheArtOfDev.HtmlRenderer.PdfSharp.PdfGenerator.GeneratePdf(PdfHtml, PdfSharp.PageSize.A4);
+                pdf.Save(ms);
+                res = ms.ToArray();
+            }
+
+            return File(res, "application/octet-stream", "course_report.pdf");
+        }
+
     }
 }
