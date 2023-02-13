@@ -1,0 +1,87 @@
+@page
+@model GrowGreenWeb.Pages.Lecturer.Courses.Manage.Quizzes.CreateQuestionModel
+@{
+    ViewData["Title"] = "Create Question";
+}
+
+<div class="row">
+    @* Sidebar *@
+    <div class="col-3">
+        @{ await Html.RenderPartialAsync("Lecturer/Courses/Manage/_Sidebar"); }
+    </div>
+
+    <div class="col-9 mb-3 card p-4">
+        <form method="post" asp-page-handler="" asp-route-id="@Model.Course.Id" asp-route-quizId="@Model.Quiz.Id">
+            <div class="mb-3 card p-2">
+                <div class="card-body">
+                    <h3>Create Question</h3>
+
+                    <div asp-validation-summary="All"></div>
+
+                    <label asp-for="Name" class="form-label"></label>
+                    <input asp-for="Name" class="form-control"/>
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="row">
+                                <label asp-for="Choice1" class="form-label"></label>
+                            </div>
+                            <div class="row">
+                                <label asp-for="Choice2" class="form-label"></label>
+                            </div>
+                            <div class="row">
+                                <label asp-for="Choice3" class="form-label"></label>
+                            </div>
+                            <div class="row">
+                                <label asp-for="Choice4" class="form-label"></label>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <input asp-for="Choice1" class="form-control"/>
+                            <input asp-for="Choice2" class="form-control"/>
+                            <input asp-for="Choice3" class="form-control"/>
+                            <input asp-for="Choice4" class="form-control"/>
+                        </div>
+                        <div class="col-4">
+                            <div class="row">
+                                <input class="form-check-input" type="radio" asp-for="CorrectChoiceNo" value="1">
+                            </div>
+                            <div class="row">
+                                <input class="form-check-input" type="radio" asp-for="CorrectChoiceNo" value="2">
+                            </div>
+                            <div class="row">
+                                <input class="form-check-input" type="radio" asp-for="CorrectChoiceNo" value="3">
+                            </div>
+                            <div class="row">
+                                <input class="form-check-input" type="radio" asp-for="CorrectChoiceNo" value="4">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row text-end mt-3">
+                        <div class="col-3">
+                            @* @if (false) *@
+                            @* { *@
+                            @*     <button type="button" class="btn btn-danger w-100" data-bs-toggle="modal" *@
+                            @*             data-bs-target="#deleteModal"> *@
+                            @*         Delete *@
+                            @*     </button> *@
+                            @* } *@
+                        </div>
+                        <div class="col-3"></div>
+                        <div class="col-3">
+                            <button type="button" class="btn btn-secondary w-100" onclick="history.back()">Cancel</button>
+                        </div>
+                        <div class="col-3">
+                            <button class="btn btn-success w-100">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts
+{
+
+}
