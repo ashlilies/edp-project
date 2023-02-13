@@ -1,10 +1,39 @@
 @page
 @model GrowGreenWeb.Pages.Lecturer.DashboardModel
 
-<canvas id="num_of_signups_chart" width="400" height="400"></canvas>
-<br />
-<canvas id="num_of_courses_chart" width="400" height="400"></canvas>
-<br />
+<div class="container" id="report_container">
+    <h2>Courses Report</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Course</th>
+                <th>Sign Ups</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var course in Model.listOfCourses)
+            {
+                <tr>
+                    <td>@course.Name</td>
+                    <td>@course.CourseSignups.Count()</td>
+                    <td>@course.StartDate</td>
+                    <td>@course.EndDate</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <br />
+    <canvas id="courses_chart" width="200" height="200"></canvas>
+    <br />
+</div>
+<form method="post" id="exportPdfForm">
+        <input type="hidden" id="PdfHtml" name="PdfHtml" />
+        <button id="exportAsPdfBtn" type="button" class="btn btn-lg btn-primary">
+      Export
+    </button>
+</form>
 
 @section Scripts{
 <!-- Script to init use of Chart.JS -->
@@ -23,38 +52,7 @@
 
 <script>
     // Generate Number of Courses chart 
-    const barColors = ["red", "green", "blue", "orange", "brown"];
-    const courseSignUpsXValues = [];
-    const courseSignUpsYValues = [];
-
-    const listOfCourseSignUps = @Html.Raw(Model.listOfCourseSignUpsJson);
-
-    listOfCourseSignUps.forEach((courseSignup, index) => {
-        let course = courseSignup.Course;
-        console.log("course: ");
-        console.log(course);
-        courseSignUpsYValues.push(course.Name);
-        courseSignUpsXValues.push(course.CourseSignups.length);
-    });
-
-    new Chart("num_of_signups_chart", {
-    type: "bar",
-    data: {
-    labels: courseSignUpsXValues,
-    datasets: [{
-    backgroundColor: barColors,
-    data: courseSignUpsYValues,
-
-    }]
-    },
-    options: {
-    legend: { display: false },
-    title: {
-    display: true,
-    text: "Number of courses available"
-    }
-    }
-    });
+    const barColors = ["red", "yellow","green", "blue", "orange",, "brown"];
 
     // Generate Number of Events chart
     const coursesXValues = [];
@@ -64,10 +62,10 @@
 
     listOfCourses.forEach((course, index) => {
         coursesXValues.push(course.Name);
-        coursesYValues.push(course.MaxCapacity);
+        coursesYValues.push(course.CourseSignups.length);
     });
 
-    new Chart("num_of_courses_chart", {
+    new Chart("courses_chart", {
         type: "bar",
         data: {
             labels: coursesXValues,
@@ -80,9 +78,17 @@
             legend: { display: false },
             title: {
                 display: true,
-                text: "Number of courses"
+                text: "Number of sign ups"
             }
         }
     });
+</script>
+<script>
+    $(document).ready(() => {
+        $("#exportAsPdfBtn").click(() => {
+            $("#PdfHtml").val($("#report_container").html());
+            $("#exportPdfForm").submit();
+            })
+    })
 </script>
 }
