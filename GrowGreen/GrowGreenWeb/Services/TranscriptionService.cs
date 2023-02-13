@@ -15,13 +15,19 @@ namespace GrowGreenWeb.Services;
 
 public class TranscriptionService
 {
-    private readonly AmazonS3Client _s3Client;
-    private readonly AmazonTranscribeServiceClient _transcribeClient;
+    // AWS client objects - use to access different AWS servicese such as S3 buckets
+    private readonly AmazonS3Client _s3Client;  // S3 is for storing objects such as files
+    private readonly AmazonTranscribeServiceClient _transcribeClient;  // For transcription
+    
+    // Services we dependency inject into this transcription service
     private readonly ILogger<TranscriptionService> _logger;
     private readonly IWebHostEnvironment _hostEnvironment;
     // private readonly GrowGreenContext db;
+    
+    // DB Context Factory to ensure that we can do concurrent DB access
     private readonly IDbContextFactory<GrowGreenContext> _contextFactory;
 
+    // Constant variable in the .env file which specifies the name of the bucket for transcription
     private readonly string _bucketName =
         Environment.GetEnvironmentVariable("VIONA_AWS_BUCKET")!;
 
@@ -35,12 +41,14 @@ public class TranscriptionService
         _contextFactory = contextFactory;
 
 
+        // Load the environment variables
         string accessKey =
             Environment.GetEnvironmentVariable("AWS_REKOGNITION_ACCESS_KEY")!;
         string secretKey =
             Environment.GetEnvironmentVariable("AWS_REKOGNITION_SECRET_KEY")!;
         string region = Environment.GetEnvironmentVariable("AWS_REGION")!;
 
+        // Set up AWS credentials
         var credentials =
             new Amazon.Runtime.BasicAWSCredentials(accessKey, secretKey);
         var regionEndpoint = Amazon.RegionEndpoint.GetBySystemName(region);
@@ -74,7 +82,7 @@ public class TranscriptionService
             mp3Path);
         FfmpegHelper.GetMp3(videoFilepath, mp3Path);
 
-        // Upload MP3 to AWS Bucket
+        // Upload MP3 to AWS S3 Bucket
         // Object name is just the filename
         string objectName = Path.GetFileName(mp3Path);
         string? uploadResult = await UploadFileAsync(objectName, mp3Path);
@@ -88,12 +96,13 @@ public class TranscriptionService
         }
 
         // Transcribe the mp3 file
-        string jobName = Guid.NewGuid().ToString();
+        string jobName = Guid.NewGuid().ToString(); // globally unique identifier
         string mediaFileUri = $"s3://{_bucketName}/{objectName}";
         TranscriptionJob transcriptionJob = await StartTranscriptionJob(
             jobName, mediaFileUri, MediaFormat.Mp3, LanguageCode.EnGB, null);
 
         // Wait for the transcription job to finish
+        // Settings for the request
         GetTranscriptionJobRequest jobRequest = new GetTranscriptionJobRequest
         {
             TranscriptionJobName = jobName
@@ -119,6 +128,7 @@ public class TranscriptionService
             }
         }
 
+        // RETRIEVE TRANSCRIPTION ONCE DONE HERE
         // Read the transcription into a string
         if (transcriptionJob.TranscriptionJobStatus
             == TranscriptionJobStatus.FAILED)

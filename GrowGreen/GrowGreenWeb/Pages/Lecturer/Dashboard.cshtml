@@ -18,8 +18,8 @@
                 <tr>
                     <td>@course.Name</td>
                     <td>@course.CourseSignups.Count()</td>
-                    <td>@course.StartDate</td>
-                    <td>@course.EndDate</td>
+                    <td>@course.StartDate.ToLongDateString()</td>
+                    <td>@course.EndDate.ToLongDateString()</td>
                 </tr>
             }
         </tbody>

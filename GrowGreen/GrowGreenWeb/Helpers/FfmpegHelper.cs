@@ -21,8 +21,10 @@ public static class FfmpegHelper
                 return FFMPEG_PATH_WIN;
         }
     }
+    // get a thumbnail from a video file
     public static void GetThumbnail(string video, string outputJpgPath, string? velicina)
     {
+        // velicina means the size of the thumbnail
         if (velicina == null)
             velicina = "640x360";
 
@@ -30,7 +32,7 @@ public static class FfmpegHelper
     }
 
     /// <summary>
-    /// 
+    /// converts a video to mp3
     /// </summary>
     /// <param name="videoPath"></param>
     /// <param name="outputMp3Path">Must contain .mp3 extension</param>

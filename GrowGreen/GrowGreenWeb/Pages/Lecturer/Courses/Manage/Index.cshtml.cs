@@ -133,6 +133,7 @@ int lecturerId = user.Id;
             course.MaxCapacity = MaxCapacity;
 
             _context.Update(course);
+            course.LastUpdatedTimestamp = DateTime.Now;
             await _context.SaveChangesAsync();
 
             TempData["FlashMessage.Type"] = "success";
@@ -184,6 +185,7 @@ int lecturerId = user.Id;
                 return Forbid();
 
             course.ImageUrl = ImageUrl;
+            course.LastUpdatedTimestamp = DateTime.Now;
             await _context.SaveChangesAsync();
 
             TempData["FlashMessage.Type"] = "success";
