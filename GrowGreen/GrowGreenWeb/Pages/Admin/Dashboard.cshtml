@@ -1,60 +1,10 @@
 @page
 @model GrowGreenWeb.Pages.Admin.DashboardModel
 
-<div class="container" id="report_container">
-    <h2>Courses Report</h2>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Course</th>
-                <th>Sign Ups</th>
-                <th>Start Date</th>
-                <th>End Date</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var course in Model.listOfCourses)
-            {
-                <tr>
-                    <td>@course.Name</td>
-                    <td>@course.CourseSignups.Count()</td>
-                    <td>@course.StartDate</td>
-                    <td>@course.EndDate</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-    <br />
-    <canvas id="num_of_courses_chart" width="200" height="200"></canvas>
-    <br />
-    <h2>Events Report</h2>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Event</th>
-                <th>Attendee</th>
-                <th>Special Guest</th>
-                <th>Price</th>
-                <th>Date</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var event in Model.listOfEvents)
-            {
-            <tr>
-                <td>@event.Name</td>
-                <td>@event.Attendee</td>
-                <td>@event.SpecialGuest</td>
-                <td>@event.Price</td>
-                <td>@event.DateTime</td>
-            </tr>
-            }
-        </tbody>
-    </table>
-
-    <canvas id="num_of_events_chart" width="200" height="200"></canvas>
-    <br />
-</div>
+<canvas id="num_of_courses_chart" width="400" height="400"></canvas>
+<br />
+<canvas id="num_of_events_chart" width="400" height="400"></canvas>
+<br />
 
 @section Scripts{
 <!-- Script to init use of Chart.JS -->
@@ -81,7 +31,7 @@
 
     listOfCourses.forEach((course, index) => {
         coursesXValues.push(course.Name);
-        coursesYValues.push(course.CourseSignups.length);
+        coursesYValues.push(course.MaxCapacity);
     });
 
     new Chart("num_of_courses_chart", {

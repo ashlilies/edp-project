@@ -6,9 +6,9 @@ using GrowGreenWeb.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
 using GrowGreenWeb.Filters;
 using GrowGreenWeb.Services;
-using Newtonsoft.Json;
 
 namespace GrowGreenWeb.Pages.Admin
 {
@@ -17,37 +17,24 @@ namespace GrowGreenWeb.Pages.Admin
     {
         public string listOfCoursesJson { get; set; }
         public string listOfEventsJson { get; set; }
-        public List<Course> listOfCourses = new List<Course>();
-        public List<Event> listOfEvents = new List<Event>();
         private readonly GrowGreenContext _context;
-        private readonly AccountService _accountService;
-        public DashboardModel(GrowGreenContext context, AccountService accountService)
+        public DashboardModel(GrowGreenContext context)
         {
             _context = context;
-            _accountService = accountService;
         }
         public async Task<IActionResult> OnGet()
         {
-            var user = _accountService.GetCurrentUser(HttpContext);
+            List<Course> courses = await _context.Courses.ToListAsync();
 
-            if (user == null)
-                return Page();
+            var listOfCourses = courses.DistinctBy(course => course.Id).ToList();
 
-            JsonSerializerSettings jsonSettings = new JsonSerializerSettings
-            {
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-            };
+            listOfCoursesJson = JsonSerializer.Serialize(listOfCourses);
 
-            listOfCourses = await _context.Courses
-                .Include(c => c.Lecturer)
-                .Include(c => c.CourseSignups)
-                .ToListAsync();
+            List<Event> events = await _context.Events.ToListAsync();
 
-            listOfCoursesJson = JsonConvert.SerializeObject(listOfCourses, jsonSettings);
+            var listOfEvents = events.DistinctBy(events => events.Id).ToList();
 
-            listOfEvents = await _context.Events.ToListAsync();
-
-            listOfEventsJson = JsonConvert.SerializeObject(listOfEvents, jsonSettings);
+            listOfEventsJson = JsonSerializer.Serialize(listOfEvents);
 
             return Page();
         }

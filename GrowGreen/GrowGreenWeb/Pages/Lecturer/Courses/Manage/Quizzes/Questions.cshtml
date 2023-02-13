@@ -1,0 +1,63 @@
+@page
+@model GrowGreenWeb.Pages.Lecturer.Courses.Manage.Quizzes.QuestionsModel
+@{
+    ViewData["Title"] = "Questions";
+}
+
+<h1>Quizzes</h1>
+<div class="row">
+    @* Sidebar *@
+    <div class="col-3">
+        @{await Html.RenderPartialAsync("Lecturer/Courses/Manage/_Sidebar");}
+    </div>
+
+    <div class="col-9 mb-3 card p-4">
+        <div>
+            <div class="row">
+                <div class="col-9">
+                    <h3 class="pt-2">@Model.Quiz.Name</h3>
+                </div>
+                <div class="col-3">
+                    <a asp-page="/Lecturer/Courses/Manage/Quizzes/CreateQuestion" asp-route-id="@Model.Course.Id" asp-route-quizId="@Model.Quiz.Id"
+                       class="btn btn-secondary w-100">
+                        New Question
+                    </a>
+                </div>
+                <div class="col-3">
+                    @*<a asp-page="DeleteLecture" asp-route-id="@Model.Course.Id" asp-route-lectureId="@Model.Lecture.Id" *@
+                    @* <button type="button" data-bs-toggle="modal" data-bs-target="#deleteModal" *@
+                    @*         class="btn btn-danger w-100"> *@
+                    @*     Delete *@
+                    @* </button> *@
+                </div>
+            </div>
+            <div class="row mt-2 mb-2">
+                <div class="col-9">
+
+                    <h4 class="pt-2">All Questions</h4>
+                </div>
+            </div>
+        </div>
+        @if (!Model.Questions.Any())
+        {
+            <h5 class="mt-2">There are no questions yet. Perhaps add some?</h5>
+        }
+        @foreach (var question in Model.Questions)
+        {
+            <div class="card mb-3 col-12 px-0">
+                <div class="row g-0">
+                    <div class="col-lg-2">
+                    </div>
+                    <div class="col-lg-2">
+                        <div class="card-body h-100 text-center d-grid" style="place-content: center;">
+                            <a class="text-reset text-decoration-none"
+                               asp-page="CreateVideo" asp-route-id="@Model.Course.Id" asp-route-questionId="@question.Id">
+                                <img src="/img/icons/right.png" class="icon icon-lg"/>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
