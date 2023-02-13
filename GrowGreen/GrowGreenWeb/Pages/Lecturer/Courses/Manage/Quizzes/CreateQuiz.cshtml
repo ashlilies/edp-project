@@ -1,0 +1,114 @@
+@page
+@model GrowGreenWeb.Pages.Lecturer.Courses.Manage.Quizzes.CreateQuizModel
+@{
+    ViewData["Title"] = "CreateQuiz";
+}
+
+<h1>Create Quiz</h1>
+<div class="row">
+    @* Sidebar *@
+    <div class="col-3">
+        @{ await Html.RenderPartialAsync("Lecturer/Courses/Manage/_Sidebar"); }
+    </div>
+
+    <div class="col-9 mb-3 card p-4">
+        <form method="post" asp-page-handler="" asp-route-id="@Model.Course.Id"
+              enctype="multipart/form-data">
+            <div class="mb-3 card p-2">
+                <div class="card-body">
+                    @if (Model.QuizEdit is null)
+                    {
+                        <h3>Create Quiz</h3>
+                    }
+                    else
+                    {
+                        <h3>Edit Quiz: @Model.QuizEdit.Name</h3>
+                    }
+                    <div class="row">
+                        <label asp-for="PostQuizModel.Name" class="form-label"></label>
+                        <input asp-for="PostQuizModel.Name" class="form-control"/>
+                        <span asp-validation-for="PostQuizModel.Name" class="text-danger"></span>
+
+                        <label class="form-label">Attached to Lecture?</label>
+                        <div class="row">
+                            <div class="col-4" style="line-height: 3">
+                                <input type="radio" asp-for="PostQuizModel.IsAttachedToLecture"
+                                       class="form-check-inline"
+                                       value="false"/>None<br/>
+                            </div>
+                            <div class="col-8">
+                                <div class="row">
+
+                                    <div class="col-5" style="line-height: 3">
+                                        <input type="radio" asp-for="PostQuizModel.IsAttachedToLecture"
+                                               class="form-check-inline"
+                                               value="true"/>Specific Lecture<br/>
+                                    </div>
+                                    <div class="col-7">
+                                        <select class="selectpicker"
+                                                asp-for="PostQuizModel.LectureId"
+                                                asp-items="Model.LecturesSelect"
+                                                data-live-search="true">
+                                        </select>
+                                        <span asp-validation-for="PostQuizModel.LectureId"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <label asp-for="PostQuizModel.StartDate" class="form-label"></label>
+                        <input asp-for="PostQuizModel.StartDate" class="form-control"></input>
+                        <span asp-validation-for="PostQuizModel.StartDate" class="text-danger"></span>
+
+                        <label asp-for="PostQuizModel.Description" class="form-label"></label>
+                        <textarea asp-for="PostQuizModel.Description" class="form-control"></textarea>
+                        <span asp-validation-for="PostQuizModel.Description" class="text-danger"></span>
+                    </div>
+
+
+                    <div class="row text-end mt-3">
+                        <div class="col-3">
+                            @if (Model.QuizEdit is not null)
+                            {
+                                <button type="button" class="btn btn-danger w-100" data-bs-toggle="modal"
+                                        data-bs-target="#deleteModal">
+                                    Delete
+                                </button>
+                            }
+                        </div>
+                        <div class="col-3"></div>
+                        <div class="col-3">
+                            <button type="button" class="btn btn-secondary w-100" onclick="history.back()">Cancel</button>
+                        </div>
+                        <div class="col-3">
+                            <button class="btn btn-success w-100">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+@if (Model.QuizEdit is not null)
+{
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Delete Course</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you wish to do this? <strong>This cannot be undone!</strong>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+
+                    <form method="post" asp-page-handler="Delete" asp-route-id="@Model.Course.Id" asp-route-quizId="@Model.QuizEdit.Id">
+                        <button class="btn btn-danger">Yes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+}

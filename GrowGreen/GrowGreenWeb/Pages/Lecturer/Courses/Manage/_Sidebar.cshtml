@@ -10,18 +10,22 @@
 
     if (course is null)
         return;
-    
+
+    List<Quiz> quizzes = await _context.Quizzes
+        .Where(q => q.CourseId == course.Id)
+        .ToListAsync();
+
     List<Lecture> lectures = course.Lectures.OrderBy(l => l.Timestamp).ToList();
-    
+
     <div class="mb-3 card p-2">
         <div class="card-body">
             <h5>@Model.Course.Name</h5>
             <a asp-page="Index" asp-route-id="@Model.Course.Id" class="text-reset text-decoration-none">Edit Course Details</a>
-            <hr />
+            <hr/>
             <h5>
                 <a asp-page="QnA" asp-route-id="@Model.Course.Id" class="text-reset text-decoration-none">Q&amp;A</a>
             </h5>
-            <hr />
+            <hr/>
             <h5>
                 <span href="#" class="text-reset text-decoration-none">
                     Contents
@@ -34,13 +38,21 @@
                    class="text-reset text-decoration-none">
                     @lecture.Name
                 </a>
-                <br />
+                <br/>
             }
-            <hr />
+            <hr/>
             <h5>
-                <a asp-page="Quizzes" asp-route-id="@Model.Course.Id" class="text-reset text-decoration-none">Quizzes</a>
-                <a asp-page="CreateQuiz" asp-route-id="@Model.Course.Id" class="text-reset text-decoration-none">(Add)</a>
+                <a asp-page="Quizzes/Index" asp-route-id="@Model.Course.Id" class="text-reset text-decoration-none">Quizzes</a>
+                <a asp-page="Quizzes/CreateQuiz" asp-route-id="@Model.Course.Id" class="text-reset text-decoration-none">(Add)</a>
             </h5>
+            @foreach (var quiz in quizzes)
+            {
+                <a asp-page="Contents" asp-route-id="@course.Id" asp-route-quizId="@quiz.Id"
+                   class="text-reset text-decoration-none">
+                    @quiz.Name
+                </a>
+                <br/>
+            }
         </div>
     </div>
 }

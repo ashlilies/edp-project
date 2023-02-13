@@ -176,10 +176,20 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses.Manage
                     LectureId = Lecture.Id,
                     PreviewUrl = webRootPath! + ".jpg"
                 };
+                // check first if video already exist
+
+                var checkVideo = _context.Videos
+                    .Any(v => v.Name == Title && v.LectureId == Lecture.Id);
+                if (checkVideo)
+                {
+                    TempData["FlashMessage.Type"] = "danger";
+                    TempData["FlashMessage.Text"] =
+                        "There is already another video with the same title under this lecture.";
+                    return OnGet(id, lectureId, videoId);
+                }
 
                 _context.Add(video);
-            course.LastUpdatedTimestamp = DateTime.Now;
-
+                course.LastUpdatedTimestamp = DateTime.Now;
 
 
                 videoObj = video;

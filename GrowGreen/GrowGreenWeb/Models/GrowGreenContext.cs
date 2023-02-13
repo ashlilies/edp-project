@@ -427,8 +427,6 @@ namespace GrowGreenWeb.Models
 
                 entity.Property(e => e.Description).HasMaxLength(2000);
 
-                entity.Property(e => e.EndDate).HasColumnType("datetime");
-
                 entity.Property(e => e.Name).HasMaxLength(100);
 
                 entity.Property(e => e.StartDate).HasColumnType("datetime");
@@ -436,6 +434,7 @@ namespace GrowGreenWeb.Models
                 entity.HasOne(d => d.Lecture)
                     .WithMany(p => p.Quizzes)
                     .HasForeignKey(d => d.LectureId)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_Quiz_Lecture");
             });
 
