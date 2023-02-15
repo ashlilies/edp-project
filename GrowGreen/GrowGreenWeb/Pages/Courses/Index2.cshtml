@@ -1,0 +1,471 @@
+@page
+@using Tensorflow
+@model GrowGreenWeb.Pages.Courses.Index2Model
+@{
+    ViewData["Title"] = "Our Courses";
+}
+<div class="row mb-4">
+    <div class="col-6">
+        <h1>Our Courses</h1>
+    </div>
+    <div class="col-6 text-end">
+        @* <a class="btn btn-success bg-3 me-2" asp-page="Create"> *@
+        @*     New course *@
+        @*     <img src="/img/icons/plus.png" class="icon icon-btn"/> *@
+        @* </a> *@
+        @* <a href="#" class="btn btn-success bg-5"> *@
+        @*     Search/Filter *@
+        @*     <img src="/img/icons/filter.png" class="icon icon-btn"/> *@
+        @* </a> *@
+        <form>
+            <div class="input-group">
+                <input class="form-control border rounded-pill" type="search" id="search-input" asp-for="SearchQuery" style="padding-left: 22px">
+
+                <span class="input-group-append">
+                    <button class="btn btn-outline-secondary border-start-0 border-bottom-0 border-top-0 border-0 rounded-pill" style="margin-left: -60px">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </span>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@* <div id="carouselExampleControls" class="carousel" data-bs-ride="carousel"> *@
+@*     <div class="carousel-inner"> *@
+@*         <div class="carousel-item active"> *@
+@*             <div class="card card-course"> *@
+@*                 <div class="img-wrapper"><img src="..." class="d-block w-100" alt="..."> </div> *@
+@*                 <div class="card-body"> *@
+@*                     <h5 class="card-title">Card title 1</h5> *@
+@*                     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the *@
+@*                         card's content.</p> *@
+@*                     <a href="#" class="btn btn-primary">Go somewhere</a> *@
+@*                 </div> *@
+@*             </div> *@
+@*         </div> *@
+@*         <div class="carousel-item"> *@
+@*             <div class="card card-course"> *@
+@*                 <div class="img-wrapper"><img src="..." class="d-block w-100" alt="..."> </div> *@
+@*                 <div class="card-body"> *@
+@*                     <h5 class="card-title">Card title 2</h5> *@
+@*                     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the *@
+@*                         card's content.</p> *@
+@*                     <a href="#" class="btn btn-primary">Go somewhere</a> *@
+@*                 </div> *@
+@*             </div> *@
+@*         </div> *@
+@*         <div class="carousel-item"> *@
+@*             <div class="card card-course"> *@
+@*                 <div class="img-wrapper"><img src="..." class="d-block w-100" alt="..."> </div> *@
+@*                 <div class="card-body"> *@
+@*                     <h5 class="card-title">Card title 3</h5> *@
+@*                     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the *@
+@*                         card's content.</p> *@
+@*                     <a href="#" class="btn btn-primary">Go somewhere</a> *@
+@*                 </div> *@
+@*             </div> *@
+@*         </div> *@
+@*         <div class="carousel-item"> *@
+@*             <div class="card card-course"> *@
+@*                 <div class="img-wrapper"><img src="..." class="d-block w-100" alt="..."> </div> *@
+@*                 <div class="card-body"> *@
+@*                     <h5 class="card-title">Card title 4</h5> *@
+@*                     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the *@
+@*                         card's content.</p> *@
+@*                     <a href="#" class="btn btn-primary">Go somewhere</a> *@
+@*                 </div> *@
+@*             </div> *@
+@*         </div> *@
+@*         <div class="carousel-item"> *@
+@*             <div class="card card-course"> *@
+@*                 <div class="img-wrapper"><img src="..." class="d-block w-100" alt="..."> </div> *@
+@*                 <div class="card-body"> *@
+@*                     <h5 class="card-title">Card title 5</h5> *@
+@*                     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the *@
+@*                         card's content.</p> *@
+@*                     <a href="#" class="btn btn-primary">Go somewhere</a> *@
+@*                 </div> *@
+@*             </div> *@
+@*         </div> *@
+@*         <div class="carousel-item"> *@
+@*             <div class="card card-course"> *@
+@*                 <div class="img-wrapper"><img src="..." class="d-block w-100" alt="..."> </div> *@
+@*                 <div class="card-body"> *@
+@*                     <h5 class="card-title">Card title 6</h5> *@
+@*                     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the *@
+@*                         card's content.</p> *@
+@*                     <a href="#" class="btn btn-primary">Go somewhere</a> *@
+@*                 </div> *@
+@*             </div> *@
+@*         </div> *@
+@*         <div class="carousel-item"> *@
+@*             <div class="card card-course"> *@
+@*                 <div class="img-wrapper"><img src="..." class="d-block w-100" alt="..."> </div> *@
+@*                 <div class="card-body"> *@
+@*                     <h5 class="card-title">Card title 7</h5> *@
+@*                     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the *@
+@*                         card's content.</p> *@
+@*                     <a href="#" class="btn btn-primary">Go somewhere</a> *@
+@*                 </div> *@
+@*             </div> *@
+@*         </div> *@
+@*         <div class="carousel-item"> *@
+@*             <div class="card card-course"> *@
+@*                 <div class="img-wrapper"><img src="..." class="d-block w-100" alt="..."> </div> *@
+@*                 <div class="card-body"> *@
+@*                     <h5 class="card-title">Card title 8</h5> *@
+@*                     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the *@
+@*                         card's content.</p> *@
+@*                     <a href="#" class="btn btn-primary">Go somewhere</a> *@
+@*                 </div> *@
+@*             </div> *@
+@*         </div> *@
+@*         <div class="carousel-item"> *@
+@*             <div class="card card-course"> *@
+@*                 <div class="img-wrapper"><img src="..." class="d-block w-100" alt="..."> </div> *@
+@*                 <div class="card-body"> *@
+@*                     <h5 class="card-title">Card title 9</h5> *@
+@*                     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the *@
+@*                         card's content.</p> *@
+@*                     <a href="#" class="btn btn-primary">Go somewhere</a> *@
+@*                 </div> *@
+@*             </div> *@
+@*         </div> *@
+@*     </div> *@
+@*     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev"> *@
+@*         <span class="carousel-control-prev-icon" aria-hidden="true"></span> *@
+@*         <span class="visually-hidden">Previous</span> *@
+@*     </button> *@
+@*     <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next"> *@
+@*         <span class="carousel-control-next-icon" aria-hidden="true"></span> *@
+@*         <span class="visually-hidden">Next</span> *@
+@*     </button> *@
+@* </div> *@
+
+<style>
+        .carousel-inner {
+         padding: 1em;
+       }
+       .card-course {
+         margin: 0 0.5em;
+         box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.18);
+         border: none;
+         min-height: 376px;
+       }
+       .carousel-control-prev,
+       .carousel-control-next {
+         background-color: #e1e1e1;
+         width: 6vh;
+         height: 6vh;
+         border-radius: 50%;
+         top: 50%;
+         transform: translateY(-50%);
+       }
+       @@media (min-width: 768px) {
+         .carousel-item {
+           margin-right: 0;
+           flex: 0 0 33.333333%;
+           display: block;
+         }
+         .carousel-inner {
+           display: flex;
+         }
+       }
+       .card-course .img-wrapper {
+           max-width: 100%;
+           height: 13em;
+           display: flex;
+           justify-content: center;
+           align-items: center;
+       }
+       .card-course img {
+           max-height: 100%;
+           object-fit: cover;
+           height: 100%;
+           border-top-left-radius: 15px;
+           border-top-right-radius: 15px;
+       }
+       @@media (max-width: 767px) {
+         .card-course .img-wrapper {
+           height: 17em;
+         }
+       }
+       </style>
+
+<div class="row ms-3">
+    <div class="col-8">
+        <h4 class="mt-2">What's new</h4>
+        @if (Model.WhatsNewCourse is not null)
+        {
+            string img = Model.WhatsNewCourse.ImageUrl ?? "/img/courses/default-course.png";
+            <a asp-page="Details" asp-route-id="@Model.WhatsNewCourse.Id">
+                <img src="@img" class="w-100 mt-3" style="object-fit: cover; border-radius: 15px"/>
+            </a>
+        }
+    </div>
+    <div class="col-4">
+        <h4 class="mt-2">What's Hot</h4>
+        <div style="line-height: 15.5">
+
+            @foreach (var course in Model.WhatsHotCourses)
+            {
+                string img = course.ImageUrl ?? "/img/courses/default-course.png";
+                <a asp-page="Details" asp-route-id="@course.Id">
+                    <img src="@img" class="w-100" style="    /* height: 180px; */
+                                                         object-fit: cover;
+                                                         border-radius: 15px;
+                                                         /* width: 100%; */
+                                                         max-height: 837px;
+                                                         max-width: 471px;
+                                                         /* width: auto!important; */
+                                                         height: auto!important;"/>
+                </a>
+            }
+        </div>
+    </div>
+</div>
+@if (Model.SignedUpCourses.Any())
+{
+    <h3 class="mt-2">Courses I've Signed Up For</h3>
+
+    <div class="row">
+        <div id="carouselSignedUp" class="carousel" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                @foreach (var course in Model.SignedUpCourses)
+                {
+                    <div class="carousel-item active">
+                        <div class="card card-course">
+                            <div class="img-wrapper">
+                                @{
+                                    string img = course.ImageUrl
+                                                 ?? "/img/courses/default-course.png";
+
+                                    <img src="@img" class="d-block w-100"/>
+                                }
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">@course.Name</h5>
+                                <p class="card-text">
+                                    <span class="text-muted">
+                                        @course.StartDate.ToString("dd MMM yyyy")
+                                        -
+                                        @course.EndDate.ToString("dd MMM yyyy")
+                                    </span>
+                                    <br/>
+                                    <p style="position: absolute; bottom: 0.5rem">By: @course.Lecturer.FullName</p>
+                                    <div class="ms-auto fw-bold" style="position: absolute;bottom: 1.5rem; right: 15px;">
+                                        @course.CourseSignups.Count <img src="/img/courses/Person.png" class="icon"/>
+                                    </div>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselSignedUp" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselSignedUp" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
+}
+
+
+<h4 class="mt-5 ms-4">Popular in Singapore</h4>
+<div class="row">
+    <div id="carouselPopular" class="carousel" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            @foreach (var course in Model.PopularInSingaporeCourses)
+            {
+                <div class="carousel-item active">
+                    <div class="card card-course">
+                        <div class="img-wrapper">
+                            @{
+                                string img = course.ImageUrl
+                                             ?? "/img/courses/default-course.png";
+
+                                <img src="@img" class="d-block w-100"/>
+                            }
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">@course.Name</h5>
+                            <p class="card-text">
+                                <span class="text-muted">
+                                    @course.StartDate.ToString("dd MMM yyyy")
+                                    -
+                                    @course.EndDate.ToString("dd MMM yyyy")
+                                </span>
+                                <br/>
+                                <p style="position: absolute; bottom: 0.5rem">By: @course.Lecturer.FullName</p>
+                                <div class="ms-auto fw-bold" style="position: absolute;bottom: 1.5rem; right: 15px;">
+                                    @course.CourseSignups.Count <img src="/img/courses/Person.png" class="icon"/>
+                                </div>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselPopular" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselPopular" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+</div>
+
+<h4 class="mt-5 ms-4">Past courses</h4>
+@if (Model.PastCourses.Any() == true)
+{
+    <div id="carouselPast" class="carousel" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            @foreach (var course in Model.PastCourses)
+            {
+                <div class="carousel-item active">
+                    <div class="card card-course">
+                        <div class="img-wrapper">
+                            @{
+                                string img = course.ImageUrl
+                                             ?? "/img/courses/default-course.png";
+
+                                <img src="@img" class="d-block w-100"/>
+                            }
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">@course.Name</h5>
+                            <p class="card-text">
+                                <span class="text-muted">
+                                    @course.StartDate.ToString("dd MMM yyyy")
+                                    -
+                                    @course.EndDate.ToString("dd MMM yyyy")
+                                </span>
+                                <br/>
+                                <p style="position: absolute; bottom: 0.5rem">By: @course.Lecturer.FullName</p>
+                                <div class="ms-auto fw-bold" style="position: absolute;bottom: 1.5rem; right: 15px;">
+                                    @course.CourseSignups.Count <img src="/img/courses/Person.png" class="icon"/>
+                                </div>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselPast" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselPast" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+}
+
+@section Scripts {
+    <script>
+        var multipleCardCarousel1 = document.querySelector(
+          "#carouselSignedUp"
+        );
+        if (window.matchMedia("(min-width: 768px)").matches) {
+          var carousel = new bootstrap.Carousel(multipleCardCarousel1, {
+            interval: false,
+          });
+          var carouselWidth = $(".carousel-inner")[0].scrollWidth;
+          var cardWidth = $(".carousel-item").width();
+          var scrollPosition = 0;
+          $("#carouselSignedUp .carousel-control-next").on("click", function () {
+            if (scrollPosition < carouselWidth - cardWidth * 4) {
+              scrollPosition += cardWidth;
+              $("#carouselSignedUp .carousel-inner").animate(
+                { scrollLeft: scrollPosition },
+                600
+              );
+            }
+          });
+          $("#carouselSignedUp .carousel-control-prev").on("click", function () {
+            if (scrollPosition > 0) {
+              scrollPosition -= cardWidth;
+              $("#carouselSignedUp .carousel-inner").animate(
+                { scrollLeft: scrollPosition },
+                600
+              );
+            }
+          });
+        } else {
+          $(multipleCardCarousel2).addClass("slide");
+        }
+        
+        var multipleCardCarousel2 = document.querySelector(
+          "#carouselPopular"
+        );
+        if (window.matchMedia("(min-width: 768px)").matches) {
+          var carousel = new bootstrap.Carousel(multipleCardCarousel2, {
+            interval: false,
+          });
+          var carouselWidth = $(".carousel-inner")[0].scrollWidth;
+          var cardWidth = $(".carousel-item").width();
+          var scrollPosition = 0;
+          $("#carouselPopular .carousel-control-next").on("click", function () {
+            if (scrollPosition < carouselWidth - cardWidth * 4) {
+              scrollPosition += cardWidth;
+              $("#carouselPopular .carousel-inner").animate(
+                { scrollLeft: scrollPosition },
+                600
+              );
+            }
+          });
+          $("#carouselPopular .carousel-control-prev").on("click", function () {
+            if (scrollPosition > 0) {
+              scrollPosition -= cardWidth;
+              $("#carouselPopular .carousel-inner").animate(
+                { scrollLeft: scrollPosition },
+                600
+              );
+            }
+          });
+        } else {
+          $(multipleCardCarousel2).addClass("slide");
+        }
+
+        var multipleCardCarousel3 = document.querySelector(
+          "#carouselPast"
+        );
+        if (window.matchMedia("(min-width: 768px)").matches) {
+          var carousel = new bootstrap.Carousel(multipleCardCarousel3, {
+            interval: false,
+          });
+          var carouselWidth = $(".carousel-inner")[0].scrollWidth;
+          var cardWidth = $(".carousel-item").width();
+          var scrollPosition = 0;
+          $("#carouselPast .carousel-control-next").on("click", function () {
+            if (scrollPosition < carouselWidth - cardWidth * 4) {
+              scrollPosition += cardWidth;
+              $("#carouselPast .carousel-inner").animate(
+                { scrollLeft: scrollPosition },
+                600
+              );
+            }
+          });
+          $("#carouselPast .carousel-control-prev").on("click", function () {
+            if (scrollPosition > 0) {
+              scrollPosition -= cardWidth;
+              $("#carouselPast .carousel-inner").animate(
+                { scrollLeft: scrollPosition },
+                600
+              );
+            }
+          });
+        } else {
+          $(multipleCardCarousel3).addClass("slide");
+        }
+    </script>
+}

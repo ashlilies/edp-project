@@ -50,9 +50,12 @@ namespace GrowGreenWeb.Pages.Lecturer
         public FileResult OnPost(string PdfHtml)
         {
             Byte[] res = null;
+            // PdfHtml = PdfHtml.Insert(0, "<style>* { font-family: \"Arial\", \"sans-serif\"</style>");
             using (MemoryStream ms = new MemoryStream())
             {
                 var pdf = TheArtOfDev.HtmlRenderer.PdfSharp.PdfGenerator.GeneratePdf(PdfHtml, PdfSharp.PageSize.A4);
+                // VetCV.HtmlRendererCore.PdfSharpCore.PdfGenerator.AddFontFamilyMapping();
+                // var pdf = VetCV.HtmlRendererCore.PdfSharpCore.PdfGenerator.GeneratePdf(PdfHtml, PdfSharpCore.PageSize.A4);
                 pdf.Save(ms);
                 res = ms.ToArray();
             }

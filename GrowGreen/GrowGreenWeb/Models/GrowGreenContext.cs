@@ -236,6 +236,10 @@ namespace GrowGreenWeb.Models
                     .IsUnicode(false)
                     .HasDefaultValueSql("('Created')");
 
+                entity.Property(e => e.Timestamp)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
                 entity.HasOne(d => d.Course)
                     .WithMany(p => p.CourseSignups)
                     .HasForeignKey(d => d.CourseId)
