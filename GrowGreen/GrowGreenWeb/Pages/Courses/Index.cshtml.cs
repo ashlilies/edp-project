@@ -30,6 +30,8 @@ namespace GrowGreenWeb.Pages.Courses
 
         public async Task<IActionResult> OnGet()
         {
+            return RedirectToPage("Index2");
+            
             User? learner = _accountService.GetCurrentUser(HttpContext);
             if (learner is not null)
             {

@@ -9,12 +9,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using NuGet.Protocol.Core.Types;
+using NuGet.Protocol;
 
 namespace GrowGreenWeb.Pages.Lecturer.Courses
 {
     [Authenticated(AccountType.Lecturer)]
-    public class IndexModel : PageModel
+    public class Index2Model : PageModel
     {
         public List<Course> OngoingCourses { get; set; } = new();
         public List<Course> PastCourses { get; set; } = new();
@@ -28,7 +28,7 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses
         private readonly GrowGreenContext _context;
         private AccountService _accountService;
 
-        public IndexModel(GrowGreenContext context, AccountService accountService)
+        public Index2Model(GrowGreenContext context, AccountService accountService)
         {
             _context = context;
             _accountService = accountService;
@@ -36,34 +36,35 @@ namespace GrowGreenWeb.Pages.Lecturer.Courses
 
         public async Task<IActionResult> OnGet(string? SearchQuery = null)
         {
-            return RedirectToPage("Index2", new { SearchQuery = SearchQuery });
+            // return RedirectToPage("Index2", new { SearchQuery = SearchQuery });
             // todo: change to support account system :"D
             User? user = _accountService.GetCurrentUser(HttpContext);
-if (user == null)
-    return Page();
+            if (user == null)
+                return Page();
 
-int lecturerId = user.Id;
+            int lecturerId = user.Id;
 
             var courses = _context.Courses
                 .Include(c => c.Lectures).ThenInclude(l => l.Videos)
                 .Include(c => c.CourseSignups).ThenInclude(cs => cs.Learner)
                 .Include(c => c.Chats)
                 .Where(c => c.LecturerId == lecturerId)
+                .Where(c => (SearchQuery == null) || c.Name.Contains(SearchQuery))
                 .OrderByDescending(c => c.LastUpdatedTimestamp);
 
 
-            Console.WriteLine("search query: " + SearchQuery);
-            // if there is a search query, we filter the results here :"D
-            if (SearchQuery is not null)
-                SearchResults = await courses.Where(c => c.Name.Contains(SearchQuery)).ToListAsync();
-            else
-            {
+            // Console.WriteLine("search query: " + SearchQuery);
+            // // if there is a search query, we filter the results here :"D
+            // if (SearchQuery is not null)
+            //     SearchResults = await courses.Where(c => c.Name.Contains(SearchQuery)).ToListAsync();
+            // else
+            // {
                 OngoingCourses = await courses.Where(c => c.EndDate >= DateTime.Today).ToListAsync();
                 PastCourses = await courses.Where(c => c.EndDate < DateTime.Today).ToListAsync();
-            }
+            // }
 
             return Page();
         }
-       
+
     }
 }
