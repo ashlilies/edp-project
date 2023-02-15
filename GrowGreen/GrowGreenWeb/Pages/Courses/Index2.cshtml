@@ -243,31 +243,33 @@
                 @foreach (var course in Model.SignedUpCourses)
                 {
                     <div class="carousel-item active">
-                        <div class="card card-course">
-                            <div class="img-wrapper">
-                                @{
-                                    string img = course.ImageUrl
-                                                 ?? "/img/courses/default-course.png";
+                        <a class="text-reset text-decoration-none" asp-page="Viewer/Index" asp-route-id="@course.Id">
+                            <div class="card card-course">
+                                <div class="img-wrapper">
+                                    @{
+                                        string img = course.ImageUrl
+                                                     ?? "/img/courses/default-course.png";
 
-                                    <img src="@img" class="d-block w-100"/>
-                                }
+                                        <img src="@img" class="d-block w-100"/>
+                                    }
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">@course.Name</h5>
+                                    <p class="card-text">
+                                        <span class="text-muted">
+                                            @course.StartDate.ToString("dd MMM yyyy")
+                                            -
+                                            @course.EndDate.ToString("dd MMM yyyy")
+                                        </span>
+                                        <br/>
+                                        <p style="position: absolute; bottom: 0.5rem">By: @course.Lecturer.FullName</p>
+                                        <div class="ms-auto fw-bold" style="position: absolute;bottom: 1.5rem; right: 15px;">
+                                            @course.CourseSignups.Count <img src="/img/courses/Person.png" class="icon"/>
+                                        </div>
+                                    </p>
+                                </div>
                             </div>
-                            <div class="card-body">
-                                <h5 class="card-title">@course.Name</h5>
-                                <p class="card-text">
-                                    <span class="text-muted">
-                                        @course.StartDate.ToString("dd MMM yyyy")
-                                        -
-                                        @course.EndDate.ToString("dd MMM yyyy")
-                                    </span>
-                                    <br/>
-                                    <p style="position: absolute; bottom: 0.5rem">By: @course.Lecturer.FullName</p>
-                                    <div class="ms-auto fw-bold" style="position: absolute;bottom: 1.5rem; right: 15px;">
-                                        @course.CourseSignups.Count <img src="/img/courses/Person.png" class="icon"/>
-                                    </div>
-                                </p>
-                            </div>
-                        </div>
+                        </a>
                     </div>
                 }
             </div>
@@ -292,6 +294,57 @@
                 @foreach (var course in Model.PopularInSingaporeCourses)
                 {
                     <div class="carousel-item active">
+                        <a class="text-reset text-decoration-none" asp-page="Details" asp-route-id="@course.Id">
+                            <div class="card card-course">
+                                <div class="img-wrapper">
+                                    @{
+                                        string img = course.ImageUrl
+                                                     ?? "/img/courses/default-course.png";
+
+                                        <img src="@img" class="d-block w-100"/>
+                                    }
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">@course.Name</h5>
+                                    <p class="card-text">
+                                        <span class="text-muted">
+                                            @course.StartDate.ToString("dd MMM yyyy")
+                                            -
+                                            @course.EndDate.ToString("dd MMM yyyy")
+                                        </span>
+                                        <br/>
+                                        <p style="position: absolute; bottom: 0.5rem">By: @course.Lecturer.FullName</p>
+                                        <div class="ms-auto fw-bold" style="position: absolute;bottom: 1.5rem; right: 15px;">
+                                            @course.CourseSignups.Count <img src="/img/courses/Person.png" class="icon"/>
+                                        </div>
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                }
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselPopular" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselPopular" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
+}
+
+@if (Model.PastCourses.Any() == true)
+{
+    <h4 class="mt-5 ms-4">Past courses</h4>
+    <div id="carouselPast" class="carousel" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            @foreach (var course in Model.PastCourses)
+            {
+                <div class="carousel-item active">
+                    <a class="text-reset text-decoration-none" asp-page="Details" asp-route-id="@course.Id">
                         <div class="card card-course">
                             <div class="img-wrapper">
                                 @{
@@ -317,54 +370,7 @@
                                 </p>
                             </div>
                         </div>
-                    </div>
-                }
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselPopular" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselPopular" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
-        </div>
-    </div>
-}
-
-@if (Model.PastCourses.Any() == true)
-{
-    <h4 class="mt-5 ms-4">Past courses</h4>
-    <div id="carouselPast" class="carousel" data-bs-ride="carousel">
-        <div class="carousel-inner">
-            @foreach (var course in Model.PastCourses)
-            {
-                <div class="carousel-item active">
-                    <div class="card card-course">
-                        <div class="img-wrapper">
-                            @{
-                                string img = course.ImageUrl
-                                             ?? "/img/courses/default-course.png";
-
-                                <img src="@img" class="d-block w-100"/>
-                            }
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">@course.Name</h5>
-                            <p class="card-text">
-                                <span class="text-muted">
-                                    @course.StartDate.ToString("dd MMM yyyy")
-                                    -
-                                    @course.EndDate.ToString("dd MMM yyyy")
-                                </span>
-                                <br/>
-                                <p style="position: absolute; bottom: 0.5rem">By: @course.Lecturer.FullName</p>
-                                <div class="ms-auto fw-bold" style="position: absolute;bottom: 1.5rem; right: 15px;">
-                                    @course.CourseSignups.Count <img src="/img/courses/Person.png" class="icon"/>
-                                </div>
-                            </p>
-                        </div>
-                    </div>
+                    </a>
                 </div>
             }
         </div>
@@ -484,3 +490,4 @@
         }
     </script>
 }
+
