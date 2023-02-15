@@ -344,7 +344,7 @@
             @foreach (var course in Model.PastCourses)
             {
                 <div class="carousel-item active">
-                    <a class="text-reset text-decoration-none" asp-page="Details" asp-route-id="@course.Id">
+                    @* <a class="text-reset text-decoration-none" asp-page="Details" asp-route-id="@course.Id"> *@
                         <div class="card card-course">
                             <div class="img-wrapper">
                                 @{
@@ -370,7 +370,7 @@
                                 </p>
                             </div>
                         </div>
-                    </a>
+                    @* </a> *@
                 </div>
             }
         </div>
@@ -397,58 +397,58 @@
           "#carouselSignedUp"
         );
         if (window.matchMedia("(min-width: 768px)").matches) {
-          var carousel = new bootstrap.Carousel(multipleCardCarousel1, {
+          var carousel1 = new bootstrap.Carousel(multipleCardCarousel1, {
             interval: false,
           });
-          var carouselWidth = $(".carousel-inner")[0].scrollWidth;
-          var cardWidth = $(".carousel-item").width();
-          var scrollPosition = 0;
+          var carouselWidth1 = $(".carousel-inner")[0].scrollWidth;
+          var cardWidth1 = $(".carousel-item").width();
+          var scrollPosition1 = 0;
           $("#carouselSignedUp .carousel-control-next").on("click", function () {
-            if (scrollPosition < carouselWidth - cardWidth * 4) {
-              scrollPosition += cardWidth;
+            if (scrollPosition1 < carouselWidth1 - cardWidth1 * 3) {
+              scrollPosition1 += cardWidth1;
               $("#carouselSignedUp .carousel-inner").animate(
-                { scrollLeft: scrollPosition },
+                { scrollLeft: scrollPosition1 },
                 600
               );
             }
           });
           $("#carouselSignedUp .carousel-control-prev").on("click", function () {
-            if (scrollPosition > 0) {
-              scrollPosition -= cardWidth;
+            if (scrollPosition1 > 0) {
+              scrollPosition1 -= cardWidth1;
               $("#carouselSignedUp .carousel-inner").animate(
-                { scrollLeft: scrollPosition },
+                { scrollLeft: scrollPosition1 },
                 600
               );
             }
           });
         } else {
-          $(multipleCardCarousel2).addClass("slide");
+          $(multipleCardCarousel1).addClass("slide");
         }
         
         var multipleCardCarousel2 = document.querySelector(
           "#carouselPopular"
         );
         if (window.matchMedia("(min-width: 768px)").matches) {
-          var carousel = new bootstrap.Carousel(multipleCardCarousel2, {
+          var carousel2 = new bootstrap.Carousel(multipleCardCarousel2, {
             interval: false,
           });
-          var carouselWidth = $(".carousel-inner")[0].scrollWidth;
-          var cardWidth = $(".carousel-item").width();
-          var scrollPosition = 0;
+          var carouselWidth2 = $(".carousel-inner")[0].scrollWidth;
+          var cardWidth2 = $(".carousel-item").width();
+          var scrollPosition2 = 0;
           $("#carouselPopular .carousel-control-next").on("click", function () {
-            if (scrollPosition < carouselWidth - cardWidth * 4) {
-              scrollPosition += cardWidth;
+            if (scrollPosition2 < carouselWidth2 - cardWidth2 * 3) {
+              scrollPosition2 += cardWidth2;
               $("#carouselPopular .carousel-inner").animate(
-                { scrollLeft: scrollPosition },
+                { scrollLeft: scrollPosition2 },
                 600
               );
             }
           });
           $("#carouselPopular .carousel-control-prev").on("click", function () {
-            if (scrollPosition > 0) {
-              scrollPosition -= cardWidth;
+            if (scrollPosition2 > 0) {
+              scrollPosition2 -= cardWidth2;
               $("#carouselPopular .carousel-inner").animate(
-                { scrollLeft: scrollPosition },
+                { scrollLeft: scrollPosition2 },
                 600
               );
             }
@@ -461,26 +461,26 @@
           "#carouselPast"
         );
         if (window.matchMedia("(min-width: 768px)").matches) {
-          var carousel = new bootstrap.Carousel(multipleCardCarousel3, {
+          var carousel3 = new bootstrap.Carousel(multipleCardCarousel3, {
             interval: false,
           });
-          var carouselWidth = $(".carousel-inner")[0].scrollWidth;
-          var cardWidth = $(".carousel-item").width();
-          var scrollPosition = 0;
+          var carouselWidth3 = $(".carousel-inner")[0].scrollWidth;
+          var cardWidth3 = $(".carousel-item").width();
+          var scrollPosition3 = 0;
           $("#carouselPast .carousel-control-next").on("click", function () {
-            if (scrollPosition < carouselWidth - cardWidth * 4) {
-              scrollPosition += cardWidth;
+            if (scrollPosition3 < carouselWidth3 - cardWidth3 * 3) {
+              scrollPosition3 += cardWidth3;
               $("#carouselPast .carousel-inner").animate(
-                { scrollLeft: scrollPosition },
+                { scrollLeft: scrollPosition3 },
                 600
               );
             }
           });
           $("#carouselPast .carousel-control-prev").on("click", function () {
-            if (scrollPosition > 0) {
-              scrollPosition -= cardWidth;
+            if (scrollPosition3 > 0) {
+              scrollPosition3 -= cardWidth3;
               $("#carouselPast .carousel-inner").animate(
-                { scrollLeft: scrollPosition },
+                { scrollLeft: scrollPosition3 },
                 600
               );
             }
