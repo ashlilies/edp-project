@@ -4,7 +4,7 @@
 @{
     ViewData["Title"] = "Our Courses";
 }
-<div class="row mb-4">
+<div class="row mb-4 mt-4">
     <div class="col-6">
         <h1>Our Courses</h1>
     </div>
@@ -19,9 +19,9 @@
         @* </a> *@
         <form>
             <div class="input-group">
-                <input class="form-control border rounded-pill" type="search" id="search-input" asp-for="SearchQuery" style="padding-left: 22px">
+                <input class="form-control border rounded-pill" id="search-input" asp-for="SearchQuery" style="padding-left: 22px; padding-right: 50px;">
 
-                <span class="input-group-append">
+                <span class="input-group-append" style="z-index: 1000;">
                     <button class="btn btn-outline-secondary border-start-0 border-bottom-0 border-top-0 border-0 rounded-pill" style="margin-left: -60px">
                         <i class="fa fa-search"></i>
                     </button>
@@ -194,26 +194,30 @@
        }
        </style>
 
-<div class="row ms-3">
-    <div class="col-8">
-        <h4 class="mt-2">What's new</h4>
-        @if (Model.WhatsNewCourse is not null)
-        {
-            string img = Model.WhatsNewCourse.ImageUrl ?? "/img/courses/default-course.png";
-            <a asp-page="Details" asp-route-id="@Model.WhatsNewCourse.Id">
-                <img src="@img" class="w-100 mt-3" style="object-fit: cover; border-radius: 15px"/>
-            </a>
-        }
-    </div>
-    <div class="col-4">
-        <h4 class="mt-2">What's Hot</h4>
-        <div style="line-height: 15.5">
-
-            @foreach (var course in Model.WhatsHotCourses)
+@if (string.IsNullOrWhiteSpace(Model.SearchQuery))
+{
+    <div class="row ms-3">
+        <div class="col-8">
+            @if (Model.WhatsNewCourse is not null)
             {
-                string img = course.ImageUrl ?? "/img/courses/default-course.png";
-                <a asp-page="Details" asp-route-id="@course.Id">
-                    <img src="@img" class="w-100" style="    /* height: 180px; */
+                <h4 class="mt-2">What's new</h4>
+                string img = Model.WhatsNewCourse.ImageUrl ?? "/img/courses/default-course.png";
+                <a asp-page="Details" asp-route-id="@Model.WhatsNewCourse.Id">
+                    <img src="@img" class="w-100 mt-3" style="object-fit: cover; border-radius: 15px"/>
+                </a>
+            }
+        </div>
+        <div class="col-4">
+            @if (Model.WhatsHotCourses.Any())
+            {
+                <h4 class="mt-2">What's Hot</h4>
+                <div style="line-height: 15.5">
+
+                    @foreach (var course in Model.WhatsHotCourses)
+                    {
+                        string img = course.ImageUrl ?? "/img/courses/default-course.png";
+                        <a asp-page="Details" asp-route-id="@course.Id">
+                            <img src="@img" class="w-100" style="    /* height: 180px; */
                                                          object-fit: cover;
                                                          border-radius: 15px;
                                                          /* width: 100%; */
@@ -221,11 +225,14 @@
                                                          max-width: 471px;
                                                          /* width: auto!important; */
                                                          height: auto!important;"/>
-                </a>
+                        </a>
+                    }
+                </div>
             }
         </div>
     </div>
-</div>
+}
+
 @if (Model.SignedUpCourses.Any())
 {
     <h3 class="mt-2">Courses I've Signed Up For</h3>
@@ -276,56 +283,58 @@
     </div>
 }
 
+@if (Model.PopularInSingaporeCourses.Any())
+{
+    <h4 class="mt-5 ms-4">Popular in Singapore</h4>
+    <div class="row">
+        <div id="carouselPopular" class="carousel" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                @foreach (var course in Model.PopularInSingaporeCourses)
+                {
+                    <div class="carousel-item active">
+                        <div class="card card-course">
+                            <div class="img-wrapper">
+                                @{
+                                    string img = course.ImageUrl
+                                                 ?? "/img/courses/default-course.png";
 
-<h4 class="mt-5 ms-4">Popular in Singapore</h4>
-<div class="row">
-    <div id="carouselPopular" class="carousel" data-bs-ride="carousel">
-        <div class="carousel-inner">
-            @foreach (var course in Model.PopularInSingaporeCourses)
-            {
-                <div class="carousel-item active">
-                    <div class="card card-course">
-                        <div class="img-wrapper">
-                            @{
-                                string img = course.ImageUrl
-                                             ?? "/img/courses/default-course.png";
-
-                                <img src="@img" class="d-block w-100"/>
-                            }
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">@course.Name</h5>
-                            <p class="card-text">
-                                <span class="text-muted">
-                                    @course.StartDate.ToString("dd MMM yyyy")
-                                    -
-                                    @course.EndDate.ToString("dd MMM yyyy")
-                                </span>
-                                <br/>
-                                <p style="position: absolute; bottom: 0.5rem">By: @course.Lecturer.FullName</p>
-                                <div class="ms-auto fw-bold" style="position: absolute;bottom: 1.5rem; right: 15px;">
-                                    @course.CourseSignups.Count <img src="/img/courses/Person.png" class="icon"/>
-                                </div>
-                            </p>
+                                    <img src="@img" class="d-block w-100"/>
+                                }
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">@course.Name</h5>
+                                <p class="card-text">
+                                    <span class="text-muted">
+                                        @course.StartDate.ToString("dd MMM yyyy")
+                                        -
+                                        @course.EndDate.ToString("dd MMM yyyy")
+                                    </span>
+                                    <br/>
+                                    <p style="position: absolute; bottom: 0.5rem">By: @course.Lecturer.FullName</p>
+                                    <div class="ms-auto fw-bold" style="position: absolute;bottom: 1.5rem; right: 15px;">
+                                        @course.CourseSignups.Count <img src="/img/courses/Person.png" class="icon"/>
+                                    </div>
+                                </p>
+                            </div>
                         </div>
                     </div>
-                </div>
-            }
+                }
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselPopular" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselPopular" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselPopular" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselPopular" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
     </div>
-</div>
+}
 
-<h4 class="mt-5 ms-4">Past courses</h4>
 @if (Model.PastCourses.Any() == true)
 {
+    <h4 class="mt-5 ms-4">Past courses</h4>
     <div id="carouselPast" class="carousel" data-bs-ride="carousel">
         <div class="carousel-inner">
             @foreach (var course in Model.PastCourses)
@@ -368,6 +377,12 @@
             <span class="visually-hidden">Next</span>
         </button>
     </div>
+}
+
+@if (!Model.SignedUpCourses.Any() && !Model.PopularInSingaporeCourses.Any()
+     && !Model.PastCourses.Any())
+{
+    <h3 class="text-muted text-center mt-5">No courses found</h3>
 }
 
 @section Scripts {

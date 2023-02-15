@@ -15,7 +15,7 @@ namespace GrowGreenWeb.Pages.Courses
     public class Index2Model : PageModel
     {
         public Course? WhatsNewCourse { get; set; }
-        public List<Course> WhatsHotCourses { get; set; }
+        public List<Course> WhatsHotCourses { get; set; } = new();
         public List<Course> SignedUpCourses { get; set; } = new();
         public List<Course> PopularInSingaporeCourses { get; set; } = new();
         public List<Course> PastCourses { get; set; } = new();
@@ -33,7 +33,7 @@ namespace GrowGreenWeb.Pages.Courses
             _accountService = accountService;
         }
 
-        public async Task<IActionResult> OnGet()
+        public async Task<IActionResult> OnGet(string? SearchQuery = null)
         {
             User? learner = _accountService.GetCurrentUser(HttpContext);
             if (learner is not null)
@@ -42,11 +42,14 @@ namespace GrowGreenWeb.Pages.Courses
                 Learner = learner;
             }
 
-            List<Course> courses = await _context.Courses
+            this.SearchQuery = SearchQuery;
+
+            var courses = await _context.Courses
                 .Include(c => c.Lectures).ThenInclude(l => l.Videos).ThenInclude(v => v.VideoCompletions)
                 .Include(c => c.CourseSignups).ThenInclude(cs => cs.Learner)
                 .Include(c => c.Lecturer)
                 .Include(c => c.Chats)
+                .Where(c => (SearchQuery == null) || c.Name.Contains(SearchQuery)) // apply search query if any
                 .ToListAsync();
 
             if (learner is not null)
