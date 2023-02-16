@@ -11,6 +11,10 @@ The Singapore Green Plan 2030 is a national sustainability movement which seeks 
 * Ong Ruey How
 * Mohamed Irfan
 
+## Features
+* Viona Erika - Course Management, LMS with video uploads, AWS S3, AWS Transcribe
+* Ashlee Tan - Recycler (find nearest recycling point with user-contributed data), AWS Rekognition (Cloud ML Image Analysis), Chat, Newsletters
+
 ## Set-up guide
 This guide assumes you already have SQL Server Management Studio (SSMS) installed, and access to an instance of SQL Server.
 
