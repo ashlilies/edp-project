@@ -15,7 +15,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddSignalR();
 builder.Services.AddRazorPages();
-builder.Services.AddDbContextFactory<GrowGreenContext>();
+builder.Services.AddDbContextFactory<GrowGreenContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration["ConnectionStrings:GrowGreenDB"]);
+});
 builder.Services.AddDbContext<GrowGreenContext>(options =>
 {
     options.UseSqlServer(builder.Configuration["ConnectionStrings:GrowGreenDB"]);

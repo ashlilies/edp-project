@@ -39,8 +39,7 @@ namespace GrowGreenWeb.Pages.Courses
             User? user = _accountService.GetCurrentUser(HttpContext, AccountType.Learner);
             if (user is not null)
             {
-                _context.Attach(user);
-                if (course.CourseSignups.Select(cs => cs.Learner).Contains(user))
+                if (course.CourseSignups.Select(cs => cs.Learner).Select(l => l.Id).Contains(user.Id))
                 {
                     return RedirectToPage("Viewer/Index", new { id = course.Id });
                 }

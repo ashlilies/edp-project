@@ -89,7 +89,8 @@ int lecturerId = user.Id;
                 EndDate = EndDate,
                 LecturerId = lecturerId,
                 ImageUrl = ImageUrl,
-                MaxCapacity = MaxCapacity
+                MaxCapacity = MaxCapacity,
+                LastUpdatedTimestamp = DateTime.Now
             };
 
             // check if another course with a similar name already exists
